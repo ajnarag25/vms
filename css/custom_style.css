@@ -1,0 +1,33 @@
+* {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.forgot {
+    text-decoration: none;
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+}
+
+.forgot:hover {
+    color: rgb(65, 63, 63);
+}
+
+.custom_card {
+    background-color: #1b651b;
+}
+
+.btn-custom {
+    color: white;
+    background-color: #469246;
+}
+
+.btn-custom:hover {
+    color: white;
+    background-color: #4fa34f;
+}
+
+.bg-custom-card {
+    background-color: #a723c2;
+}
+ 
+
