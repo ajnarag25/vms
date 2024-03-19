@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="../assets/logo.png" rel="icon">
-    <title>Set Event - Volunteer Management Strageties</title>
+    <title>Skill Tag - Volunteer Management Strageties</title>
     <link href="../css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/custom_style.css">
     <link rel="stylesheet" type="text/css" href="../css/datatable.css">
@@ -52,7 +52,7 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link active" href="set_event.html">
+                        <a class="nav-link" href="set_event.html">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-days"></i></div>
                             Set Event
                         </a>
@@ -67,7 +67,7 @@
                             Event Plan
                         </a>
 
-                        <a class="nav-link" href="skill_tag.html">
+                        <a class="nav-link active" href="skill_tag.html">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
                             Skill Tag
                         </a>
@@ -95,184 +95,166 @@
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col-md-6 left-side">
-                            <h4 class="mt-4"><b>Plan Event / Set Event</b></h4>
+                            <h4 class="mt-4"><b>Skill Tag</b></h4>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addcategory">Add
+                                Category <i class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="col-md-6 text-end">
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setevent">Set
-                                Event <i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <div class="col">
                             <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                         </div>
                     </div>
-
                     <!-- Modal -->
-                    <div class="modal fade" id="setevent" tabindex="-1" aria-labelledby="setevent" aria-hidden="true">
+                    <div class="modal fade" id="addcategory" tabindex="-1" aria-labelledby="addcategory"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header bg-success">
-                                    <h5 class=" modal-title text-white">Set Event?</h5>
+                                    <h5 class=" modal-title text-white">Add Category</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <form action="">
                                     <div class="modal-body">
-                                        <label for="">From:</label>
-                                        <input class="form-control" type="date" required>
-                                        <label for="">To:</label>
-                                        <input class="form-control" type="date" required>
+                                        <label for="">Category:</label>
+                                        <input class="form-control" type="text" required>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success">Confirm</button>
+                                        <button type="submit" class="btn btn-success">Add</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col-md-8">
-                            <div class="card mb-4 ">
-                                <div class="bg-dark text-white card-header text-center">
-                                    <i class="fa-solid fa-calendar-days"></i>
-                                    Calendar
+                    <div class="card mb-4 mt-4">
+                        <div class="card-header text-center">
+                            Category 1 Sample <button class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div class="p-3">
+                            <div class="row">
+
+                                <div class="col-sm-2">
+
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 1
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body p-4">
-                                    <div id="bsb-calendar-1"
-                                        class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                <div class="col-sm-2">
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 2
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 3
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 4
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 5
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-success text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 6
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="bg-success text-white card-header text-center">
-                                    <i class="fa-solid fa-address-book"></i>
-                                    Set Event
-                                </div>
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search Set Event"
-                                    aria-label="Search">
-
-                                <div class="p-3">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 1</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card bg-dark text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 2</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card bg-warning text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 3</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card bg-danger text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 4</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="card mb-4">
-                                <table class="table">
-                                    <thead class="text-center">
-                                        <tr>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">1</th>
-                                            <th scope="col">2</th>
-                                            <th scope="col">3</th>
-                                            <th scope="col">4</th>
-                                            <th scope="col">5</th>
-                                            <th scope="col">6</th>
-                                            <th scope="col">7</th>
-                                            <th scope="col">8</th>
-                                            <th scope="col">9</th>
-                                            <th scope="col">10</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-center">
-                                        <tr>
-                                            <th>Task Title Project</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Task Title</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sample Title</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="card mb-4 mt-4">
+                        <div class="card-header text-center">
+                            Category 2 Sample <button class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="card bg-dark text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 1
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-dark text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 2
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-dark text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 3
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 mt-4">
+                        <div class="card-header text-center">
+                            Category 3 Sample <button class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="card bg-danger text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 1
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-danger text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 2
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-danger text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 3
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="card bg-danger text-white mb-4 rounded-pill p-3 text-center">
+                                        <div class="card-body">
+                                            Sample Tag 4
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
