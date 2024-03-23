@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="../assets/logo.png" rel="icon">
-    <title>Task Backlog - Volunteer Management Strageties</title>
+    <title>Volunteer Report - Volunteer Management Strageties</title>
     <link href="../css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/custom_style.css">
     <link rel="stylesheet" type="text/css" href="../css/datatable.css">
@@ -77,7 +77,7 @@
                             Guest / Sponsors
                         </a>
 
-                        <a class="nav-link active" href="task_backlog.html">
+                        <a class="nav-link" href="task_backlog.html">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                             Task Backlog
                         </a>
@@ -97,7 +97,7 @@
                             Agenda View
                         </a>
 
-                        <a class="nav-link" href="volunteer_report.html">
+                        <a class="nav-link active" href="volunteer_report.html">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                             Volunteer Report
                         </a>
@@ -110,38 +110,76 @@
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col-md-6 left-side">
-                            <h4 class="mt-4"><b>Task Backlog</b></h4>
+                            <h4 class="mt-4"><b>Volunteer Report</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <div class="card p-3">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Event</th>
-                                            <th scope="col">Ticket</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Notification</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>Event Sample</th>
-                                            <td>Ticket 1</td>
-                                            <td>03/19/2024</td>
-                                            <td>3:00pm</td>
-                                            <td>New</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Event</th>
+                                        <th scope="col">Ticket</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Name Sample</th>
+                                        <td>Status Sample</td>
+                                        <td>Event Sample</td>
+                                        <td>Ticket Sample</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-4 ">
+
+                                <div class="card-body p-4">
+                                    <div class="text-center mb-4">
+                                        <div class="progress mt-2">
+                                            <div class="progress-bar bg-success w-50" role="progressbar"
+                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col">
+                                                <h6>Completed</h6>
+                                                <h6>Assigned</h6>
+                                                <h6>Revisions</h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6>Ave</h6>
+                                                <h6>Online Skills</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-4">
+                                        <div class="bg-dark text-white card-header text-center">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                            Calendar
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <div id="bsb-calendar-1"
+                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
+
+
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
