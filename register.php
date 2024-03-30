@@ -2,16 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include('./include/header.php') ?>
     <title>Register - Volunteer Management Strageties</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/custom_style.css">
-    <link href="assets/logo.png" rel="icon">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sofia+Sans:wght@400&display=swap"
-        rel="stylesheet">
 </head>
 
 <body>
@@ -61,7 +53,7 @@
                                             data-bs-placement="top" title="Register" type="submit"
                                             name="register">Register</button>
 
-                                        <p class="mt-3">Already have an account? <a href="index.html"
+                                        <p class="mt-3">Already have an account? <a href="index.php"
                                                 class="text-success">Login</a>
                                         </p>
                                     </div>
@@ -76,17 +68,7 @@
         </div>
     </section>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="js/sweetalert.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script>
-        AOS.init({
-            duration: 3000,
-            once: true,
-        });
-    </script>
+    <?php include('./include/scripts.php') ?>
 
 </body>
 

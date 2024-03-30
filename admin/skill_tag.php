@@ -2,102 +2,72 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="../assets/logo.png" rel="icon">
+    <?php include('./include/header.php') ?>
     <title>Skill Tag - Volunteer Management Strageties</title>
-    <link href="../css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/custom_style.css">
-    <link rel="stylesheet" type="text/css" href="../css/datatable.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sofia+Sans:wght@400&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="stylesheet"
-        href="https://unpkg.com/bs-brain@2.0.3/components/calendars/calendar-1/assets/css/calendar-1.css">
 </head>
 
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-success">
-        <a class="navbar-brand ps-3" href="#"> <img src="../assets/logo.png" width="40" alt=""> VMS </a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
 
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <?php include('./include/nav.php') ?>
 
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <a class="btn text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                title="Notification" href="#!"><i class="fa fa-bell"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="navbarDropdown">
-                <p>No Available Notification</p>
-            </ul>
-            <a href="my_account.html" class="btn text-white" title="Profile" href="#!"><i class="fa fa-user"></i></a>
-            <a class="btn text-white" title="Settings" href="#!"><i class="fa fa-cog"></i></a>
-            <a href="../index.html" class="btn text-white" title="Log out" href="#!"><i class="fa fa-power-off"></i></a>
-
-        </ul>
-    </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="mt-3"></div>
-                        <a class="nav-link" href="admin.html">
+                        <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table-cells-large"></i></div>
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="set_event.html">
+                        <a class="nav-link" href="set_event.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-days"></i></div>
                             Set Event
                         </a>
 
-                        <a class="nav-link" href="team_work_flow.html">
+                        <a class="nav-link" href="team_work_flow.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
                             Team Work Flow
                         </a>
 
-                        <a class="nav-link" href="event_plan.html">
+                        <a class="nav-link" href="event_plan.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-week"></i></div>
                             Event Plan
                         </a>
 
-                        <a class="nav-link active" href="skill_tag.html">
+                        <a class="nav-link active" href="skill_tag.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
                             Skill Tag
                         </a>
 
-                        <a class="nav-link" href="guest_sponsors.html">
+                        <a class="nav-link" href="guest_sponsors.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
                             Guest / Sponsors
                         </a>
 
-                        <a class="nav-link" href="task_backlog.html">
+                        <a class="nav-link" href="task_backlog.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                             Task Backlog
                         </a>
 
-                        <a class="nav-link" href="templates.html">
+                        <a class="nav-link" href="templates.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                             Templates
                         </a>
 
-                        <a class="nav-link" href="my_account.html">
+                        <a class="nav-link" href="my_account.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-id-card"></i></div>
                             My Account
                         </a>
 
-                        <a class="nav-link" href="agenda_view.html">
+                        <a class="nav-link" href="agenda_view.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
                             Agenda View
                         </a>
 
-                        <a class="nav-link" href="volunteer_report.html">
+                        <a class="nav-link" href="volunteer_report.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                             Volunteer Report
                         </a>
@@ -272,26 +242,14 @@
 
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">&copy; Web based Volunteer Management Strageties of 1-Lambat Ministries
-                            Foundation International INC.</div>
-                    </div>
-                </div>
-            </footer>
+
+            <?php include('./include/footer.php') ?>
+
         </div>
     </div>
-    <script src="../js/jquery.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/scripts.js"></script>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.9/index.global.min.js"></script>
-    <script
-        src="https://unpkg.com/bs-brain@2.0.3/components/calendars/calendar-1/assets/controller/calendar-1.js"></script>
+    <?php include('./include/scripts.php') ?>
+
 </body>
 
 </html>
