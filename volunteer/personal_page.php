@@ -64,21 +64,21 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="card mb-4 ">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
-                                    <div id="bsb-calendar-1"
+                                    <div id="calendar"
                                         class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card mb-4">
                                 <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-address-book"></i>
@@ -207,6 +207,49 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialView: 'dayGridMonth',
+                navLinks: true,
+                selectable: true,
+                editable: true,
+                selectMirror: true,
+                dayMaxEvents: true,
+                select: function(arg) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        console.log('Title:', title);
+                        console.log('Start Date:', arg.start);
+                        console.log('End Date:', arg.end);
+                        console.log('All Day Event:', arg.allDay);
+                        
+                        calendar.addEvent({
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        });
+                    }
+                    calendar.unselect();
+                },
+                eventClick: function(arg) {
+                    if (confirm('Are you sure you want to delete this event?')) {
+                        console.log('Deleted Event:', arg.event);
+                        arg.event.remove();
+                    }
+                }
+            });
+            calendar.render();
+        });
+    </script>
 
 </body>
 
