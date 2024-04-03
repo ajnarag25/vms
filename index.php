@@ -19,7 +19,7 @@
                                     <img src="assets/logo.png" width="100" alt="">
 
                                 </div>
-                                <form action="#" method="POST">
+                                <form action="./functions/process.php" method="POST">
                                     <h4 class="mt-3"> <b>Login | Volunteer</b></h4>
                                     <hr>
                                     <p class="mb-3">Web based Volunteer Management Strageties of 1-Lambat Ministries

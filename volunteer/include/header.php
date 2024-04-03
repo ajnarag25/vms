@@ -1,5 +1,9 @@
 <?php  
+    include('../functions/connection.php');
     session_start();
+    if (!isset($_SESSION['volunteer'])) {
+        header("Location: ../index.php");
+    }
 ?>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
