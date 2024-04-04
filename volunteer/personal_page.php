@@ -282,7 +282,7 @@
                 name:'calendar',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(saveData),
+                data: JSON.stringify({ action: 'save', eventData: saveData }),
                 success: function(response) {
                     console.log(response);
                     //console.log('Event saved to database:', saveData);
@@ -295,12 +295,12 @@
 
         function deleteEventFromDatabase(event) {
             // Send event ID to server for deletion
-            var deleteData = { id: event.id };
+            var deleteData = { delId: event.id };
             $.ajax({
                 url: './include/process.php',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(deleteData),
+                data: JSON.stringify({ action: 'delete', eventData: deleteData }),
                 success: function(response) {
                     console.log(response);
                     //console.log('Event deleted from database:', event);
