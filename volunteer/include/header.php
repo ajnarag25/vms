@@ -1,5 +1,5 @@
 <?php  
-    include('../functions/connection.php');
+    include('connection.php');
     session_start();
     if (!isset($_SESSION['volunteer'])) {
         header("Location: ../index.php");

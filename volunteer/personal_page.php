@@ -71,6 +71,26 @@
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
+                                    <?php 
+                                        // Fetch events from database
+                                        $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                        $result = $conn->query($sql);
+
+                                        $events = array();
+
+                                        if ($result->num_rows > 0) {
+                                            while($row = $result->fetch_assoc()) {
+                                                $event = array(
+                                                    'id' => $row['id'],
+                                                    'title' => $row['title'],
+                                                    'start' => $row['startdate'],
+                                                    'end' => $row['enddate'],
+                                                    'allDay' => $row['allday']
+                                                );
+                                                array_push($events, $event);
+                                            }
+                                        }
+                                    ?>
                                     <div id="calendar"
                                         class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
@@ -210,45 +230,88 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            initialView: 'dayGridMonth',
+            events: <?php echo json_encode($events); ?>,
+            navLinks: true,
+            selectable: true,
+            //editable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
+            select: function(arg) {
+                var title = prompt('Event Title:');
+                if (title) {
+                    var eventData = {
+                        title: title,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: arg.allDay
+                    };
+
+                    // Add event to calendar
+                    calendar.addEvent(eventData);
+
+                    // Save event to database
+                    saveEventToDatabase(eventData);
+                }
+                calendar.unselect();
+            },
+            eventClick: function(arg) {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    // Remove event from calendar
+                    arg.event.remove();
+                    
+                    // Delete event from database
+                    deleteEventFromDatabase(arg.event);
+                }
+            }
+        });
+
+        calendar.render();
+
+        function saveEventToDatabase(saveData) {
+            // Send event data to server for saving
+            $.ajax({
+                url: './include/process.php',
+                name:'calendar',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(saveData),
+                success: function(response) {
+                    console.log(response);
+                    //console.log('Event saved to database:', saveData);
                 },
-                initialView: 'dayGridMonth',
-                navLinks: true,
-                selectable: true,
-                editable: true,
-                selectMirror: true,
-                dayMaxEvents: true,
-                select: function(arg) {
-                    var title = prompt('Event Title:');
-                    if (title) {
-                        console.log('Title:', title);
-                        console.log('Start Date:', arg.start);
-                        console.log('End Date:', arg.end);
-                        console.log('All Day Event:', arg.allDay);
-                        
-                        calendar.addEvent({
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay
-                        });
-                    }
-                    calendar.unselect();
-                },
-                eventClick: function(arg) {
-                    if (confirm('Are you sure you want to delete this event?')) {
-                        console.log('Deleted Event:', arg.event);
-                        arg.event.remove();
-                    }
+                error: function(xhr, status, error) {
+                    console.error('Error saving event to database:', error);
                 }
             });
-            calendar.render();
-        });
+        }
+
+        function deleteEventFromDatabase(event) {
+            // Send event ID to server for deletion
+            var deleteData = { id: event.id };
+            $.ajax({
+                url: './include/process.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(deleteData),
+                success: function(response) {
+                    console.log(response);
+                    //console.log('Event deleted from database:', event);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting event from database:', error);
+                }
+            });
+        }
+    });
+
     </script>
 
 </body>
