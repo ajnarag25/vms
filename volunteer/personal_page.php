@@ -241,7 +241,7 @@
             events: <?php echo json_encode($events); ?>,
             navLinks: true,
             selectable: true,
-            //editable: true,
+            editable: true,
             selectMirror: true,
             dayMaxEvents: true,
             select: function(arg) {
@@ -269,6 +269,24 @@
                     
                     // Delete event from database
                     deleteEventFromDatabase(arg.event);
+                }
+            },
+            eventDrop: function(arg) {
+                if (confirm('Are you sure you want to update this event?')) {
+                    // Update event in calendar
+                    var eventData = {
+                        updtId: arg.event.id,
+                        title: arg.event.title,
+                        start: arg.event.start,
+                        end: arg.event.end,
+                        allDay: arg.event.allDay
+                    };
+
+                    // Update event in database
+                    updateEventInDatabase(eventData);
+                } else {
+                    // Revert event to its original position
+                    calendar.refetchEvents();
                 }
             }
         });
@@ -307,6 +325,23 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('Error deleting event from database:', error);
+                }
+            });
+        }
+        
+        function updateEventInDatabase(updateData) {
+            // Send updated event data to server
+            $.ajax({
+                url: './include/process.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ action: 'update', eventData: updateData }),
+                success: function(response) {
+                    console.log(response);
+                    //console.log('Event updated in database:', updateData);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating event in database:', error);
                 }
             });
         }

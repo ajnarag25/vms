@@ -24,6 +24,17 @@
                 VALUES('$title', '$start', '$end', '$allday')") or die($conn->error);
 
                 echo "Saved Successfully";
+            }elseif($action == 'update'){
+                $id = $eventData['eventData']['updtId'];
+                $title = $eventData['eventData']['title'];
+                $start = $eventData['eventData']['start'];
+                $end = $eventData['eventData']['end'];
+                $allday = $eventData['eventData']['allDay'];
+
+                $conn->query("UPDATE events SET  title = '$title', startdate = '$start',
+                enddate = '$end', allday = '$allday' WHERE id =". $id) or die($conn->error);
+
+                echo 'Updated Successfully';
             }else{
                 $id = $eventData['eventData']['delId'];
                 $conn->query("DELETE FROM events WHERE id='$id'") or die($conn->error);
