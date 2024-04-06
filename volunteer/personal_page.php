@@ -286,6 +286,7 @@
                     updateEventInDatabase(eventData);
                 } else {
                     // Revert event to its original position
+                    location.reload();
                     calendar.refetchEvents();
                 }
             }
