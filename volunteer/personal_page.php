@@ -259,6 +259,7 @@
 
                     // Save event to database
                     saveEventToDatabase(eventData);
+                    location.reload();
                 }
                 calendar.unselect();
             },
@@ -269,6 +270,7 @@
                     
                     // Delete event from database
                     deleteEventFromDatabase(arg.event);
+                    location.reload();
                 }
             },
             eventDrop: function(arg) {
@@ -284,6 +286,7 @@
 
                     // Update event in database
                     updateEventInDatabase(eventData);
+                    location.reload();
                 } else {
                     // Revert event to its original position
                     location.reload();
