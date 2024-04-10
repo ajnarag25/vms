@@ -92,6 +92,7 @@
 }
 
 body {
+  font-family: 'Inter', sans-serif !important;
   margin: 0;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);

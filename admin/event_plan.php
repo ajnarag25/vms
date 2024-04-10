@@ -92,16 +92,12 @@
                                 type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button"
-                                role="tab" aria-controls="board" aria-selected="false">Board</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#agenda" type="button"
+                                role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gantt" type="button"
-                                role="tab" aria-controls="gantt" aria-selected="false">Gantt Chart</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#time" type="button"
-                                role="tab" aria-controls="time" aria-selected="false">Time Log</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#poll" type="button"
+                                role="tab" aria-controls="poll" aria-selected="false">Poll</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -110,7 +106,7 @@
                             aria-labelledby="overview-tab">
 
                             <div class="row mt-3">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                                     <div class="card mb-4 ">
 
@@ -129,20 +125,18 @@
                                                     <label for="">Completed 25%</label>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
-                                            <h5><b>Answer:</b></h5>
+                                            <textarea class="tinymce form-control" name="" rows="10" cols="30"></textarea>
+                                            <h5><b>Agenda:</b></h5>
                                             <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="card mb-4 ">
-
                                         <div class="card-body p-4">
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <h5><b>Phase:</b> Sample Phase</h5>
                                                     <h5><b>Tickets:</b> Sample Tickets</h5>
                                                     <h5><b>Volunteers:</b> Sample Volunteers</h5>
                                                     <br>
@@ -184,8 +178,8 @@
 
                             </div>
                         </div>
-                        <!-- Board -->
-                        <div class="tab-pane fade" id="board" role="tabpanel" aria-labelledby="board-tab">
+                        <!-- Agenda -->
+                        <div class="tab-pane fade" id="agenda" role="tabpanel" aria-labelledby="agenda-tab">
                             <div class="row mt-3">
                                 <div class="col-md-8">
                                     <div class="text-center">
@@ -362,12 +356,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Gantt Chart -->
-                        <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="gantt-tab">
-                            Gantt Chart
-                        </div>
-                        <!-- Time Log -->
-                        <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
+                        <!-- Poll -->
+                        <div class="tab-pane fade" id="poll" role="tabpanel" aria-labelledby="poll-tab">
                             <div class="row mt-3">
                                 <div class="col-md-8">
                                     <div class="card mb-4 p-3">
@@ -456,7 +446,9 @@
         </div>
     </div>
 
-    <?php include('./include/scripts.php') ?>
+    <?php include('./include/scripts.php') ?> 
+    <script src="./include/plugins/tinymce/tinymce.min.js"></script>
+    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>
 
 </body>
 

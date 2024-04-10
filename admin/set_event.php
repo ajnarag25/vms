@@ -87,16 +87,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#setevent">Set
-                                Event <i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <div class="col">
-                            <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
-                        </div>
-                    </div>
-
+                    <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
+              
                     <!-- Modal -->
                     <div class="modal fade" id="setevent" tabindex="-1" aria-labelledby="setevent" aria-hidden="true">
                         <div class="modal-dialog">
@@ -124,7 +116,7 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="card mb-4 ">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
@@ -158,7 +150,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card mb-4">
                                 <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-address-book"></i>
