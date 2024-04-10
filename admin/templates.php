@@ -196,7 +196,7 @@
                 </div>
             </main>
 
-            <?php include('./include/header.php') ?>
+            <?php include('./include/footer.php') ?>
 
         </div>
     </div>
