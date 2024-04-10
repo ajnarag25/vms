@@ -311,7 +311,7 @@
 
                     // Save event to database
                     saveEventToDatabase(eventData);
-                    location.reload();
+                    // location.reload();
                 }
                 calendar.unselect();
             },
@@ -326,7 +326,7 @@
                 }
             },
             eventDrop: function(arg) {
-                if (confirm('Are you sure you want to update this event?')) {
+                if (confirm('Are you sure you want to move this event?')) {
                     // Update event in calendar
                     var eventData = {
                         updtId: arg.event.id,
@@ -358,8 +358,21 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ action: 'save', eventData: saveData }),
                 success: function(response) {
-                    console.log(response);
-                    //console.log('Event saved to database:', saveData);
+                    var getData = JSON.parse(response);
+
+                    var e_id = getData.id;
+                    var e_title = getData.title; 
+                    var e_start = getData.start; 
+                    var e_end = getData.end; 
+                    var e_allday = getData.allday; 
+                    
+                    var url = 'event_plan.php?id=' + encodeURIComponent(e_id) +
+                    '&allday=' + encodeURIComponent(e_allday) +
+                    '&title=' + encodeURIComponent(e_title) +
+                    '&start=' + encodeURIComponent(e_start) +
+                    '&end=' + encodeURIComponent(e_end);
+
+                    window.location.href = url;
                 },
                 error: function(xhr, status, error) {
                     console.error('Error saving event to database:', error);

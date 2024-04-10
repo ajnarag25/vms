@@ -2,11 +2,13 @@
     include('connection.php');
     session_start();
 
+    // LOGOUT
     if (isset($_GET['logout'])) {
         session_destroy();
         header('location: ../index.php');
     }   
 
+    // AJAX REQUEST EVENTS
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $postData = file_get_contents('php://input');
@@ -20,10 +22,22 @@
                 $end = $eventData['eventData']['end'];
                 $allday = $eventData['eventData']['allDay'];
 
-                $conn->query("INSERT INTO events (title, startdate, enddate, allday) 
-                VALUES('$title', '$start', '$end', '$allday')") or die($conn->error);
+                $conn->query("INSERT INTO events (title, startdate, enddate, allday, description) 
+                VALUES('$title', '$start', '$end', '$allday', '')") or die($conn->error);
 
-                echo "Saved Successfully";
+                $inserted_id = $conn->insert_id;
+
+                $response = array(
+                    'id' => $inserted_id,
+                    'title' => $title,
+                    'start' => $start,
+                    'end' => $end,
+                    'allday' => $allday
+                );
+
+                $json_response = json_encode($response);
+                echo $json_response;
+
             }elseif($action == 'update'){
                 $id = $eventData['eventData']['updtId'];
                 $title = $eventData['eventData']['title'];
@@ -47,6 +61,24 @@
         }
         
     }   
+
+    // SAVE EVENT
+    if (isset($_POST['save_event'])) {
+        echo "dumaan";
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $start = $_POST['start'];
+        $end = $_POST['end'];
+        $allday = $_POST['allday'];
+        $desc = $_POST['desc'];
+
+        $conn->query("UPDATE events SET  title = '$title', startdate = '$start',
+        enddate = '$end', allday = '$allday', description = '$desc' WHERE id =". $id) or die($conn->error);
+
+        $_SESSION['status'] = 'Successfully Saved';
+        $_SESSION['status_icon'] = 'success';
+        header('location:../event_plan.php');
+    }
 
 
 ?>

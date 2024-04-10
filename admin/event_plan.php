@@ -110,24 +110,44 @@
                                     <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                                     <div class="card mb-4 ">
 
+                                        <?php
+                                            $id = isset($_GET['id']) ? $_GET['id'] : '';
+                                            $title = isset($_GET['title']) ? $_GET['title'] : '';
+                                            $start = isset($_GET['start']) ? $_GET['start'] : '';
+                                            $end = isset($_GET['end']) ? $_GET['end'] : '';
+                                            $allday = isset($_GET['allday']) ? $_GET['allday'] : '';
+                                        ?>
+
                                         <div class="card-body p-4">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h5><b>Event Title:</b> Sample Title</h5>
-                                                    <h5><b>Event Description:</b> Sample Description</h5>
-                                                </div>
-                                                <div class="col-md-4 text-center">
-                                                    <div class="progress mt-2">
-                                                        <div class="progress-bar bg-success w-25" role="progressbar"
-                                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
-                                                        </div>
+                                            <form action="./include/process.php" method="POST">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <h5><b>Event Title:</b> </h5>
+                                                        <input class="form-control w-50" type="text" name="title" value="<?php echo $title; ?>">
+                                                        <h5 class="mt-4"><b>Event Description:</b></h5>
                                                     </div>
-                                                    <label for="">Completed 25%</label>
+                                                    <div class="col-md-4 text-center">
+                                                        <div class="progress mt-2">
+                                                            <div class="progress-bar bg-success " role="progressbar"
+                                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%
+                                                            </div>
+                                                        </div>
+                                                        <label for="">Completed 0%</label>
+                                                    </div>
                                                 </div>
+                                                <textarea class="tinymce form-control" name="desc" rows="10" cols="30"></textarea>
+                                                <input class="form-control w-50" type="hidden" name="id" value="<?php echo $id; ?>">
+                                                <input class="form-control w-50" type="hidden" name="start" value="<?php echo $start; ?>">
+                                                <input class="form-control w-50" type="hidden" name="end" value="<?php echo $end; ?>">
+                                                <input class="form-control w-50" type="hidden" name="allday" value="<?php echo $allday; ?>">
+                                                <button class="btn btn-success w-100" type="submit" name="save_event">Save</button>
+                                            </form>
+                                            <hr>
+                                            <div class="mt-3">
+                                                <h5><b>Agenda:</b></h5>
+                                                <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
                                             </div>
-                                            <textarea class="tinymce form-control" name="" rows="10" cols="30"></textarea>
-                                            <h5><b>Agenda:</b></h5>
-                                            <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
+                             
                                         </div>
                                     </div>
                                 </div>

@@ -8,3 +8,26 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.9/index.global.min.js"></script>
 <script
     src="https://unpkg.com/bs-brain@2.0.3/components/calendars/calendar-1/assets/controller/calendar-1.js"></script>
+
+
+<?php 
+    if (isset($_SESSION['status']) && $_SESSION['status'] !='')
+    {
+?>
+<script>
+    $(document).ready(function(){
+        Swal.fire({
+            icon: '<?php echo $_SESSION['status_icon'] ?>',
+            title: '<?php echo $_SESSION['status'] ?>',
+            confirmButtonColor: 'rgb(0, 0, 0)',
+            confirmButtonText: 'Okay'
+        });
+        <?php  unset($_SESSION['status']); ?>
+    })
+</script>
+
+<?php
+}else{
+    unset($_SESSION['status']);
+}
+?>
