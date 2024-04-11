@@ -80,11 +80,9 @@
             $_SESSION['status_icon'] = 'success';
             header('location:../set_event.php');
         } else {
-            // Handle the error when $id is null or empty
             $_SESSION['status'] = 'An Error Occured!';
             $_SESSION['status_icon'] = 'error';
             header('location:../event_plan.php');
-            // You might want to provide additional information or instructions to the user.
         }
     }
 
