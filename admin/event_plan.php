@@ -129,7 +129,7 @@
                                                     <div class="col-md-4 text-center">
                                                         <div class="progress mt-2">
                                                             <div class="progress-bar bg-success " role="progressbar"
-                                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%
+                                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                                                             </div>
                                                         </div>
                                                         <label for="">Completed 0%</label>
