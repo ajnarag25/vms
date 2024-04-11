@@ -64,7 +64,6 @@
 
     // SAVE EVENT
     if (isset($_POST['save_event'])) {
-        echo "dumaan";
         $id = $_POST['id'];
         $title = $_POST['title'];
         $start = $_POST['start'];
@@ -72,12 +71,21 @@
         $allday = $_POST['allday'];
         $desc = $_POST['desc'];
 
-        $conn->query("UPDATE events SET  title = '$title', startdate = '$start',
-        enddate = '$end', allday = '$allday', description = '$desc' WHERE id =". $id) or die($conn->error);
+        if (!empty($id)) {
 
-        $_SESSION['status'] = 'Successfully Saved';
-        $_SESSION['status_icon'] = 'success';
-        header('location:../event_plan.php');
+            $conn->query("UPDATE events SET  title = '$title', startdate = '$start',
+            enddate = '$end', allday = '$allday', description = '$desc' WHERE id =" . $id) or die($conn->error);
+        
+            $_SESSION['status'] = 'Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('location:../set_event.php');
+        } else {
+            // Handle the error when $id is null or empty
+            $_SESSION['status'] = 'An Error Occured!';
+            $_SESSION['status_icon'] = 'error';
+            header('location:../event_plan.php');
+            // You might want to provide additional information or instructions to the user.
+        }
     }
 
 
