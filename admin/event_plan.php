@@ -62,11 +62,6 @@
                             My Account
                         </a>
 
-                        <a class="nav-link" href="agenda_view.php">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
-                            Agenda View
-                        </a>
-
                         <a class="nav-link" href="volunteer_report.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                             Volunteer Report
@@ -200,179 +195,57 @@
                         </div>
                         <!-- Agenda -->
                         <div class="tab-pane fade" id="agenda" role="tabpanel" aria-labelledby="agenda-tab">
-                            <div class="row mt-3">
-                                <div class="col-md-8">
-                                    <div class="text-center">
-                                        <h5><b>Plan Title Sample</b></h5>
-                                        <div class="text-center mt-3">
-                                            <label for="">Completion Percent:</label>
-                                            <div class="progress mt-2">
-                                                <div class="progress-bar bg-success w-25" role="progressbar"
-                                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        <div class="card mb-4 ">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <button class="btn btn-success">Event Start</button>
+                                            <div class="row mt-4">
+                                                <div class="col-sm-2">
+                                                    <button class="btn btn-success">Add Part</button>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <button class="btn btn-success">Add Sponsors</button>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+
+                                            <h6>Event Duration: 21hrs</h6>
+                                            <h6>Event End: 21hrs </h6>
+
+                                            <hr>
+
+                                            <h6>Agenda Overview:</h6>
+
+                                            <h6>Sample Part Name</h6>
+                                            <h6>Sample Start - End</h6>
+
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="text-center">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <div class="card p-3">
-                                                        <div class="card bg-success text-white mb-4">
-                                                            <div class="card-body">
-                                                                <h5>Task Title 1</h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 1</h5>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 1</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <div class="card p-3">
-                                                        <div class="card bg-success text-white mb-4">
-                                                            <div class="card-body">
-                                                                <h5>Task Title 2</h5>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="card bg-warning text-white mb-4">
-                                                            <div class="card-body">
-                                                                <h5>Task Ticket 2</h5>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <div class="card p-3">
-                                                        <div class="card bg-success text-white mb-4">
-                                                            <div class="card-body">
-                                                                <h5>Task Title 3</h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 3</h5>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 3</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 3</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <div class="card p-3">
-                                                        <div class="card bg-success text-white mb-4">
-                                                            <div class="card-body">
-                                                                <h5>Task Title 4</h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 4</h5>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="card bg-warning text-white mb-4">
-                                                                    <div class="card-body">
-                                                                        <h5>Task Ticket 4</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="bg-success text-white card-header text-center">
-                                            <i class="fa-solid fa-address-book"></i>
-                                            Plan List
-                                        </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
-
-                                        <div class="p-3">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 1</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-dark text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 2</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-warning text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 3</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-danger text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 4</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <br>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Part Name</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">People</th>
+                                                <th scope="col">Volunteers</th>
+                                                <th scope="col">Time Start</th>
+                                                <th scope="col">Time End</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Part Sample</th>
+                                                <td>Description Sample</td>
+                                                <td>People Sample</td>
+                                                <td>Volunteer Sample</td>
+                                                <td>12:01 pm</td>
+                                                <td>3:01 pm</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

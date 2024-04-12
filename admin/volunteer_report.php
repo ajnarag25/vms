@@ -62,11 +62,6 @@
                             My Account
                         </a>
 
-                        <a class="nav-link" href="agenda_view.php">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
-                            Agenda View
-                        </a>
-
                         <a class="nav-link active" href="volunteer_report.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                             Volunteer Report
