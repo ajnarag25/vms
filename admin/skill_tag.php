@@ -32,10 +32,10 @@
                             Team Work Flow
                         </a>
 
-                        <a class="nav-link" href="event_plan.php">
+                        <!-- <a class="nav-link" href="event_plan.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-week"></i></div>
                             Event Plan
-                        </a>
+                        </a> -->
 
                         <a class="nav-link active" href="skill_tag.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
