@@ -280,9 +280,9 @@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
-                left: 'prev,next today',
+                left: 'today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'prev,next'
             },
             initialView: 'dayGridMonth',
             events: <?php echo json_encode($events); ?>,

@@ -22,7 +22,7 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="set_event.php">
+                        <a class="nav-link active" href="set_event.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-days"></i></div>
                             Set Event
                         </a>
@@ -111,6 +111,7 @@
                                             $start = isset($_GET['start']) ? $_GET['start'] : '';
                                             $end = isset($_GET['end']) ? $_GET['end'] : '';
                                             $allday = isset($_GET['allday']) ? $_GET['allday'] : '';
+                                            $desc = isset($_GET['desc']) ? $_GET['desc'] : '';
                                         ?>
 
                                         <div class="card-body p-4">
@@ -130,7 +131,7 @@
                                                         <label for="">Completed 0%</label>
                                                     </div>
                                                 </div>
-                                                <textarea class="tinymce form-control" name="desc" rows="10" cols="30"></textarea>
+                                                <textarea class="tinymce form-control" name="desc" value="<?php echo $desc ?>" rows="10" cols="30"><?php echo $desc ?></textarea>
                                                 <input class="form-control w-50" type="hidden" name="id" value="<?php echo $id; ?>">
                                                 <input class="form-control w-50" type="hidden" name="start" value="<?php echo $start; ?>">
                                                 <input class="form-control w-50" type="hidden" name="end" value="<?php echo $end; ?>">
@@ -195,17 +196,45 @@
                         </div>
                         <!-- Agenda -->
                         <div class="tab-pane fade" id="agenda" role="tabpanel" aria-labelledby="agenda-tab">
-                        <div class="card mb-4 ">
+                            <div class="card mb-4 ">
                                 <div class="card-body p-4">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <button class="btn btn-success">Event Start</button>
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#eventStart">Event Start</button>
+
+                                            <!-- Modal Event Start -->
+                                            <div class="modal modal-lg fade" id="eventStart" tabindex="-1" aria-labelledby="eventStart"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-success">
+                                                            <h5 class=" modal-title text-white">Event Start</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="">
+                                                            <div class="mt-2">
+                                                                <div id="calendar"
+                                                                    class="p-4 fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                                                </div>
+                                                            </div>
+                                                      
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="row mt-4">
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-success">Add Part</button>
+                                                    <button class="btn btn-warning text-white">Add Part</button>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-success">Add Sponsors</button>
+                                                    <button class="btn btn-secondary">Add Sponsors</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -342,6 +371,59 @@
     <?php include('./include/scripts.php') ?> 
     <script src="./include/plugins/tinymce/tinymce.min.js"></script>
     <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: '',
+                center: 'title',
+                right: ''
+            },
+            initialView: 'timeGridDay',
+            navLinks: true,
+            selectable: true,
+            editable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
+            select: function(arg) {
+                var title = prompt('Event Title:');
+                if (title) {
+                    var eventData = {
+                        title: title,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: arg.allDay
+                    };
+
+                    // Add event to calendar
+                    calendar.addEvent(eventData);
+
+                    // Save event to database
+                    saveEventToDatabase(eventData);
+                    // location.reload();
+                }
+                calendar.unselect();
+            },
+            eventClick: function(arg) {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    // Remove event from calendar
+                    arg.event.remove();
+                    
+                    // Delete event from database
+                    deleteEventFromDatabase(arg.event);
+                    location.reload();
+                }
+            }
+
+        });
+
+        calendar.render();
+
+    });
+
+    </script>
 
 </body>
 

@@ -72,17 +72,27 @@
         $desc = $_POST['desc'];
 
         if (!empty($id)) {
+            $sql = "UPDATE events SET title = ?, startdate = ?, enddate = ?, allday = ?, description = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssi", $title, $start, $end, $allday, $desc, $id);
+            $stmt->execute();
+            $stmt->close();
 
-            $conn->query("UPDATE events SET  title = '$title', startdate = '$start',
-            enddate = '$end', allday = '$allday', description = '$desc' WHERE id =" . $id) or die($conn->error);
-        
+            $url = 'event_plan.php?id=' . urlencode($id) .
+                    '&allday=' . urlencode($allday) .
+                    '&title=' . urlencode($title) .
+                    '&start=' . urlencode($start) .
+                    '&end=' . urlencode($end) .
+                    '&desc=' . urlencode($desc);
+
             $_SESSION['status'] = 'Successfully Saved';
             $_SESSION['status_icon'] = 'success';
-            header('location:../set_event.php');
+            header('Location: ../' . $url);
         } else {
-            $_SESSION['status'] = 'An Error Occured!';
+            $_SESSION['status'] = 'An Error Occurred!';
             $_SESSION['status_icon'] = 'error';
-            header('location:../event_plan.php');
+            header('Location: ../event_plan.php');
+            exit();
         }
     }
 
