@@ -245,7 +245,7 @@
                                                                             <input class="form-control" type="text" name="title" value="<?php echo $title; ?>" readonly>
                                                                             <label for="" class="mt-3">Description:</label>
                                                                             <?php echo $desc; ?>
-                                                                            <label for="" class="mt-3">People / Volunteer:</label>
+                                                                            <label for="">People / Volunteer:</label>
                                                                             <select class="form-select" name="" id="">
                                                                                 <option value="">Sample People / Volunteer</option>
                                                                                 <option value="">Others</option>
