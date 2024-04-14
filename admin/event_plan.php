@@ -6,7 +6,6 @@
     <title>Event Plan - Volunteer Management Strageties</title>
 </head>
 
-
 <body class="sb-nav-fixed">
 
     <?php include('./include/nav.php') ?>
@@ -131,7 +130,7 @@
                                                         <label for="">Completed 0%</label>
                                                     </div>
                                                 </div>
-                                                <textarea class="tinymce form-control" name="desc" value="<?php echo $desc ?>" rows="10" cols="30"><?php echo $desc ?></textarea>
+                                                <textarea class="tinymce form-control" value="<?php echo $desc ?>"  name="desc" rows="10" cols="30"><?php echo $desc ?></textarea>
                                                 <input class="form-control w-50" type="hidden" name="id" value="<?php echo $id; ?>">
                                                 <input class="form-control w-50" type="hidden" name="start" value="<?php echo $start; ?>">
                                                 <input class="form-control w-50" type="hidden" name="end" value="<?php echo $end; ?>">
@@ -212,18 +211,14 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
-                                                        <form action="">
-                                                            <div class="mt-2">
-                                                                <div id="calendar"
-                                                                    class="p-4 fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
-                                                                </div>
+                                                        <div class="modal-body">
+                                                            <div id="daycalendar"
+                                                                class="p-4 fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                                             </div>
-                                                      
-                                                        </form>
+                                                        </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
-                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -231,10 +226,98 @@
 
                                             <div class="row mt-4">
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-warning text-white">Add Part</button>
+                                                    <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#addPart">Add Part</button>
+
+                                                     <!-- Modal Event Start -->
+                                                    <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-success">
+                                                                    <h5 class=" modal-title text-white">Add Part</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="">
+                                                                        <div class="mt-2">
+                                                                            <label for="">Event Name:</label>
+                                                                            <input class="form-control" type="text" name="title" value="<?php echo $title; ?>" readonly>
+                                                                            <label for="" class="mt-3">Description:</label>
+                                                                            <?php echo $desc; ?>
+                                                                            <label for="" class="mt-3">People / Volunteer:</label>
+                                                                            <select class="form-select" name="" id="">
+                                                                                <option value="">Sample People / Volunteer</option>
+                                                                                <option value="">Others</option>
+                                                                            </select>
+                                                                            <label for="" class="mt-3">Volunteer:</label>
+                                                                            <select class="form-select" name="" id="">
+                                                                                <option value="">Sample Volunteer</option>
+                                                                                <option value="">Others</option>
+                                                                            </select>
+                                                                            <hr>
+                                                                            <label for="">Time:</label>
+                                                                            <h4>7:00pm</h4>
+                                                                            <label for="" class="mt-3">Duration:</label>
+                                                                            <select class="form-select" name="" id="">
+                                                                                <option value="">1 Hour</option>
+                                                                                <option value="">2 Hours</option>
+                                                                                <option value="">3 Hours</option>
+                                                                                <option value="">4 Hours</option>
+                                                                                <option value="">5 Hours</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-warning text-white"
+                                                                        data-bs-dismiss="modal">Add Part</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-secondary">Add Sponsors</button>
+                                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors</button>
+
+                                                    <!-- Modal Add Sponsors -->
+                                                    <div class="modal fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-success">
+                                                                    <h5 class=" modal-title text-white">Event Start</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Account Type</th>
+                                                                                <th scope="col">Skills</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Juan Delacruz</th>
+                                                                                <td>Sponsor 1</td>
+                                                                                <td>Sample Skills</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -374,7 +457,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+        var calendarEl = document.getElementById('daycalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: '',
