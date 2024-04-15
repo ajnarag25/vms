@@ -90,8 +90,8 @@
                                 role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#poll" type="button"
-                                role="tab" aria-controls="poll" aria-selected="false">Poll</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticket" type="button"
+                                role="tab" aria-controls="ticket" aria-selected="false">Ticket</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -100,7 +100,7 @@
                             aria-labelledby="overview-tab">
 
                             <div class="row mt-3">
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                                     <div class="card mb-4 ">
 
@@ -147,9 +147,39 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="card mb-4 ">
                                         <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h4> <b>Event Start</b></h4>
+                                                <p class="text-danger"><i>* Please select a specific time in the calendar. <br> (One Time Only)</i></p>
+                                            </div>
+
+                                            <?php 
+                                                // Fetch events from database
+                                                $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                                $result = $conn->query($sql);
+
+                                                $events = array();
+
+                                                if ($result->num_rows > 0) {
+                                                    while($row = $result->fetch_assoc()) {
+                                                        $event = array(
+                                                            'id' => $row['id'],
+                                                            'title' => $row['title'],
+                                                            'start' => $row['startdate'],
+                                                            'end' => $row['enddate'],
+                                                            'allDay' => $row['allday']
+                                                        );
+                                                        array_push($events, $event);
+                                                    }
+                                                }
+                                            ?>
+
+                                            <div id="daycalendar"
+                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            </div>
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <h5><b>Tickets:</b> Sample Tickets</h5>
@@ -169,8 +199,8 @@
                                                 <div class="col-md-4 text-center">
                                                     <label for="">Completeness:</label>
                                                     <div class="progress mt-2">
-                                                        <div class="progress-bar bg-success w-25" role="progressbar"
-                                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,144 +227,99 @@
                         <div class="tab-pane fade" id="agenda" role="tabpanel" aria-labelledby="agenda-tab">
                             <div class="card mb-4 ">
                                 <div class="card-body p-4">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#eventStart">Event Start</button>
+                                    <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#addPart">Add Part</button>
 
-                                            <!-- Modal Event Start -->
-                                            <div class="modal modal-lg fade" id="eventStart" tabindex="-1" aria-labelledby="eventStart"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-success">
-                                                            <h5 class=" modal-title text-white">Event Start</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                        <!-- Modal Event Start -->
+                                    <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-success">
+                                                    <h5 class=" modal-title text-white">Add Part</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="">
+                                                        <div class="mt-2">
+                                                            <label for="">Event Name:</label>
+                                                            <input class="form-control" type="text" name="title" value="<?php echo $title; ?>" readonly>
+                                                            <label for="" class="mt-3">Description:</label>
+                                                            <?php echo $desc; ?>
+                                                            <hr>
+                                                            <label for="">People / Volunteer:</label>
+                                                            <select class="form-select" name="" id="">
+                                                                <option value="">Sample People / Volunteer</option>
+                                                                <option value="">Others</option>
+                                                            </select>
+                                                            <label for="" class="mt-3">Volunteer:</label>
+                                                            <select class="form-select" name="" id="">
+                                                                <option value="">Sample Volunteer</option>
+                                                                <option value="">Others</option>
+                                                            </select>
+                                                            <hr>
+                                                            <label for="">Time:</label>
+                                                            <h4>7:00pm</h4>
+                                                            <label for="" class="mt-3">Duration:</label>
+                                                            <select class="form-select" name="" id="">
+                                                                <option value="">1 Hour</option>
+                                                                <option value="">2 Hours</option>
+                                                                <option value="">3 Hours</option>
+                                                                <option value="">4 Hours</option>
+                                                                <option value="">5 Hours</option>
+                                                            </select>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <div id="daycalendar"
-                                                                class="p-4 fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-warning text-white"
+                                                        data-bs-dismiss="modal">Add Part</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
-
-                                            <div class="row mt-4">
-                                                <div class="col-sm-2">
-                                                    <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#addPart">Add Part</button>
-
-                                                     <!-- Modal Event Start -->
-                                                    <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header bg-success">
-                                                                    <h5 class=" modal-title text-white">Add Part</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="">
-                                                                        <div class="mt-2">
-                                                                            <label for="">Event Name:</label>
-                                                                            <input class="form-control" type="text" name="title" value="<?php echo $title; ?>" readonly>
-                                                                            <label for="" class="mt-3">Description:</label>
-                                                                            <?php echo $desc; ?>
-                                                                            <label for="">People / Volunteer:</label>
-                                                                            <select class="form-select" name="" id="">
-                                                                                <option value="">Sample People / Volunteer</option>
-                                                                                <option value="">Others</option>
-                                                                            </select>
-                                                                            <label for="" class="mt-3">Volunteer:</label>
-                                                                            <select class="form-select" name="" id="">
-                                                                                <option value="">Sample Volunteer</option>
-                                                                                <option value="">Others</option>
-                                                                            </select>
-                                                                            <hr>
-                                                                            <label for="">Time:</label>
-                                                                            <h4>7:00pm</h4>
-                                                                            <label for="" class="mt-3">Duration:</label>
-                                                                            <select class="form-select" name="" id="">
-                                                                                <option value="">1 Hour</option>
-                                                                                <option value="">2 Hours</option>
-                                                                                <option value="">3 Hours</option>
-                                                                                <option value="">4 Hours</option>
-                                                                                <option value="">5 Hours</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-warning text-white"
-                                                                        data-bs-dismiss="modal">Add Part</button>
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors</button>
-
-                                                    <!-- Modal Add Sponsors -->
-                                                    <div class="modal fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header bg-success">
-                                                                    <h5 class=" modal-title text-white">Event Start</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <table class="table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th scope="col">Name</th>
-                                                                                <th scope="col">Account Type</th>
-                                                                                <th scope="col">Skills</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <th>Juan Delacruz</th>
-                                                                                <td>Sponsor 1</td>
-                                                                                <td>Sample Skills</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-
-                                            <h6>Event Duration: 21hrs</h6>
-                                            <h6>Event End: 21hrs </h6>
-
-                                            <hr>
-
-                                            <h6>Agenda Overview:</h6>
-
-                                            <h6>Sample Part Name</h6>
-                                            <h6>Sample Start - End</h6>
-
                                         </div>
                                     </div>
+                                    
+                                
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors</button>
+
+                                    <!-- Modal Add Sponsors -->
+                                    <div class="modal fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-success">
+                                                    <h5 class=" modal-title text-white">Add Sponsors</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Account Type</th>
+                                                                <th scope="col">Skills</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>Juan Delacruz</th>
+                                                                <td>Sponsor 1</td>
+                                                                <td>Sample Skills</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <br>
                                     <table class="table">
                                         <thead>
@@ -345,24 +330,26 @@
                                                 <th scope="col">Volunteers</th>
                                                 <th scope="col">Time Start</th>
                                                 <th scope="col">Time End</th>
+                                                <th scope="col">Event Duration</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th>Part Sample</th>
-                                                <td>Description Sample</td>
+                                                <th><?php echo $title ?></th>
+                                                <td><?php echo $desc ?></td>
                                                 <td>People Sample</td>
                                                 <td>Volunteer Sample</td>
-                                                <td>12:01 pm</td>
-                                                <td>3:01 pm</td>
+                                                <td><?php echo $start ?></td>
+                                                <td><?php echo $end ?></td>
+                                                <td>24 Hrs/td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <!-- Poll -->
-                        <div class="tab-pane fade" id="poll" role="tabpanel" aria-labelledby="poll-tab">
+                        <!-- Ticket -->
+                        <div class="tab-pane fade" id="ticket" role="tabpanel" aria-labelledby="ticket-tab">
                             <div class="row mt-3">
                                 <div class="col-md-8">
                                     <div class="card mb-4 p-3">
@@ -386,7 +373,6 @@
                                         </table>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <div class="card mb-4">
                                         <div class="bg-success text-white card-header text-center">
@@ -465,11 +451,14 @@
                 right: ''
             },
             initialView: 'timeGridDay',
+            initialDate: <?php echo json_encode($start) ?>,
+            events: <?php echo json_encode($events) ?>,
             navLinks: true,
             selectable: true,
             editable: true,
             selectMirror: true,
-            dayMaxEvents: true,
+            allDaySlot: false,
+            // dayMaxEvents: true,
             select: function(arg) {
                 var title = prompt('Event Title:');
                 if (title) {
@@ -503,6 +492,44 @@
         });
 
         calendar.render();
+
+        function saveEventToDatabase(saveData) {
+            // Send event data to server for saving
+            console.log(saveData);
+
+            $.ajax({
+                url: './include/process.php',
+                name:'calendar',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ action: 'save', eventData: saveData }),
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving event to database:', error);
+                }
+            });
+        }
+
+        function deleteEventFromDatabase(event) {
+            // Send event ID to server for deletion
+            var deleteData = { delId: event.id };
+            $.ajax({
+                url: './include/process.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ action: 'delete', eventData: deleteData }),
+                success: function(response) {
+                    console.log(response);
+                    //console.log('Event deleted from database:', event);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting event from database:', error);
+                }
+            });
+        }
 
     });
 

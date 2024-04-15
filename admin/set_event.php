@@ -288,7 +288,7 @@
             events: <?php echo json_encode($events); ?>,
             navLinks: true,
             selectable: true,
-            editable: true,
+            editable: false,
             selectMirror: true,
             dayMaxEvents: true,
             select: function(arg) {
