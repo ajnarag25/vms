@@ -16,19 +16,21 @@
 
         if($eventData){
             $action = $eventData['action'];
-            if($action == 'save'){
+            if($action == 'saveEvent'){
+                $event_id = $eventData['eventData']['event_id'];
                 $title = $eventData['eventData']['title'];
                 $start = $eventData['eventData']['start'];
                 $end = $eventData['eventData']['end'];
                 $allday = $eventData['eventData']['allDay'];
 
-                $conn->query("INSERT INTO events (title, startdate, enddate, allday, description) 
-                VALUES('$title', '$start', '$end', '$allday', '')") or die($conn->error);
+                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
+                VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '')") or die($conn->error);
 
                 $inserted_id = $conn->insert_id;
 
                 $response = array(
                     'id' => $inserted_id,
+                    'event_id' => $event_id,
                     'title' => $title,
                     'start' => $start,
                     'end' => $end,
@@ -37,6 +39,36 @@
 
                 $json_response = json_encode($response);
                 echo $json_response;
+
+            }elseif($action == 'savePart'){
+                $event_id = $eventData['eventData']['event_id'];
+                $title = $eventData['eventData']['title'];
+                $start = $eventData['eventData']['start'];
+                $end = $eventData['eventData']['end'];
+                $allday = $eventData['eventData']['allDay'];
+
+                $sql = "SELECT event_id FROM events WHERE event_id='$event_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result->num_rows > 0) {
+                    echo 'Existing event';
+                }else{
+                    $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
+                    VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '')") or die($conn->error);
+                    $inserted_id = $conn->insert_id;
+                    $response = array(
+                        'id' => $inserted_id,
+                        'event_id' => $event_id,
+                        'title' => $title,
+                        'start' => $start,
+                        'end' => $end,
+                        'allday' => $allday
+                    );
+
+                    $json_response = json_encode($response);
+                    echo $json_response;
+
+                }
 
             }elseif($action == 'update'){
                 $id = $eventData['eventData']['updtId'];
@@ -65,6 +97,7 @@
     // SAVE EVENT
     if (isset($_POST['save_event'])) {
         $id = $_POST['id'];
+        $event_id = $_POST['event_id'];
         $title = $_POST['title'];
         $start = $_POST['start'];
         $end = $_POST['end'];
@@ -79,6 +112,7 @@
             $stmt->close();
 
             $url = 'event_plan.php?id=' . urlencode($id) .
+                    '&event_id=' . urlencode($event_id) .
                     '&allday=' . urlencode($allday) .
                     '&title=' . urlencode($title) .
                     '&start=' . urlencode($start) .
