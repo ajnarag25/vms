@@ -251,7 +251,7 @@
                                                             while ($row = mysqli_fetch_array($result)) {
 
                                                         ?>
-                                                        <form action="">
+                                                        <form action="./include/process.php" method="POST">
                                                             <div class="mt-2">
                                                                 <label for="">Part Name:</label>
                                                                 <input class="form-control" type="text" name="title" value="<?php echo $row['title']; ?>" readonly>
@@ -271,23 +271,35 @@
                                                                 <hr>
                                                                 <label for="">Time:</label>
                                                                 <h6 class="mt-2"><?php echo date('h:i:s A', strtotime($row['startdate'])); ?> - <?php echo date('h:i:s A', strtotime($row['enddate'])); ?></h6>
-                                                    
-                                                                <label for="" class="mt-3">Duration:</label>
-                                                                <input class="form-control" type="number" name="duration">
+                                                                
+                                                                <label for="" class="mt-3">Duration:</label>    
+                                                                <input class="form-control" type="number" name="duration" required>
                                                             </div>
-                                                        </form>
+                
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                                                            <input type="hidden" name="current_start" value="<?php echo $row['startdate'] ?>">
+                                                            <input type="hidden" name="current_end" value="<?php echo $row['enddate'] ?>">
+                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+
+                                                            <button type="submit" name="addPart" class="btn btn-warning text-white">Add Part</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        
+                                                        </div>
                                                         <?php 
                                                         }
                                                         ?>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-warning text-white"
-                                                            data-bs-dismiss="modal">Add Part</button>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </div>
 
 
