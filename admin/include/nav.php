@@ -7,7 +7,7 @@
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
         <a class="btn text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
             title="Notification" href="#!"><i class="fa fa-bell"></i></a>
         <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="navbarDropdown">

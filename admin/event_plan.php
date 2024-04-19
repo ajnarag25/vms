@@ -254,8 +254,8 @@
                                                         <form action="./include/process.php" method="POST">
                                                             <div class="mt-2">
                                                                 <label for="">Part Name:</label>
-                                                                <input class="form-control" type="text" name="title" value="<?php echo $row['title']; ?>" readonly>
-                                                                <label for="" class="mt-3">Description:</label>
+                                                                <h5><strong><?php echo $row['title']; ?></strong></h5>
+                                                                <label for="" class="mt-2">Description:</label>
                                                                 <?php echo $desc; ?>
                                                                 <hr>
                                                                 <label for="">People / Volunteer:</label>
@@ -415,72 +415,125 @@
                         <!-- Ticket -->
                         <div class="tab-pane fade" id="ticket" role="tabpanel" aria-labelledby="ticket-tab">
                             <div class="row mt-3">
-                                <div class="col-md-8">
-                                    <div class="card mb-4 p-3">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Volunteer</th>
-                                                    <th scope="col">Time</th>
-                                                    <th scope="col">Ticket Name</th>
-                                                    <th scope="col">Information Report</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>Juan Delacruz</th>
-                                                    <td>3:30 pm</td>
-                                                    <td>Ticket Sample</td>
-                                                    <td>Ongoing Ticket</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="col-md-9">
+                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTicket">Add Ticket <i class="fa-solid fa-plus"></i></button>
+
+                                    <!--Add Ticket-->
+                                    <div class="modal fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-success text-white">
+                                                    <h5 class="modal-title">Add Ticket</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                    </button>
+                                                </div>  
+                                                <form action="./include/process.php" method="POST">
+                                                    <div class="modal-body">
+                                                        <label for="">Ticket Title:</label>
+                                                        <input class="form-control" name="ticket_title" type="text" required>
+                                                        <hr>
+                                                        <label for="">Ticket Description:</label>
+                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                        <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                        <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                        <button type="submit" name="addTicket" class="btn btn-success">Add Ticket</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="row">
+                                            <?php 
+                                                $main_id = $_GET['id'];
+                                                $query = "SELECT * FROM tickets WHERE event_id = $main_id";
+                                                $result = mysqli_query($conn, $query);
+                                                while ($row = mysqli_fetch_array($result)) {
+                                            ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card">
+                                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?></strong></h6>
+                                                        <div class="place-it-on-the-right-side-corner">
+                                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delTicket"><i class="fa-solid fa-trash"></i></button>
+
+                                                            <!--Delete Ticket-->
+                                                            <div class="modal fade" id="delTicket" tabindex="-1" role="dialog" aria-labelledby="delTicket" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header bg-success text-white">
+                                                                            <h5 class="modal-title">Delete Ticket</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
+                                                                            </button>
+                                                                        </div>  
+                                                                        <form action="./include/process.php" method="POST">
+                                                                            <div class="modal-body text-center">
+                                                                                <h5>Are you sure you want to delete this ticket?</h5>
+                                                                                <p class="text-danger">*This action is irreversible!</p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <input type="hidden" name='ticket_id' value="<?php echo $row['id'] ?>">
+                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                <button type="submit" name="delTicket" class="btn btn-danger">Delete Ticket</button>
+                                                                                <button type="button" class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text"><?php echo $row['ticket_desc'] ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php 
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <label for="">Completion Percent:</label>
+                                        <div class="progress mt-2">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <hr>
                                     <div class="card mb-4">
                                         <div class="bg-success text-white card-header text-center">
-                                            <i class="fa-solid fa-address-book"></i>
-                                            Plan List
-                                        </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
-
+                                            <i class="fa-solid fa-ticket"></i>
+                                            Request Tickets
+                                        </div>  
+                                        
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
                                                 <div class="card-body">
 
-                                                    <h5>Plan Sample 1</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-dark text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 2</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-warning text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 3</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-danger text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 4</h5>
+                                                    <h5>Plan Requests</h5>
                                                     <hr>
                                                     <p>This is only a sample plan. Details goes here</p>
                                                 </div>

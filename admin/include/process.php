@@ -162,7 +162,80 @@
             '&end=' . urlencode($main_end) .
             '&desc=' . urlencode($main_desc);
 
-            $_SESSION['status'] = 'Successfully Saved';
+            $_SESSION['status'] = 'Add Part Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    
+    // ADD TICKET
+    if (isset($_POST['addTicket'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc')") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+      // DELETE TICKET
+      if (isset($_POST['delTicket'])) {
+        $id = $_POST['ticket_id'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($id)) {
+
+            $conn->query("DELETE FROM tickets WHERE id='$id'") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Deleted';
             $_SESSION['status_icon'] = 'success';
             header('Location: ../' . $url);
         } else {
