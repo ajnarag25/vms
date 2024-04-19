@@ -46,6 +46,7 @@
                 $start = $eventData['eventData']['start'];
                 $end = $eventData['eventData']['end'];
                 $allday = $eventData['eventData']['allDay'];
+                $desc = $eventData['eventData']['desc'];
 
                 $sql = "SELECT event_id FROM events WHERE event_id='$event_id'";
                 $result = mysqli_query($conn, $sql);
@@ -54,7 +55,7 @@
                     echo 'Existing event';
                 }else{
                     $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
-                    VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '')") or die($conn->error);
+                    VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '$desc')") or die($conn->error);
                     $inserted_id = $conn->insert_id;
                     $response = array(
                         'id' => $inserted_id,
@@ -62,7 +63,8 @@
                         'title' => $title,
                         'start' => $start,
                         'end' => $end,
-                        'allday' => $allday
+                        'allday' => $allday,
+                        'desc' => $desc
                     );
 
                     $json_response = json_encode($response);

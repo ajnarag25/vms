@@ -255,8 +255,8 @@
                                                             <div class="mt-2">
                                                                 <label for="">Part Name:</label>
                                                                 <input class="form-control" type="text" name="title" value="<?php echo $row['title']; ?>" readonly>
-                                                                <!-- <label for="" class="mt-3">Description:</label>
-                                                                <?php echo $desc; ?> -->
+                                                                <label for="" class="mt-3">Description:</label>
+                                                                <?php echo $desc; ?>
                                                                 <hr>
                                                                 <label for="">People / Volunteer:</label>
                                                                 <select class="form-select" name="" id="">
@@ -378,6 +378,7 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">Part Name</th>
+                                                <th scope="col">Description</th>
                                                 <th scope="col">People</th>
                                                 <th scope="col">Volunteers</th>
                                                 <th scope="col">Time Start</th>
@@ -395,6 +396,7 @@
                                             ?>
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
+                                                <td><?php echo $row['description'] ?></td>
                                                 <td>People Sample</td>
                                                 <td>Volunteer Sample</td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
@@ -527,7 +529,8 @@
                         title: title,
                         start: arg.start,
                         end: arg.end,
-                        allDay: arg.allDay
+                        allDay: arg.allDay,
+                        desc: <?php echo json_encode($desc) ?>,
                     };
 
                     // Save event to database
