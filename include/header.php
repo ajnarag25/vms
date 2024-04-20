@@ -4,6 +4,10 @@
 
     if(isset($_SESSION['volunteer'])){
         header('location: volunteer/index.php');
+    }elseif(isset($_SESSION['admin'])){
+        header('location: admin/index.php');
+    }elseif(isset($_SESSION['superadmin'])){
+        header('location: admin/index.php');
     }
 ?>
 

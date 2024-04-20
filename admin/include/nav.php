@@ -15,7 +15,7 @@
         </ul>
         <a href="my_account.php" class="btn text-white" title="Profile" href="#!"><i class="fa fa-user"></i></a>
         <a class="btn text-white" title="Settings" href="#!"><i class="fa fa-cog"></i></a>
-        <a href="../index.php" class="btn text-white" title="Log out" href="#!"><i class="fa fa-power-off"></i></a>
+        <a href="include/process.php?logout" class="btn text-white" title="Log out" href="#!"><i class="fa fa-power-off"></i></a>
 
     </ul>
 </nav>

@@ -25,8 +25,8 @@
             if (!$result->num_rows > 0) {
                 $setOTP = rand(0000, 9999);
 
-                $insertQuery = "INSERT INTO accounts (username, email, contact, password, status, otp) 
-                                VALUES ('$user', '$emails', '$contact', '" . password_hash($pass1, PASSWORD_DEFAULT) . "', 'Unverified', '$setOTP')";
+                $insertQuery = "INSERT INTO accounts (username, email, contact, password, status, otp, type) 
+                                VALUES ('$user', '$emails', '$contact', '" . password_hash($pass1, PASSWORD_DEFAULT) . "', 'Unverified', '$setOTP', 'volunteer')";
                 $conn->query($insertQuery) or die($conn->error);
 
                 $get_id = $conn->insert_id;
@@ -49,15 +49,23 @@
         $user = $_POST['username'];
         $pass = $_POST['password'];
 
-        $login ="SELECT * FROM accounts WHERE username='$user'";
+        $login ="SELECT * FROM accounts WHERE username='$user' ";
         $check = mysqli_query($conn, $login);
         $getData = mysqli_fetch_array($check);
 
         if ($getData != null){
-            if (password_verify($pass, $getData['password']) AND $getData['status'] == 'Verified'){
+            if (password_verify($pass, $getData['password']) AND $getData['status'] == 'Verified' AND $getData['type'] == 'volunteer'){
                 $_SESSION['volunteer'] = $getData;
                 unset($_SESSION['status']);
                 header('location:../volunteer/index.php');
+            }elseif (password_verify($pass, $getData['password']) AND $getData['status'] == 'Verified' AND $getData['type'] == 'admin'){
+                $_SESSION['admin'] = $getData;
+                unset($_SESSION['status']);
+                header('location:../admin/index.php');
+            }elseif (password_verify($pass, $getData['password']) AND $getData['status'] == 'Verified' AND $getData['type'] == 'superadmin'){
+                $_SESSION['superadmin'] = $getData;
+                unset($_SESSION['status']);
+                header('location:../admin/index.php');
             }else{
                 $_SESSION['status'] = 'Invalid Password / Unverified Account';
                 $_SESSION['status_icon'] = 'error';

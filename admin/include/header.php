@@ -1,7 +1,12 @@
 <?php  
     include('connection.php');
     session_start();
-    if (!isset($_SESSION['volunteer'])) {
+    if (isset($_SESSION['admin'])) {
+        // proceed to page
+    }
+    elseif (isset($_SESSION['superadmin'])) {
+        // proceed to page
+    }else{
         header("Location: ../index.php");
     }
 ?>
