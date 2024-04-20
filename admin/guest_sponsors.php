@@ -82,7 +82,43 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <div class="card p-3">
+                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#addGS">Add Guest / Sponsors <i class="fa-solid fa-plus"></i></button>
+
+                        <!--Add Guest / Sponsors-->
+                        <div class="modal fade" id="addGS" tabindex="-1" role="dialog" aria-labelledby="addGS" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-success text-white">
+                                        <h5 class="modal-title">Add Guest / Sponsors</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                        </button>
+                                    </div>  
+                                    <form action="./include/process.php" method="POST">
+                                        <div class="modal-body">
+                                            <label for=""><span class="text-danger">*</span> Type:</label>
+                                            <select class="form-select" name="type" id="" required>
+                                                <option value="" selected disabled>Select Type</option>
+                                                <option value="guest">Guest</option>
+                                                <option value="sponsors">Sponsors</option>
+                                            </select>
+                                            <label for=""><span class="text-danger">*</span> Name:</label>
+                                            <input class="form-control" name="gs_name" type="text" required>
+                                            <label for=""><span class="text-danger">*</span> Position:</label>
+                                            <input class="form-control" type="text" name="position" required>
+                                            <label for=""><span class="text-danger">*</span> Company:</label>
+                                            <input class="form-control" type="text" name="company" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" name="addGS" class="btn btn-success">Add</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
                             <div class="card-body">
                                 <table class="table">
                                     <thead>
@@ -95,13 +131,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                                        
+                                            $query = "SELECT * FROM guest_sponsors";
+                                            $result = mysqli_query($conn, $query);
+                                            while ($row = mysqli_fetch_array($result)) {
+
+                                        ?>
                                         <tr>
-                                            <th>Juan Delacruz</th>
-                                            <td>CEO</td>
-                                            <td>The j's</td>
-                                            <td>03/19/2024</td>
-                                            <td>Ongoing</td>
+                                            <th><?php echo $row['name'] ?></th>
+                                            <td><?php echo $row['position'] ?></td>
+                                            <td><?php echo $row['company'] ?></td>
+                                            <td><?php echo $row['date_added'] ?></td>
+                                            <td><?php echo $row['status'] ?></td>
                                         </tr>
+                                        <?php 
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -6,6 +6,17 @@
     <title>Event Plan - Volunteer Management Strageties</title>
 </head>
 
+
+<?php
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+    $event_id = isset($_GET['event_id']) ? $_GET['event_id'] : '';
+    $title = isset($_GET['title']) ? $_GET['title'] : '';
+    $start = isset($_GET['start']) ? $_GET['start'] : '';
+    $end = isset($_GET['end']) ? $_GET['end'] : '';
+    $allday = isset($_GET['allday']) ? $_GET['allday'] : '';
+    $desc = isset($_GET['desc']) ? $_GET['desc'] : '';
+?>
+
 <body class="sb-nav-fixed">
 
     <?php include('./include/nav.php') ?>
@@ -85,14 +96,29 @@
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview"
                                 type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
                         </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#agenda" type="button"
-                                role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticket" type="button"
-                                role="tab" aria-controls="ticket" aria-selected="false">Ticket</button>
-                        </li>
+                        <?php 
+                                                        
+                            $query = "SELECT * FROM events WHERE event_id = $id";
+                            $result = mysqli_query($conn, $query);
+                            $getData = mysqli_fetch_array($result);
+                            
+                            if($getData == null){
+                                echo '';
+                            }else{
+                                ?>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#agenda" type="button"
+                                        role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticket" type="button"
+                                        role="tab" aria-controls="ticket" aria-selected="false">Ticket</button>
+                                </li>
+                            <?php
+                            }
+                        ?>
+
+              
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Overview -->
@@ -103,16 +129,6 @@
                                 <div class="col-md-7">
                                     <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                                     <div class="card mb-4 ">
-
-                                        <?php
-                                            $id = isset($_GET['id']) ? $_GET['id'] : '';
-                                            $event_id = isset($_GET['event_id']) ? $_GET['event_id'] : '';
-                                            $title = isset($_GET['title']) ? $_GET['title'] : '';
-                                            $start = isset($_GET['start']) ? $_GET['start'] : '';
-                                            $end = isset($_GET['end']) ? $_GET['end'] : '';
-                                            $allday = isset($_GET['allday']) ? $_GET['allday'] : '';
-                                            $desc = isset($_GET['desc']) ? $_GET['desc'] : '';
-                                        ?>
 
                                         <div class="card-body p-4">
                                             <form action="./include/process.php" method="POST">
@@ -396,7 +412,7 @@
                                             ?>
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
-                                                <td><?php echo $row['description'] ?></td>
+                                                <td><?php echo $desc ?></td>
                                                 <td>People Sample</td>
                                                 <td>Volunteer Sample</td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>

@@ -212,7 +212,7 @@
     }
 
       // DELETE TICKET
-      if (isset($_POST['delTicket'])) {
+    if (isset($_POST['delTicket'])) {
         $id = $_POST['ticket_id'];
 
         $main_id = $_POST['main_id'];
@@ -244,6 +244,40 @@
             header('Location: ../event_plan.php');
             exit();
         }
+    }
+
+    // ADD GUEST / SPONSORS
+    if (isset($_POST['addGS'])) {
+        
+        $type = $_POST['type'];
+        $gs_name = $_POST['gs_name'];
+        $position = $_POST['position'];
+        $company = $_POST['company'];
+
+        $sql = "SELECT * FROM guest_sponsors WHERE type='$type' AND name='$gs_name' AND position='$position' AND company='$company'";
+        $result = mysqli_query($conn, $sql);
+
+        if(!$result->num_rows > 0){
+            if (!empty($gs_name)) {
+
+                $conn->query("INSERT INTO guest_sponsors (name, type, position, company, status) 
+                VALUES('$gs_name' ,'$type', '$position', '$company', 'New')") or die($conn->error);
+    
+                $_SESSION['status'] = 'Successfully Added';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../guest_sponsors.php');
+            } else {
+                $_SESSION['status'] = 'An Error Occurred!';
+                $_SESSION['status_icon'] = 'error';
+                header('Location: ../guest_sponsors.php');
+                exit();
+            }
+        }else{
+            $_SESSION['status'] = 'Guest / Sponsors Already Existing!';
+            $_SESSION['status_icon'] = 'warning';
+            header('location:../guest_sponsors.php');
+        }
+    
     }
 
 
