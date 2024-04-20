@@ -158,7 +158,56 @@
                                             <hr>
                                             <div class="mt-3">
                                                 <h5><b>Agenda:</b></h5>
-                                                <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Part Name</th>
+                                                            <th scope="col">Description</th>
+                                                            <th scope="col">Guests</th>
+                                                            <th scope="col">Volunteers</th>
+                                                            <th scope="col">Time Start</th>
+                                                            <th scope="col">Time End</th>
+                                                            <th scope="col">Event Duration</th>
+                                                            <th scope="col">Sponsors</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php 
+                                                            $query = "SELECT * FROM events WHERE event_id = $id";
+                                                            $result = mysqli_query($conn, $query);
+                                                            while ($row = mysqli_fetch_array($result)) {
+                                                            
+                                                                            
+                                                            $start_timestamp = strtotime($row['startdate']);
+                                                            $end_timestamp = strtotime($row['enddate']);
+
+                                                            // Calculate the difference in seconds
+                                                            $duration_seconds = $end_timestamp - $start_timestamp;
+
+                                                            // Calculate hours, minutes, and seconds
+                                                            $hours = floor($duration_seconds / 3600);
+                                                            $minutes = floor(($duration_seconds % 3600) / 60);
+                                                            $seconds = $duration_seconds % 60;
+
+                                                            // Format the duration
+                                                            $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds)
+                                                        ?>
+                                                        <tr>
+                                                            <th><?php echo $row['title'] ?></th>
+                                                            <td><?php echo $desc ?></td>
+                                                            <td>Guests Sample</td>
+                                                            <td>Volunteer Sample</td>
+                                                            <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
+                                                            <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
+                                                            <td><?php echo $duration; ?></td>
+                                                            <td>Sample sponsors</td>
+                                                        </tr>
+                                                        <?php 
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                 
                                             </div>
                              
                                         </div>
@@ -265,7 +314,7 @@
                                                             $query = "SELECT * FROM events WHERE event_id = $id";
                                                             $result = mysqli_query($conn, $query);
                                                             while ($row = mysqli_fetch_array($result)) {
-
+                                                            $part_id = $row['id'];
                                                         ?>
                                                         <form action="./include/process.php" method="POST">
                                                             <div class="mt-2">
@@ -274,7 +323,7 @@
                                                                 <label for="" class="mt-2">Description:</label>
                                                                 <?php echo $desc; ?>
                                                                 <hr>
-                                                                <label for="">People / Volunteer:</label>
+                                                                <label for="">Guests / Volunteer:</label>
                                                                 <select class="form-select" name="" id="">
                                                                     <option value="">Sample People / Volunteer</option>
                                                                     <option value="">Others</option>
@@ -303,7 +352,7 @@
                                                             <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                             <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                             <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
-                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                            <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
 
                                                             <button type="submit" name="addPart" class="btn btn-warning text-white">Add Part</button>
                                                             <button type="button" class="btn btn-secondary"
@@ -322,7 +371,7 @@
                                             <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors</button>
 
                                             <!-- Modal Add Sponsors -->
-                                            <div class="modal fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
+                                            <div class="modal modal-lg fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
                                             aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -332,21 +381,51 @@
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <table class="table">
+                                                            <table class="table" id="Sponsors">
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">Name</th>
-                                                                        <th scope="col">Account Type</th>
-                                                                        <th scope="col">Skills</th>
+                                                                        <th scope="col">Position</th>
+                                                                        <th scope="col">Company</th>
+                                                                        <th scope="col">Status</th>
+                                                                        <th scope="col">Action</th>
                                                                     </tr>
                                                                 </thead>
+                                                                <?php 
+                                                        
+                                                                    $query = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
+                                                                    $result = mysqli_query($conn, $query);
+                                                                    while ($row = mysqli_fetch_array($result)) {
+                        
+                                                                ?>
                                                                 <tbody>
                                                                     <tr>
-                                                                        <th>Juan Delacruz</th>
-                                                                        <td>Sponsor 1</td>
-                                                                        <td>Sample Skills</td>
+                                                                        <th><?php echo $row['name'] ?></th>
+                                                                        <td><?php echo $row['position'] ?></td>
+                                                                        <td><?php echo $row['company'] ?></td>
+                                                                        <td><?php echo $row['status'] ?></td>
+                                                                        <td>
+                                                                            <form action="./include/process.php" method="POST">
+                                                                                <input type="hidden" name='sponsor_id' value="<?php echo $row['id'] ?>">
+                                                                                <input type="hidden" name='sponsor' value="<?php echo $row['name'] ?>">
+                                                                                <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
+                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+
+                                                                                <button class="btn btn-success" name="addSponsor">Add</button>
+                                                                            </form>
+                                                         
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
+                                                                <?php 
+                                                                }
+                                                                ?>
                                                             </table>
                                                         </div>
                                                         <div class="modal-footer">
@@ -363,20 +442,6 @@
                                                 $result = mysqli_query($conn, $query);
                                                 while ($row = mysqli_fetch_array($result)) {
 
-                                                
-                                                $start_timestamp = strtotime($row['startdate']);
-                                                $end_timestamp = strtotime($row['enddate']);
-
-                                                // Calculate the difference in seconds
-                                                $duration_seconds = $end_timestamp - $start_timestamp;
-
-                                                // Calculate hours, minutes, and seconds
-                                                $hours = floor($duration_seconds / 3600);
-                                                $minutes = floor(($duration_seconds % 3600) / 60);
-                                                $seconds = $duration_seconds % 60;
-
-                                                // Format the duration
-                                                $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds)
                                             ?>
                                             <h6>Event Duration: <b><?php echo $duration; ?></b></h6>
                                             <hr>
@@ -395,7 +460,7 @@
                                             <tr>
                                                 <th scope="col">Part Name</th>
                                                 <th scope="col">Description</th>
-                                                <th scope="col">People</th>
+                                                <th scope="col">Guests</th>
                                                 <th scope="col">Volunteers</th>
                                                 <th scope="col">Time Start</th>
                                                 <th scope="col">Time End</th>
@@ -413,12 +478,12 @@
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
                                                 <td><?php echo $desc ?></td>
-                                                <td>People Sample</td>
+                                                <td>Guests Sample</td>
                                                 <td>Volunteer Sample</td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                 <td><?php echo $duration; ?></td>
-                                                <td>Sample sponsors</td>
+                                                <td><?php echo $row['sponsors'] ?></td>
                                             </tr>
                                             <?php 
                                             }

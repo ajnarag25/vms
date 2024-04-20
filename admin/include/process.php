@@ -280,5 +280,64 @@
     
     }
 
+    // ADD SPONSORS
+    if (isset($_POST['addSponsor'])) {
+        $sponsor_id = $_POST['sponsor_id'];
+        $sponsor = $_POST['sponsor'];
+        $part_id = $_POST['part_id'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($part_id)) {
+            $result = $conn->query("SELECT sponsors_id, sponsors FROM events WHERE id = $part_id");
+            $row = $result->fetch_assoc();
+            $currentSponsors_id = $row['sponsors_id'];
+            $currentSponsors = $row['sponsors'];
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($part_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            if (strpos($currentSponsors_id, $sponsor_id) !== false) {
+                $_SESSION['status'] = 'Sponsor already existing';
+                $_SESSION['status_icon'] = 'warning';
+                header('Location: ../'. $url);
+                exit();
+            }
+
+            if ($currentSponsors && $currentSponsors_id) {
+                $updatedSponsors_id = $currentSponsors_id . ', ' . $sponsor_id;
+                $updatedSponsors = $currentSponsors . ', ' . $sponsor;
+            } else {
+                $updatedSponsors_id = $sponsor_id;
+                $updatedSponsors = $sponsor;
+            }
+
+            $conn->query("UPDATE events SET sponsors_id = '$updatedSponsors_id', sponsors = '$updatedSponsors' WHERE id = $part_id") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Added Sponsor';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    
+    
+
 
 ?>
