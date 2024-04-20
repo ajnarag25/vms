@@ -120,7 +120,7 @@
                         </div>
                         <div class="card p-3 mt-3">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="GSTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>

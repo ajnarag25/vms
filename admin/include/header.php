@@ -15,6 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <link href="../assets/logo.png" rel="icon">
 <link href="../css/styles.css" rel="stylesheet" />
+<link href="../css/datatable.css" rel="stylesheet" />
 <!-- <link rel="stylesheet" href="../css/custom_style.css"> -->
 <link rel="stylesheet" type="text/css" href="../css/datatable.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sofia+Sans:wght@400&display=swap"
