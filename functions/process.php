@@ -86,7 +86,7 @@
             $_SESSION['status_icon'] = 'success';
             header('location:../index.php');
         }else{
-            $_SESSION['status'] = 'An Error Occured!';
+            $_SESSION['status'] = 'Wrong OTP Number';
             $_SESSION['status_icon'] = 'error';
             header('location:../otp.php?id='.$id);
         }
