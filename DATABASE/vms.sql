@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 10:49 AM
+-- Generation Time: Apr 20, 2024 at 05:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,15 +34,18 @@ CREATE TABLE `accounts` (
   `contact` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
-  `otp` int(11) NOT NULL
+  `otp` int(11) NOT NULL,
+  `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `username`, `email`, `contact`, `password`, `status`, `otp`) VALUES
-(9, 'ajnarag25', 'ajnarag25@gmail.com', '09089637505', '$2y$10$42IIqj.WrlIfKxZ.BlWAxua7iJZjf8xYuLNCBPQFa4f9De.qnQQvy', 'Verified', 31);
+INSERT INTO `accounts` (`id`, `username`, `email`, `contact`, `password`, `status`, `otp`, `type`) VALUES
+(1, 'admin', 'lambatprivate@gmail.com', '09619483256', '$2y$10$s1rAEKmhI0w6q7uH4raz.OvjialSDDCt1abS40Ht7GRg/GtDyuNXK', 'Verified', 3497, 'superadmin'),
+(2, 'ajnarag25', 'ajnarag25@gmail.com', '09089637505', '$2y$10$NjylAJir5Dv.SAITj157..KpnEIMbt1WVLz.01xXX3VWI77IWfmM2', 'Verified', 1363, 'admin'),
+(3, 'mark25', 'markzelon25@gmail.com', '09555497136', '$2y$10$cL185sIBRABFggvyEKwSy.1VpPRtstrC3GkoPzkzGQ1P1qAi.d3xK', 'Verified', 302, 'volunteer');
 
 -- --------------------------------------------------------
 
@@ -57,7 +60,13 @@ CREATE TABLE `events` (
   `startdate` text NOT NULL,
   `enddate` text NOT NULL,
   `allday` varchar(20) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `guests` varchar(50) NOT NULL,
+  `guests_id` varchar(255) NOT NULL,
+  `volunteer` varchar(50) NOT NULL,
+  `volunteer_id` varchar(255) NOT NULL,
+  `sponsors` varchar(50) NOT NULL,
+  `sponsors_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -127,7 +136,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `events`
