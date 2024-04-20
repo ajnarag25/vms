@@ -23,22 +23,30 @@
                 $end = $eventData['eventData']['end'];
                 $allday = $eventData['eventData']['allDay'];
 
-                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
-                VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '')") or die($conn->error);
+                $sql = "SELECT * FROM events WHERE startdate='$start' AND enddate='$end'";
+                $result = mysqli_query($conn, $sql);
 
-                $inserted_id = $conn->insert_id;
+                if(!$result->num_rows > 0){
+                    $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
+                    VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '')") or die($conn->error);
+    
+                    $inserted_id = $conn->insert_id;
+    
+                    $response = array(
+                        'id' => $inserted_id,
+                        'event_id' => $event_id,
+                        'title' => $title,
+                        'start' => $start,
+                        'end' => $end,
+                        'allday' => $allday
+                    );
+    
+                    $json_response = json_encode($response);
+                    echo $json_response;
+                }else{
+                    echo 'Existing Event';
+                }
 
-                $response = array(
-                    'id' => $inserted_id,
-                    'event_id' => $event_id,
-                    'title' => $title,
-                    'start' => $start,
-                    'end' => $end,
-                    'allday' => $allday
-                );
-
-                $json_response = json_encode($response);
-                echo $json_response;
 
             }elseif($action == 'savePart'){
                 $event_id = $eventData['eventData']['event_id'];

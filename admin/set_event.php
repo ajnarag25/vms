@@ -354,23 +354,29 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ action: 'saveEvent', eventData: saveData }),
                 success: function(response) {
-                    var getData = JSON.parse(response);
+                    if (response == 'Existing Event'){
+                        alert('There is an Existing Event!');
+                        location.reload()
+                    }else{
+                        var getData = JSON.parse(response);
+                        var e_id = getData.id;
+                        var e_event_id = 0;
+                        var e_title = getData.title; 
+                        var e_start = getData.start; 
+                        var e_end = getData.end; 
+                        var e_allday = getData.allday; 
 
-                    var e_id = getData.id;
-                    var e_event_id = 0;
-                    var e_title = getData.title; 
-                    var e_start = getData.start; 
-                    var e_end = getData.end; 
-                    var e_allday = getData.allday; 
-                    
-                    var url = 'event_plan.php?id=' + encodeURIComponent(e_id) +
-                    '&event_id=' + encodeURIComponent(e_event_id) +
-                    '&allday=' + encodeURIComponent(e_allday) +
-                    '&title=' + encodeURIComponent(e_title) +
-                    '&start=' + encodeURIComponent(e_start) +
-                    '&end=' + encodeURIComponent(e_end);
+                        var url = 'event_plan.php?id=' + encodeURIComponent(e_id) +
+                        '&event_id=' + encodeURIComponent(e_event_id) +
+                        '&allday=' + encodeURIComponent(e_allday) +
+                        '&title=' + encodeURIComponent(e_title) +
+                        '&start=' + encodeURIComponent(e_start) +
+                        '&end=' + encodeURIComponent(e_end);
 
-                    window.location.href = url;
+                        window.location.href = url;
+                    }
+  
+                  
                 },
                 error: function(xhr, status, error) {
                     console.error('Error saving event to database:', error);
