@@ -96,29 +96,15 @@
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview"
                                 type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
                         </li>
-                        <?php 
-                                                        
-                            $query = "SELECT * FROM events WHERE event_id = $id";
-                            $result = mysqli_query($conn, $query);
-                            $getData = mysqli_fetch_array($result);
-                            
-                            if($getData == null){
-                                echo '';
-                            }else{
-                                ?>
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#agenda" type="button"
-                                        role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticket" type="button"
-                                        role="tab" aria-controls="ticket" aria-selected="false">Ticket</button>
-                                </li>
-                            <?php
-                            }
-                        ?>
 
-              
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#agenda" type="button"
+                                role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticket" type="button"
+                                role="tab" aria-controls="ticket" aria-selected="false">Ticket</button>
+                        </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Overview -->
@@ -156,7 +142,7 @@
                                                 <button class="btn btn-success w-100" type="submit" name="save_event">Save</button>
                                             </form>
                                             <hr>
-                                            <div class="mt-3">
+                                            <div class="mt-3 table-responsive">
                                                 <h5><b>Agenda:</b></h5>
                                                 <table class="table">
                                                     <thead>
@@ -217,9 +203,12 @@
                                 <div class="col-md-5">
                                     <div class="card mb-4 ">
                                         <div class="card-body p-4">
-                                            <div class="text-center">
+                                            <!-- <div class="text-center">
                                                 <h4> <b>Event Start</b></h4>
                                                 <p class="text-danger"><i>* Please select a specific time in the calendar. <br> (One Time Only)</i></p>
+                                            </div> -->
+                                            <div class="text-center">
+                                                <h4> <b>Events</b></h4>
                                             </div>
 
                                             <?php 
@@ -296,7 +285,7 @@
                                 <div class="card-body p-4">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#addPart">Add Part</button>
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPart">Add Part <i class="fa-solid fa-plus"></i></button>
 
                                             <!-- Modal Event Start -->
                                             <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
@@ -309,153 +298,59 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <?php 
-                                                        
-                                                            $query = "SELECT * FROM events WHERE event_id = $id";
-                                                            $result = mysqli_query($conn, $query);
-                                                            while ($row = mysqli_fetch_array($result)) {
-                                                            $part_id = $row['id'];
-                                                        ?>
                                                         <form action="./include/process.php" method="POST">
                                                             <div class="mt-2">
                                                                 <label for="">Part Name:</label>
-                                                                <h5><strong><?php echo $row['title']; ?></strong></h5>
+                                                                <input class="form-control" type="text" name="part_name" required>
                                                                 <label for="" class="mt-2">Description:</label>
-                                                                <?php echo $desc; ?>
+                                                                <textarea class="form-control" name="desc" id="" cols="10" rows="5"></textarea>
                                                                 <hr>
                                                                 <label for="">Guests / Volunteer:</label>
-                                                                <select class="form-select" name="" id="">
+                                                                <select class="form-select" name="gv_people" id="">
                                                                     <option value="">Sample People / Volunteer</option>
                                                                     <option value="">Others</option>
                                                                 </select>
                                                                 <label for="" class="mt-3">Volunteer:</label>
-                                                                <select class="form-select" name="" id="">
+                                                                <select class="form-select" name="volunteer" id="">
                                                                     <option value="">Sample Volunteer</option>
                                                                     <option value="">Others</option>
                                                                 </select>
                                                                 <hr>
-                                                                <label for="">Time:</label>
-                                                                <h6 class="mt-2"><?php echo date('h:i:s A', strtotime($row['startdate'])); ?> - <?php echo date('h:i:s A', strtotime($row['enddate'])); ?></h6>
-                                                                
-                                                                <label for="" class="mt-3">Duration:</label>    
-                                                                <input class="form-control" type="number" name="duration" required>
+                                                                <label for="">Set Time:</label>
+                                                                <br>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input class="form-control" name="from" type="time" required>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <input class="form-control" name="to" type="time" required>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                 
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
-                                                            <input type="hidden" name="current_start" value="<?php echo $row['startdate'] ?>">
-                                                            <input type="hidden" name="current_end" value="<?php echo $row['enddate'] ?>">
                                                             <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
-                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                             <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                             <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                             <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                             <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                             <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
 
-                                                            <button type="submit" name="addPart" class="btn btn-warning text-white">Add Part</button>
+                                                            <button type="submit" name="addPart" class="btn btn-success text-white">Add Part</button>
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                         
                                                         </div>
-                                                        <?php 
-                                                        }
-                                                        ?>
+                                            
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-                                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors</button>
-
-                                            <!-- Modal Add Sponsors -->
-                                            <div class="modal modal-lg fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
-                                            aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-success">
-                                                            <h5 class=" modal-title text-white">Add Sponsors</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <table class="table" id="Sponsors">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">Name</th>
-                                                                        <th scope="col">Position</th>
-                                                                        <th scope="col">Company</th>
-                                                                        <th scope="col">Status</th>
-                                                                        <th scope="col">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <?php 
-                                                        
-                                                                    $query = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
-                                                                    $result = mysqli_query($conn, $query);
-                                                                    while ($row = mysqli_fetch_array($result)) {
-                        
-                                                                ?>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th><?php echo $row['name'] ?></th>
-                                                                        <td><?php echo $row['position'] ?></td>
-                                                                        <td><?php echo $row['company'] ?></td>
-                                                                        <td><?php echo $row['status'] ?></td>
-                                                                        <td>
-                                                                            <form action="./include/process.php" method="POST">
-                                                                                <input type="hidden" name='sponsor_id' value="<?php echo $row['id'] ?>">
-                                                                                <input type="hidden" name='sponsor' value="<?php echo $row['name'] ?>">
-                                                                                <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
-                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
-                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
-                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
-                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
-                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
-                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
-                                                                                <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
-
-                                                                                <button class="btn btn-success" name="addSponsor">Add</button>
-                                                                            </form>
-                                                         
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <?php 
-                                                                }
-                                                                ?>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 text-center">
-                                            <?php 
-                                                $query = "SELECT * FROM events WHERE event_id = $id";
-                                                $result = mysqli_query($conn, $query);
-                                                while ($row = mysqli_fetch_array($result)) {
-
-                                            ?>
-                                            <h6>Event Duration: <b><?php echo $duration; ?></b></h6>
-                                            <hr>
-                                            <h6>Agenda Overview:</h6>
-                                            <h6>Part Name: <b><?php echo $row['title']; ?></b> </h6>
-                                            <h6>Start/End: <b><?php echo date('h:i:s A', strtotime($row['startdate'])); ?> - <?php echo date('h:i:s A', strtotime($row['enddate'])); ?></b></h6>
-                                            <?php 
-                                            } 
-                                            ?>
                                         </div>
                                     </div>
-                                                        
                                     <br>
-                                    <table class="table">
+                                    <table class="table" id="Agenda">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Part Name</th>
@@ -466,24 +361,132 @@
                                                 <th scope="col">Time End</th>
                                                 <th scope="col">Event Duration</th>
                                                 <th scope="col">Sponsors</th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        
                                             <?php 
                                                 $query = "SELECT * FROM events WHERE event_id = $id";
                                                 $result = mysqli_query($conn, $query);
                                                 while ($row = mysqli_fetch_array($result)) {
-
+                                                $part_id = $row['id'];
                                             ?>
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
-                                                <td><?php echo $desc ?></td>
+                                                <td><?php echo $row['description'] ?></td>
                                                 <td>Guests Sample</td>
                                                 <td>Volunteer Sample</td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                 <td><?php echo $duration; ?></td>
                                                 <td><?php echo $row['sponsors'] ?></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-warning text-white" title="Add Duration" data-bs-toggle="modal" data-bs-target="#addDuration<?php echo $row['id'] ?>"><i class="fa-solid fa-clock"></i></button>
+
+                                                    <!-- Modal Add Duration-->
+                                                    <div class="modal fade" id="addDuration<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addDuration" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form action="./include/process.php" method="POST">
+                                                                    <div class="modal-header bg-success text-white">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Add Duration</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <label for="">Duration:</label>    
+                                                                        <input class="form-control" type="number" name="duration" required>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                                                                        <input type="hidden" name="current_end" value="<?php echo $row['enddate'] ?>">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                        <button type="submit" name="addDuration" class="btn btn-warning text-white">Add Duration</button>
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </form>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <button class="btn btn-sm btn-success" title="Add Ticket"><i class="fa-solid fa-ticket"></i></button>
+
+                                                    <button class="btn btn-sm btn-secondary" title="Add Sponsors" data-bs-toggle="modal" data-bs-target="#addSponsors"><i class="fa-solid fa-users"></i></button>
+
+                                                    <!-- Modal Add Sponsors -->
+                                                    <div class="modal modal-lg fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-success">
+                                                                    <h5 class=" modal-title text-white">Add Sponsors</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <table class="table" id="Sponsors">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Position</th>
+                                                                                <th scope="col">Company</th>
+                                                                                <th scope="col">Status</th>
+                                                                                <th scope="col">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                    
+                                                                        <tbody>
+                                                                                
+                                                                        </tbody>
+                                                              
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
+
+                                                    <!-- Modal Delete Part-->
+                                                    <div class="modal fade" id="deletePart<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addPart" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form action="./include/process.php" method="POST">
+                                                                    <div class="modal-header bg-success text-white">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Delete Part</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-center">
+                                                                        <h5> <b>Are you sure you want to delete this part event?</b></h5>
+                                                                        <p class="text-danger">* This action is irreversible!</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                        <button type="submit" name="delPart" class="btn btn-danger text-white">Delete</button>
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </td>
                                             </tr>
                                             <?php 
                                             }
@@ -651,83 +654,12 @@
             initialView: 'timeGridDay',
             initialDate: <?php echo json_encode($start) ?>,
             events: <?php echo json_encode($events) ?>,
-            selectable: true,
-            // editable: true,
             selectMirror: true,
-            allDaySlot: false,
-            select: function(arg) {
-                var title = prompt('Event Title:');
-                if (title) {
-                    var eventData = {
-                        event_id:<?php echo json_encode($id) ?>,
-                        title: title,
-                        start: arg.start,
-                        end: arg.end,
-                        allDay: arg.allDay,
-                        desc: <?php echo json_encode($desc) ?>,
-                    };
-
-                    // Save event to database
-                    saveEventToDatabase(eventData);
-                    // location.reload();
-                }
-                calendar.unselect();
-            },
-            eventClick: function(arg) {
-                if (confirm('Are you sure you want to delete this event?')) {
-                    // Remove event from calendar
-                    arg.event.remove();
-                    
-                    // Delete event from database
-                    deleteEventFromDatabase(arg.event);
-                    location.reload();
-                }
-            }
+            allDaySlot: false
 
         });
 
         calendar.render();
-
-        function saveEventToDatabase(saveData) {
-            // Send event data to server for saving
-            $.ajax({
-                url: './include/process.php',
-                name:'calendar',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ action: 'savePart', eventData: saveData }),
-                success: function(response) {
-                    if (response == 'Existing event'){
-                        alert('There is an Existing Event!');
-                        location.reload()
-                    }else{
-                        console.log(response);
-                        location.reload();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error saving event to database:', error);
-                }
-            });
-        }
-
-        function deleteEventFromDatabase(event) {
-            // Send event ID to server for deletion
-            var deleteData = { delId: event.id };
-            $.ajax({
-                url: './include/process.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ action: 'delete', eventData: deleteData }),
-                success: function(response) {
-                    console.log(response);
-                    //console.log('Event deleted from database:', event);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error deleting event from database:', error);
-                }
-            });
-        }
 
     });
 
