@@ -417,17 +417,15 @@
 
                                                     <button class="btn btn-sm btn-success" title="Add Ticket"><i class="fa-solid fa-ticket"></i></button>
 
-                                                    <button class="btn btn-sm btn-secondary" title="Add Sponsors" data-bs-toggle="modal" data-bs-target="#addSponsors"><i class="fa-solid fa-users"></i></button>
+                                                    <button class="btn btn-sm btn-secondary" title="Add Sponsors" data-bs-toggle="modal" data-bs-target="#addSponsors<?php echo $part_id ?>"><i class="fa-solid fa-users"></i></button>
 
                                                     <!-- Modal Add Sponsors -->
-                                                    <div class="modal modal-lg fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors"
-                                                        aria-hidden="true">
+                                                    <div class="modal modal-lg fade" id="addSponsors<?php echo $part_id ?>" tabindex="-1" aria-labelledby="addSponsors" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-success">
                                                                     <h5 class=" modal-title text-white">Add Sponsors</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <table class="table" id="Sponsors">
@@ -440,21 +438,43 @@
                                                                                 <th scope="col">Action</th>
                                                                             </tr>
                                                                         </thead>
-                                                                    
                                                                         <tbody>
-                                                                                
+                                                                            <?php 
+                                                                                $query_sponsors = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
+                                                                                $result_sponsors = mysqli_query($conn, $query_sponsors);
+                                                                                while ($sponsors = mysqli_fetch_array($result_sponsors)) {
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td><?php echo $sponsors['name'] ?></td>
+                                                                                <td><?php echo $sponsors['position'] ?></td>
+                                                                                <td><?php echo $sponsors['company'] ?></td>
+                                                                                <td><?php echo $sponsors['status'] ?></td>
+                                                                                <td>
+                                                                                    <form action="./include/process.php" method="POST">
+                                                                                        <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
+                                                                                        <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
+                                                                                        <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
+                                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                                        <button class="btn btn-success" name="addSponsor">Add</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <?php } ?>
                                                                         </tbody>
-                                                              
                                                                     </table>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    
                                                     <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
 
                                                     <!-- Modal Delete Part-->
