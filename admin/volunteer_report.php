@@ -93,6 +93,7 @@
                                         <th scope="col">Ticket</th>
                                     </tr>
                                 </thead>
+                                <!-- php for selecting account on accounts table  -->
                                 <?php
 
                                 $query = "SELECT * FROM accounts WHERE type!='superadmin'";
