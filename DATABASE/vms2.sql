@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2024 at 11:00 AM
+-- Generation Time: Apr 23, 2024 at 11:44 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -133,18 +133,19 @@ CREATE TABLE `tickets` (
 --
 
 CREATE TABLE `volunteer_logtime` (
+  `log_ID` int(11) NOT NULL,
   `volunteer_id` int(11) NOT NULL,
   `login_time` datetime NOT NULL,
   `logout_time` datetime DEFAULT NULL,
-  `username` int(11) NOT NULL
+  `username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `volunteer_logtime`
 --
 
-INSERT INTO `volunteer_logtime` (`volunteer_id`, `login_time`, `logout_time`, `username`) VALUES
-(4, '2024-04-23 16:49:48', NULL, 0);
+INSERT INTO `volunteer_logtime` (`log_ID`, `volunteer_id`, `login_time`, `logout_time`, `username`) VALUES
+(1, 4, '2024-04-23 17:43:23', NULL, 'Ymann');
 
 --
 -- Indexes for dumped tables
@@ -178,7 +179,7 @@ ALTER TABLE `tickets`
 -- Indexes for table `volunteer_logtime`
 --
 ALTER TABLE `volunteer_logtime`
-  ADD PRIMARY KEY (`volunteer_id`);
+  ADD PRIMARY KEY (`log_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -207,6 +208,12 @@ ALTER TABLE `guest_sponsors`
 --
 ALTER TABLE `tickets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `volunteer_logtime`
+--
+ALTER TABLE `volunteer_logtime`
+  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
