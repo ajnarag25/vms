@@ -1,14 +1,23 @@
 <?php
 include('connection.php');
-session_start();
+include('currentdatetime.php');
 
 if (isset($_GET['logout'])) {
-    $login_time = $_SESSION['login_time'];
+    // data for logout session
+
+    $logout_time = $_SESSION['login_time'];
     $volunteer_id = $_SESSION['id'];
     $username = $_SESSION['username'];
 
-    session_destroy();
-    header('location: ../index.php');
+    $selectData = "SELECT * FROM volunteer_logtime WHERE logout_time='' AND volunteer_id ='$volunteer_id' AND username ='$username'";
+    $logout = mysqli_query($conn, $selectData);
+    $getData = mysqli_fetch_array($logout);
+    if ($getData != null) {
+        $update_sql = "UPDATE volunteer_logtime SET logout_time='$logout_time' WHERE logout_time='' AND volunteer_id ='$volunteer_id' AND username ='$username'";
+        $conn->query($update_sql) or die($conn->error);
+        session_destroy();
+        header('location: ../index.php');
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
