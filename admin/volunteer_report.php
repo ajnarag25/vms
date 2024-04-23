@@ -93,14 +93,25 @@
                                         <th scope="col">Ticket</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Name Sample</th>
-                                        <td>Status Sample</td>
-                                        <td>Event Sample</td>
-                                        <td>Ticket Sample</td>
-                                    </tr>
-                                </tbody>
+                                <!-- php for selecting account on accounts table  -->
+                                <?php
+
+                                $query = "SELECT * FROM accounts WHERE type!='superadmin'";
+                                $result = mysqli_query($conn, $query);
+                                while ($row = mysqli_fetch_array($result)) {
+
+                                ?>
+                                    <tbody>
+                                        <tr>
+                                            <th><?php echo $row['username'] ?></th>
+                                            <td>Status Sample</td>
+                                            <td>Event Sample</td>
+                                            <td>Ticket Sample</td>
+                                        </tr>
+                                    </tbody>
+                                <?php
+                                }
+                                ?>
                             </table>
 
                         </div>
@@ -111,8 +122,7 @@
                                 <div class="card-body p-4">
                                     <div class="text-center mb-4">
                                         <div class="progress mt-2">
-                                            <div class="progress-bar bg-success w-50" role="progressbar"
-                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                            <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
                                             </div>
                                         </div>
                                         <div class="row mt-3">
@@ -133,8 +143,7 @@
                                             Calendar
                                         </div>
                                         <div class="card-body p-4">
-                                            <div id="bsb-calendar-1"
-                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            <div id="bsb-calendar-1" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                         </div>
                                     </div>
