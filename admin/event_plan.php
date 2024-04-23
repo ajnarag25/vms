@@ -163,7 +163,6 @@
                                                             $result = mysqli_query($conn, $query);
                                                             while ($row = mysqli_fetch_array($result)) {
                                                             
-                                                                            
                                                             $start_timestamp = strtotime($row['startdate']);
                                                             $end_timestamp = strtotime($row['enddate']);
 
@@ -186,7 +185,7 @@
                                                             <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                             <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                             <td><?php echo $duration; ?></td>
-                                                            <td>Sample sponsors</td>
+                                                            <td><?php echo $row['sponsors'] ?></td>
                                                         </tr>
                                                         <?php 
                                                         }

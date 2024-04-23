@@ -57,6 +57,10 @@
             //     $allday = $eventData['eventData']['allDay'];
             //     $desc = $eventData['eventData']['desc'];
 
+            //     echo $start;
+            //     echo $end;
+
+            //     exit(); 
             //     $sql = "SELECT event_id FROM events WHERE event_id='$event_id'";
             //     $result = mysqli_query($conn, $sql);
 
@@ -158,9 +162,18 @@
         $main_allday = $_POST['main_allday'];
         $main_desc = $_POST['main_desc'];
 
-        $start = date('Y-m-d', strtotime($main_start)).'T'. date("H:i:s", strtotime($from)).'.000Z';
-        $end = date('Y-m-d', strtotime($main_start)).'T'. date("H:i:s", strtotime($to)).'.000Z';
+        echo $main_start;
+        // Set default timezone to UTC
+        date_default_timezone_set('UTC');
+
+        // Convert $main_start to UTC
+        $main_start_utc = strtotime($main_end . ' UTC');
+
+        $utc_offset = '+08:00'; 
         
+        $start = date('Y-m-d\TH:i:s', strtotime($from . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
+        $end = date('Y-m-d\TH:i:s', strtotime($to . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
+
         if (!empty($part_name) && !empty($from) && !empty($to)) {
 
             $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
