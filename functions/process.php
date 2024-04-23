@@ -56,12 +56,14 @@ if (isset($_POST['login'])) {
         if (password_verify($pass, $getData['password']) and $getData['status'] == 'Verified' and $getData['type'] == 'volunteer') {
             $_SESSION['volunteer'] = $getData;
             unset($_SESSION['status']);
+            // preparation code for session
             $_SESSION['id'] = $getData['id'];
             $_SESSION['username'] = $getData['username'];
+            // preparation of data for database
             $login_time = $_SESSION['login_time'];
             $volunteer_id = $_SESSION['id'];
             $username = $_SESSION['username'];
-
+            // sql for putting session login_time with volunteer id and username into database
             $getlogin = "INSERT INTO volunteer_logtime (volunteer_id, login_time, username) 
                                 VALUES ('$volunteer_id ', '$login_time' , '$username')";
             $conn->query($getlogin) or die($conn->error);
