@@ -162,11 +162,8 @@
         $main_allday = $_POST['main_allday'];
         $main_desc = $_POST['main_desc'];
 
-        echo $main_start;
-        // Set default timezone to UTC
         date_default_timezone_set('UTC');
 
-        // Convert $main_start to UTC
         $main_start_utc = strtotime($main_end . ' UTC');
 
         $utc_offset = '+08:00'; 
