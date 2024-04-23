@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2024 at 11:44 AM
+-- Generation Time: Apr 23, 2024 at 02:05 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -136,7 +136,7 @@ CREATE TABLE `volunteer_logtime` (
   `log_ID` int(11) NOT NULL,
   `volunteer_id` int(11) NOT NULL,
   `login_time` datetime NOT NULL,
-  `logout_time` datetime DEFAULT NULL,
+  `logout_time` datetime NOT NULL,
   `username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -145,7 +145,20 @@ CREATE TABLE `volunteer_logtime` (
 --
 
 INSERT INTO `volunteer_logtime` (`log_ID`, `volunteer_id`, `login_time`, `logout_time`, `username`) VALUES
-(1, 4, '2024-04-23 17:43:23', NULL, 'Ymann');
+(1, 4, '2024-04-23 17:43:23', '2024-04-23 19:49:40', 'Ymann'),
+(2, 4, '2024-04-23 18:20:43', '2024-04-23 19:49:40', 'Ymann'),
+(3, 4, '2024-04-23 18:22:37', '2024-04-23 19:49:40', 'Ymann'),
+(4, 4, '2024-04-23 18:25:07', '2024-04-23 19:49:40', 'Ymann'),
+(5, 4, '2024-04-23 18:42:04', '2024-04-23 19:49:40', 'Ymann'),
+(6, 4, '2024-04-23 18:51:02', '2024-04-23 19:49:40', 'Ymann'),
+(7, 4, '2024-04-23 18:57:11', '2024-04-23 19:49:40', 'Ymann'),
+(8, 4, '2024-04-23 19:15:29', '2024-04-23 19:49:40', 'Ymann'),
+(9, 4, '2024-04-23 19:29:41', '2024-04-23 19:49:40', 'Ymann'),
+(10, 4, '2024-04-23 19:33:03', '2024-04-23 19:49:40', 'Ymann'),
+(11, 4, '2024-04-23 19:48:23', '2024-04-23 19:49:40', 'Ymann'),
+(12, 5, '2024-04-23 19:54:27', '2024-04-23 20:02:30', 'teo'),
+(13, 4, '2024-04-23 19:54:41', '2024-04-23 20:01:15', 'Ymann'),
+(14, 4, '2024-04-23 20:03:53', '2024-04-23 20:03:56', 'Ymann');
 
 --
 -- Indexes for dumped tables
@@ -213,7 +226,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `volunteer_logtime`
 --
 ALTER TABLE `volunteer_logtime`
-  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

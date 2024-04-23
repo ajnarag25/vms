@@ -8,7 +8,7 @@ if (isset($_GET['logout'])) {
     $logout_time = $_SESSION['login_time'];
     $volunteer_id = $_SESSION['id'];
     $username = $_SESSION['username'];
-
+    // sql for saving the current logout time to the database volunteer_logtime
     $selectData = "SELECT * FROM volunteer_logtime WHERE logout_time='' AND volunteer_id ='$volunteer_id' AND username ='$username'";
     $logout = mysqli_query($conn, $selectData);
     $getData = mysqli_fetch_array($logout);
