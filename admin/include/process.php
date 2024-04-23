@@ -48,39 +48,45 @@
                 }
 
 
-            }elseif($action == 'savePart'){
-                $event_id = $eventData['eventData']['event_id'];
-                $title = $eventData['eventData']['title'];
-                $start = $eventData['eventData']['start'];
-                $end = $eventData['eventData']['end'];
-                $allday = $eventData['eventData']['allDay'];
-                $desc = $eventData['eventData']['desc'];
+            }
+            // elseif($action == 'savePart'){
+            //     $event_id = $eventData['eventData']['event_id'];
+            //     $title = $eventData['eventData']['title'];
+            //     $start = $eventData['eventData']['start'];
+            //     $end = $eventData['eventData']['end'];
+            //     $allday = $eventData['eventData']['allDay'];
+            //     $desc = $eventData['eventData']['desc'];
 
-                $sql = "SELECT event_id FROM events WHERE event_id='$event_id'";
-                $result = mysqli_query($conn, $sql);
+            //     echo $start;
+            //     echo $end;
 
-                if ($result->num_rows > 0) {
-                    echo 'Existing event';
-                }else{
-                    $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
-                    VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '$desc')") or die($conn->error);
-                    $inserted_id = $conn->insert_id;
-                    $response = array(
-                        'id' => $inserted_id,
-                        'event_id' => $event_id,
-                        'title' => $title,
-                        'start' => $start,
-                        'end' => $end,
-                        'allday' => $allday,
-                        'desc' => $desc
-                    );
+            //     exit(); 
+            //     $sql = "SELECT event_id FROM events WHERE event_id='$event_id'";
+            //     $result = mysqli_query($conn, $sql);
 
-                    $json_response = json_encode($response);
-                    echo $json_response;
+            //     if ($result->num_rows > 0) {
+            //         echo 'Existing event';
+            //     }else{
+            //         $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
+            //         VALUES('$event_id' ,'$title', '$start', '$end', '$allday', '$desc')") or die($conn->error);
+            //         $inserted_id = $conn->insert_id;
+            //         $response = array(
+            //             'id' => $inserted_id,
+            //             'event_id' => $event_id,
+            //             'title' => $title,
+            //             'start' => $start,
+            //             'end' => $end,
+            //             'allday' => $allday,
+            //             'desc' => $desc
+            //         );
 
-                }
+            //         $json_response = json_encode($response);
+            //         echo $json_response;
 
-            }elseif($action == 'update'){
+            //     }
+
+            // }
+            elseif($action == 'update'){
                 $id = $eventData['eventData']['updtId'];
                 $title = $eventData['eventData']['title'];
                 $start = $eventData['eventData']['start'];
@@ -142,28 +148,35 @@
 
     // ADD PART
     if (isset($_POST['addPart'])) {
-        $id = $_POST['id'];
-        $duration = $_POST['duration'];
-        $current_end = $_POST['current_end'];
+        $part_name = $_POST['part_name'];
+        $desc = $_POST['desc'];
+        $gv_people = $_POST['gv_people'];
+        $volunteer = $_POST['volunteer'];
+        $from = $_POST['from'];
+        $to = $_POST['to'];
 
         $main_id = $_POST['main_id'];
-        $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
         $main_start = $_POST['main_start'];
         $main_end = $_POST['main_end'];
         $main_allday = $_POST['main_allday'];
         $main_desc = $_POST['main_desc'];
 
-        $current_end_date = new DateTime($current_end);
-        $current_end_date->modify("+ $duration hours");
-        $new_end_date = $current_end_date->format('Y-m-d\TH:i:s.000\Z');
+        date_default_timezone_set('UTC');
 
-        if (!empty($id)) {
+        $main_start_utc = strtotime($main_end . ' UTC');
 
-            $conn->query("UPDATE events SET enddate = '$new_end_date' WHERE id = $id") or die($conn->error);
+        $utc_offset = '+08:00'; 
+        
+        $start = date('Y-m-d\TH:i:s', strtotime($from . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
+        $end = date('Y-m-d\TH:i:s', strtotime($to . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
+
+        if (!empty($part_name) && !empty($from) && !empty($to)) {
+
+            $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
+            VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
-            '&event_id=' . urlencode($main_event_id) .
             '&allday=' . urlencode($main_allday) .
             '&title=' . urlencode($main_title) .
             '&start=' . urlencode($main_start) .
@@ -219,7 +232,7 @@
         }
     }
 
-      // DELETE TICKET
+    // DELETE TICKET
     if (isset($_POST['delTicket'])) {
         $id = $_POST['ticket_id'];
 
@@ -345,7 +358,79 @@
     }
 
     
-    
+    // ADD DURATION
+    if (isset($_POST['addDuration'])) {
+        $id = $_POST['id'];
+        $duration = $_POST['duration'];
+        $current_end = $_POST['current_end'];
 
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $current_end_date = new DateTime($current_end);
+        $current_end_date->modify("+ $duration hours");
+        $new_end_date = $current_end_date->format('Y-m-d\TH:i:s.000\Z');
+
+        if (!empty($id)) {
+
+            $conn->query("UPDATE events SET enddate = '$new_end_date' WHERE id = $id") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Add Duration Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    if (isset($_POST['delPart'])) {
+        $id = $_POST['id'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($id)) {
+
+            $conn->query("DELETE FROM events WHERE id='$id'") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Part Event Successfully Deleted';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
 
 ?>
