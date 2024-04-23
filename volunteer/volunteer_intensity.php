@@ -59,7 +59,7 @@
                             <h4 class="mt-4"><b>Volunteer Intensity</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
-                            <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
+                            <h4 class="mt-4"> <span id="currentDate"></span> </h4>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -99,7 +99,24 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch and update the current date
+            function updateDate() {
+                $.ajax({
+                    url: "./include/currentdatetime.php",
+                    type: "GET",
+                    success: function(data) {
+                        $("#currentDate").text(data);
+                    }
+                });
+            }
 
+            // Initial update
+            updateDate();
+            var intervalId = setInterval(updateDate, 1000);
+        });
+    </script>
 </body>
 
 </html>

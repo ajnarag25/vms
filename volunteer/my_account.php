@@ -59,7 +59,7 @@
                             <h4 class="mt-4"><b>My Account</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
-                            <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
+                            <h4 class="mt-4"> <span id="currentDate"></span> </h4>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -84,8 +84,7 @@
                                         <div class="text-center">
                                             <h4>Intensity Points: <b>200</b> </h4>
                                             <div class="progress mt-2">
-                                                <div class="progress-bar bg-success w-25" role="progressbar"
-                                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
+                                                <div class="progress-bar bg-success w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
                                                 </div>
                                             </div>
                                         </div>
@@ -111,7 +110,24 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch and update the current date
+            function updateDate() {
+                $.ajax({
+                    url: "./include/currentdatetime.php",
+                    type: "GET",
+                    success: function(data) {
+                        $("#currentDate").text(data);
+                    }
+                });
+            }
 
+            // Initial update
+            updateDate();
+            var intervalId = setInterval(updateDate, 1000);
+        });
+    </script>
 </body>
 
 </html>

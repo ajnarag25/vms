@@ -59,7 +59,7 @@
                             <h4 class="mt-4"><b>Personal Page</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
-                            <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
+                            <h4 class="mt-4"> <span id="currentDate"></span> </h4>
                         </div>
                     </div>
 
@@ -71,28 +71,27 @@
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
-                                    <?php 
-                                        // Fetch events from database
-                                        $sql = "SELECT id, title, startdate, enddate, allday FROM events";
-                                        $result = $conn->query($sql);
+                                    <?php
+                                    // Fetch events from database
+                                    $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                    $result = $conn->query($sql);
 
-                                        $events = array();
+                                    $events = array();
 
-                                        if ($result->num_rows > 0) {
-                                            while($row = $result->fetch_assoc()) {
-                                                $event = array(
-                                                    'id' => $row['id'],
-                                                    'title' => $row['title'],
-                                                    'start' => $row['startdate'],
-                                                    'end' => $row['enddate'],
-                                                    'allDay' => $row['allday']
-                                                );
-                                                array_push($events, $event);
-                                            }
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $event = array(
+                                                'id' => $row['id'],
+                                                'title' => $row['title'],
+                                                'start' => $row['startdate'],
+                                                'end' => $row['enddate'],
+                                                'allDay' => $row['allday']
+                                            );
+                                            array_push($events, $event);
                                         }
+                                    }
                                     ?>
-                                    <div id="calendar"
-                                        class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                    <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
                             </div>
@@ -104,8 +103,7 @@
                                     <i class="fa-solid fa-address-book"></i>
                                     Personal Task
                                 </div>
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search Personal Task"
-                                    aria-label="Search">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search Personal Task" aria-label="Search">
 
                                 <div class="p-3">
                                     <div class="card bg-success text-white mb-4">
@@ -230,129 +228,156 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            initialView: 'dayGridMonth',
-            events: <?php echo json_encode($events); ?>,
-            navLinks: true,
-            selectable: true,
-            editable: true,
-            selectMirror: true,
-            dayMaxEvents: true,
-            select: function(arg) {
-                var title = prompt('Event Title:');
-                if (title) {
-                    var eventData = {
-                        title: title,
-                        start: arg.start,
-                        end: arg.end,
-                        allDay: arg.allDay
-                    };
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialView: 'dayGridMonth',
+                events: <?php echo json_encode($events); ?>,
+                navLinks: true,
+                selectable: true,
+                editable: true,
+                selectMirror: true,
+                dayMaxEvents: true,
+                select: function(arg) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        var eventData = {
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        };
 
-                    // Add event to calendar
-                    calendar.addEvent(eventData);
+                        // Add event to calendar
+                        calendar.addEvent(eventData);
 
-                    // Save event to database
-                    saveEventToDatabase(eventData);
-                    location.reload();
-                }
-                calendar.unselect();
-            },
-            eventClick: function(arg) {
-                if (confirm('Are you sure you want to delete this event?')) {
-                    // Remove event from calendar
-                    arg.event.remove();
-                    
-                    // Delete event from database
-                    deleteEventFromDatabase(arg.event);
-                    location.reload();
-                }
-            },
-            eventDrop: function(arg) {
-                if (confirm('Are you sure you want to update this event?')) {
-                    // Update event in calendar
-                    var eventData = {
-                        updtId: arg.event.id,
-                        title: arg.event.title,
-                        start: arg.event.start,
-                        end: arg.event.end,
-                        allDay: arg.event.allDay
-                    };
+                        // Save event to database
+                        saveEventToDatabase(eventData);
+                        location.reload();
+                    }
+                    calendar.unselect();
+                },
+                eventClick: function(arg) {
+                    if (confirm('Are you sure you want to delete this event?')) {
+                        // Remove event from calendar
+                        arg.event.remove();
 
-                    // Update event in database
-                    updateEventInDatabase(eventData);
-                    location.reload();
-                } else {
-                    // Revert event to its original position
-                    location.reload();
-                    calendar.refetchEvents();
+                        // Delete event from database
+                        deleteEventFromDatabase(arg.event);
+                        location.reload();
+                    }
+                },
+                eventDrop: function(arg) {
+                    if (confirm('Are you sure you want to update this event?')) {
+                        // Update event in calendar
+                        var eventData = {
+                            updtId: arg.event.id,
+                            title: arg.event.title,
+                            start: arg.event.start,
+                            end: arg.event.end,
+                            allDay: arg.event.allDay
+                        };
+
+                        // Update event in database
+                        updateEventInDatabase(eventData);
+                        location.reload();
+                    } else {
+                        // Revert event to its original position
+                        location.reload();
+                        calendar.refetchEvents();
+                    }
                 }
+            });
+
+            calendar.render();
+
+            function saveEventToDatabase(saveData) {
+                // Send event data to server for saving
+                $.ajax({
+                    url: './include/process.php',
+                    name: 'calendar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        action: 'save',
+                        eventData: saveData
+                    }),
+                    success: function(response) {
+                        console.log(response);
+                        //console.log('Event saved to database:', saveData);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving event to database:', error);
+                    }
+                });
+            }
+
+            function deleteEventFromDatabase(event) {
+                // Send event ID to server for deletion
+                var deleteData = {
+                    delId: event.id
+                };
+                $.ajax({
+                    url: './include/process.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        action: 'delete',
+                        eventData: deleteData
+                    }),
+                    success: function(response) {
+                        console.log(response);
+                        //console.log('Event deleted from database:', event);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting event from database:', error);
+                    }
+                });
+            }
+
+            function updateEventInDatabase(updateData) {
+                // Send updated event data to server
+                $.ajax({
+                    url: './include/process.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        action: 'update',
+                        eventData: updateData
+                    }),
+                    success: function(response) {
+                        console.log(response);
+                        //console.log('Event updated in database:', updateData);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error updating event in database:', error);
+                    }
+                });
             }
         });
-
-        calendar.render();
-
-        function saveEventToDatabase(saveData) {
-            // Send event data to server for saving
-            $.ajax({
-                url: './include/process.php',
-                name:'calendar',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ action: 'save', eventData: saveData }),
-                success: function(response) {
-                    console.log(response);
-                    //console.log('Event saved to database:', saveData);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error saving event to database:', error);
-                }
-            });
-        }
-
-        function deleteEventFromDatabase(event) {
-            // Send event ID to server for deletion
-            var deleteData = { delId: event.id };
-            $.ajax({
-                url: './include/process.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ action: 'delete', eventData: deleteData }),
-                success: function(response) {
-                    console.log(response);
-                    //console.log('Event deleted from database:', event);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error deleting event from database:', error);
-                }
-            });
-        }
-        
-        function updateEventInDatabase(updateData) {
-            // Send updated event data to server
-            $.ajax({
-                url: './include/process.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ action: 'update', eventData: updateData }),
-                success: function(response) {
-                    console.log(response);
-                    //console.log('Event updated in database:', updateData);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error updating event in database:', error);
-                }
-            });
-        }
-    });
-
     </script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch and update the current date
+            function updateDate() {
+                $.ajax({
+                    url: "./include/currentdatetime.php",
+                    type: "GET",
+                    success: function(data) {
+                        $("#currentDate").text(data);
+                    }
+                });
+            }
 
+            // Initial update
+            updateDate();
+            var intervalId = setInterval(updateDate, 1000);
+        });
+    </script>
 </body>
 
 </html>
