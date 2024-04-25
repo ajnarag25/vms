@@ -64,7 +64,7 @@
                     </div>
                     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target=".calendar" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar_box" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button" role="tab" aria-controls="board" aria-selected="false">Board</button>
@@ -78,7 +78,7 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Calendar -->
-                        <div class="tab-pane fade show active" class="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                        <div class="tab-pane fade show active" id="calendar_box" role="tabpanel" aria-labelledby="calendar-tab">
 
                             <div class="row mt-3">
                                 <div class="col-md-9">
