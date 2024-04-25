@@ -12,18 +12,22 @@
             function updateStatusIcon() {
                 // Loop through each table row
                 $("tbody tr td#status").each(function() {
+                    // status_word
                     var loginTime = $(this).find("#login-time").val(); // Get login time value
                     var logoutTime = $(this).find("#logout-time").val(); // Get logout time value
                     var statusIcon = $(this).find("#status-icon"); // Get status icon element
+                    var statusword = $(this).find("#status_word");
 
                     // Check logout time to determine status
                     if (logoutTime === "0000-00-00 00:00:00") {
-                        statusIcon.css("color", "green"); // Set status icon color to green for online
+                        statusIcon.css("color", "green"); // Set status icon color to green for onlin
+                        statusword.text("Online");
                     } else if (logoutTime === "") {
                         console.log("No Login status yet");
                         statusIcon.css("display", "none"); // Hide status icon
                     } else {
                         statusIcon.css("color", "gray"); // Set status icon color to gray for offline
+                        statusword.text("Offline");
                     }
                 });
             }
@@ -193,7 +197,9 @@
                                                 ?>
                                                 <!-- for table data of status -->
                                                 <div class="status-container">
-                                                    <i class="fas fa-circle" id="status-icon"></i>
+                                                    <i class="fas fa-circle" id="status-icon" style="display: inline-block; vertical-align: top;"></i>
+                                                    <p id="status_word" style="display: inline-block; vertical-align: bottom;"></p>
+
                                                     <input type="text" id="login-time" value="<?php echo $login_time; ?>" hidden readonly>
                                                     <input type="text" id="logout-time" value="<?php echo $logout_time; ?>" hidden readonly>
                                                 </div>
