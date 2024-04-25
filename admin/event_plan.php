@@ -576,7 +576,7 @@
                                                             $sponsor_ids = array_unique($merge_ids);
                                                             $query_sponsors = "SELECT * FROM guest_sponsors WHERE id IN (" . implode(',', $sponsor_ids) . ")";
                                                         } else { 
-                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id = $id";
+                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id = 0";
                                                         }
 
                                                         $result_sponsors = mysqli_query($conn, $query_sponsors);

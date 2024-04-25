@@ -86,106 +86,44 @@
                         <div class="col-md-8">
                             <div class="card mb-4">
                                 <div class="text-success card-header text-center">
-                                    Sample Team Work Flow
+                                    Event Lists
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
+                                <?php 
+                                    $query = "SELECT * FROM events WHERE event_id = 0";
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    
 
+                                    $url = 'event_plan.php?id=' . urlencode($row['id']) .
+                                    '&event_id=' . urlencode($row['event_id']) .
+                                    '&allday=' . urlencode($row['allday']) .
+                                    '&title=' . urlencode($row['title']) .
+                                    '&start=' . urlencode($row['startdate']) .
+                                    '&end=' . urlencode($row['enddate']) .
+                                    '&desc=' . urlencode($row['description']);
+                                ?>
+                                <div class="col-md-2">
+                                    <div class="card text-center">
+        
+                                        <div class="card-header bg-dark text-white">
+                                            <div class="card-title text-center">
+                                                <h6><strong><?php echo $row['title'] ?></strong></h6>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <p style="font-size:12px">Date: <strong><?php echo date('Y-m-d', strtotime($row['startdate'])) ?></strong></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a class="text-success" href="<?php echo $url  ?>">View</a>
+                                        </div>
+                
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <h6>Sample Work Flow</h6>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                <?php 
+                                }
+                                ?>
                             </div>
                         </div>
 
