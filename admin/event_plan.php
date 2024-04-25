@@ -154,7 +154,7 @@
                                                             <th scope="col">Time Start</th>
                                                             <th scope="col">Time End</th>
                                                             <th scope="col">Event Duration</th>
-                                                            <th scope="col">Sponsors</th>
+                                                            <!-- <th scope="col">Sponsors</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -185,7 +185,7 @@
                                                             <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                             <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                             <td><?php echo $duration; ?></td>
-                                                            <td><?php echo $row['sponsors'] ?></td>
+                                                            <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                         </tr>
                                                         <?php 
                                                         }
@@ -346,10 +346,70 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <button class="btn btn-secondary" title="Add Sponsors" data-bs-toggle="modal" data-bs-target="#addSponsors">Add Sponsors <i class="fa-solid fa-users"></i></button>
+
+                                            <!-- Modal Add Sponsors -->
+                                            <div class="modal modal-lg fade" id="addSponsors" tabindex="-1" aria-labelledby="addSponsors" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-success">
+                                                            <h5 class=" modal-title text-white">Add Sponsors</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table class="table" id="Sponsors">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Name</th>
+                                                                        <th scope="col">Position</th>
+                                                                        <th scope="col">Company</th>
+                                                                        <th scope="col">Status</th>
+                                                                        <th scope="col">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php 
+                                                                        $query_sponsors = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
+                                                                        $result_sponsors = mysqli_query($conn, $query_sponsors);
+                                                                        while ($sponsors = mysqli_fetch_array($result_sponsors)) {
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?php echo $sponsors['name'] ?></td>
+                                                                        <td><?php echo $sponsors['position'] ?></td>
+                                                                        <td><?php echo $sponsors['company'] ?></td>
+                                                                        <td><?php echo $sponsors['status'] ?></td>
+                                                                        <td>
+                                                                            <form action="./include/process.php" method="POST">
+                                                                                <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
+                                                                                <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
+                                                                                <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
+                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                                <button class="btn btn-success" name="addSponsor">Add</button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <br>
                                     <table class="table" id="Agenda">
+                                        <h5 class="text-center"><strong>Part Event Table</strong></h5>
                                         <thead>
                                             <tr>
                                                 <th scope="col">Part Name</th>
@@ -359,7 +419,7 @@
                                                 <th scope="col">Time Start</th>
                                                 <th scope="col">Time End</th>
                                                 <th scope="col">Event Duration</th>
-                                                <th scope="col">Sponsors</th>
+                                                <!-- <th scope="col">Sponsors</th> -->
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
@@ -379,7 +439,7 @@
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                 <td><?php echo $duration; ?></td>
-                                                <td><?php echo $row['sponsors'] ?></td>
+                                                <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                 <td>
                                                     <button class="btn btn-sm btn-warning text-white" title="Add Duration" data-bs-toggle="modal" data-bs-target="#addDuration<?php echo $row['id'] ?>"><i class="fa-solid fa-clock"></i></button>
 
@@ -414,66 +474,42 @@
                                                         </div>
                                                     </div>
 
-                                                    <button class="btn btn-sm btn-success" title="Add Ticket"><i class="fa-solid fa-ticket"></i></button>
+                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicket<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
-                                                    <button class="btn btn-sm btn-secondary" title="Add Sponsors" data-bs-toggle="modal" data-bs-target="#addSponsors<?php echo $part_id ?>"><i class="fa-solid fa-users"></i></button>
-
-                                                    <!-- Modal Add Sponsors -->
-                                                    <div class="modal modal-lg fade" id="addSponsors<?php echo $part_id ?>" tabindex="-1" aria-labelledby="addSponsors" aria-hidden="true">
-                                                        <div class="modal-dialog">
+                                                    <!--Modal Add Ticket-->
+                                                    <div class="modal fade" id="addTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
-                                                                <div class="modal-header bg-success">
-                                                                    <h5 class=" modal-title text-white">Add Sponsors</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <table class="table" id="Sponsors">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th scope="col">Name</th>
-                                                                                <th scope="col">Position</th>
-                                                                                <th scope="col">Company</th>
-                                                                                <th scope="col">Status</th>
-                                                                                <th scope="col">Action</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php 
-                                                                                $query_sponsors = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
-                                                                                $result_sponsors = mysqli_query($conn, $query_sponsors);
-                                                                                while ($sponsors = mysqli_fetch_array($result_sponsors)) {
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td><?php echo $sponsors['name'] ?></td>
-                                                                                <td><?php echo $sponsors['position'] ?></td>
-                                                                                <td><?php echo $sponsors['company'] ?></td>
-                                                                                <td><?php echo $sponsors['status'] ?></td>
-                                                                                <td>
-                                                                                    <form action="./include/process.php" method="POST">
-                                                                                        <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
-                                                                                        <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
-                                                                                        <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
-                                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
-                                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
-                                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
-                                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
-                                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
-                                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
-                                                                                        <button class="btn btn-success" name="addSponsor">Add</button>
-                                                                                    </form>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <?php } ?>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                </div>
+                                                                <div class="modal-header bg-success text-white">
+                                                                    <h5 class="modal-title">Add Ticket</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                    </button>
+                                                                </div>  
+                                                                <form action="./include/process.php" method="POST">
+                                                                    <div class="modal-body">
+                                                                        <label for="">Ticket Title:</label>
+                                                                        <input class="form-control" name="ticket_title" type="text" required>
+                                                                        <hr>
+                                                                        <label for="">Ticket Description:</label>
+                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                        <button type="submit" name="addTicketPart" class="btn btn-success">Add Ticket</button>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+                                    
                                                     <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
 
                                                     <!-- Modal Delete Part-->
@@ -511,7 +547,103 @@
                                             }
                                             ?>
                                         </tbody>
-                                    </table>
+                                    </table>    
+                                    <hr>
+                                    <div class="mt-3">
+                                        <h5 class="text-center"><strong>Sponsors Table</strong></h5>
+                                        <table class="table" id="SponsorT">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Position</th>
+                                                    <th scope="col">Company</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                    $query_get_sponsor = "SELECT sponsors_id FROM events WHERE id = $id";
+                                                    $result_get_sponsors = mysqli_query($conn, $query_get_sponsor);
+
+                                                    $sponsor_ids = array();
+
+                                                    while ($check_sponsors = mysqli_fetch_array($result_get_sponsors)) {
+                                                        if ($check_sponsors['sponsors_id']){
+                                                            $s_ids = explode(',', $check_sponsors['sponsors_id']);
+                                                            $merge_ids = isset($merge_ids) ? $merge_ids : array();
+                                                            $merge_ids = array_merge($merge_ids, $s_ids);
+                                                            $sponsor_ids = array_unique($merge_ids);
+                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id IN (" . implode(',', $sponsor_ids) . ")";
+                                                        } else { 
+                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id = 0";
+                                                        }
+
+                                                        $result_sponsors = mysqli_query($conn, $query_sponsors);
+                                                        while ($sponsors = mysqli_fetch_array($result_sponsors)) {
+       
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo $sponsors['name'] ?></td>
+                                                                <td><?php echo $sponsors['position'] ?></td>
+                                                                <td><?php echo $sponsors['company'] ?></td>
+                                                                <td><?php echo $sponsors['status'] ?></td>
+                                                                <td>
+                                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
+
+                                                                    <!--Modal Add Ticket-->
+                                                                    <div class="modal fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicketSponsor" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header bg-success text-white">
+                                                                                    <h5 class="modal-title">Add Ticket</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                    </button>
+                                                                                </div>  
+                                                                                <form action="./include/process.php" method="POST">
+                                                                                    <div class="modal-body">
+                                                                                        <label for="">Ticket Title:</label>
+                                                                                        <input class="form-control" name="ticket_title" type="text" required>
+                                                                                        <hr>
+                                                                                        <label for="">Ticket Description:</label>
+                                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                        <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                        <button type="submit" name="addTicketSponsor" class="btn btn-success">Add Ticket</button>
+                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                            data-bs-dismiss="modal">Close</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <form action="./include/process.php" method="POST">
+                                                                        <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
+                                                                        <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                        <button type="submit" name="delSponsor" title="Delete" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -547,7 +679,7 @@
                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                         <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                         <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
-                                                        <button type="submit" name="addTicket" class="btn btn-success">Add Ticket</button>
+                                                        <button type="submit" name="addTicketEvent" class="btn btn-success">Add Ticket</button>
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                     </div>
@@ -567,7 +699,7 @@
                                             <div class="col-md-4 mb-3">
                                                 <div class="card">
                                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?></strong></h6>
+                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?> - <i><?php echo $row['ticket_type'] ?></i></strong></h6>
                                                         <div class="place-it-on-the-right-side-corner">
                                                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delTicket"><i class="fa-solid fa-trash"></i></button>
 
@@ -608,6 +740,7 @@
                                                     <div class="card-body">
                                                         <p class="card-text"><?php echo $row['ticket_desc'] ?></p>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <?php 

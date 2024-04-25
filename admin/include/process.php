@@ -196,9 +196,10 @@
 
     
     // ADD TICKET
-    if (isset($_POST['addTicket'])) {
+    if (isset($_POST['addTicketPart'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Event Part';
 
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
@@ -210,8 +211,82 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    if (isset($_POST['addTicketSponsor'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Sponsor';
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    if (isset($_POST['addTicketEvent'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Event';
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -305,7 +380,7 @@
     if (isset($_POST['addSponsor'])) {
         $sponsor_id = $_POST['sponsor_id'];
         $sponsor = $_POST['sponsor'];
-        $part_id = $_POST['part_id'];
+        // $part_id = $_POST['part_id'];
 
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
@@ -315,8 +390,8 @@
         $main_allday = $_POST['main_allday'];
         $main_desc = $_POST['main_desc'];
 
-        if (!empty($part_id)) {
-            $result = $conn->query("SELECT sponsors_id, sponsors FROM events WHERE id = $part_id");
+        if (!empty($main_id)) {
+            $result = $conn->query("SELECT sponsors_id, sponsors FROM events WHERE id = $main_id");
             $row = $result->fetch_assoc();
             $currentSponsors_id = $row['sponsors_id'];
             $currentSponsors = $row['sponsors'];
@@ -344,7 +419,7 @@
                 $updatedSponsors = $sponsor;
             }
 
-            $conn->query("UPDATE events SET sponsors_id = '$updatedSponsors_id', sponsors = '$updatedSponsors' WHERE id = $part_id") or die($conn->error);
+            $conn->query("UPDATE events SET sponsors_id = '$updatedSponsors_id', sponsors = '$updatedSponsors' WHERE id = $main_id") or die($conn->error);
 
             $_SESSION['status'] = 'Successfully Added Sponsor';
             $_SESSION['status_icon'] = 'success';
@@ -357,6 +432,61 @@
         }
     }
 
+    // DELETE SPONSORS
+    if (isset($_POST['delSponsor'])) {
+        $sponsor_id = $_POST['sponsor_id'];
+        $sponsor = $_POST['sponsor'];
+    
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+    
+        if (!empty($main_id)) {
+            $result = $conn->query("SELECT sponsors_id, sponsors FROM events WHERE id = $main_id");
+            $row = $result->fetch_assoc();
+            $currentSponsors_id = $row['sponsors_id'];
+            $currentSponsors = $row['sponsors'];
+    
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+                '&event_id=' . urlencode($part_id) .
+                '&allday=' . urlencode($main_allday) .
+                '&title=' . urlencode($main_title) .
+                '&start=' . urlencode($main_start) .
+                '&end=' . urlencode($main_end) .
+                '&desc=' . urlencode($main_desc);
+    
+
+            $currentSponsorIds = explode(',', $currentSponsors_id);
+            $currentSponsorsNames = explode(',', $currentSponsors);
+    
+            $key = array_search($sponsor_id, $currentSponsorIds);
+    
+            if ($key !== false) {
+                unset($currentSponsorIds[$key]);
+                unset($currentSponsorsNames[$key]);
+            }
+    
+            $updatedSponsors_id = implode(',', $currentSponsorIds);
+            $updatedSponsors = implode(',', $currentSponsorsNames);
+    
+ 
+            $conn->query("UPDATE events SET sponsors_id = '$updatedSponsors_id', sponsors = '$updatedSponsors' WHERE id = $main_id") or die($conn->error);
+    
+            $_SESSION['status'] = 'Successfully Removed Sponsor';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+            exit();
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
     
     // ADD DURATION
     if (isset($_POST['addDuration'])) {
