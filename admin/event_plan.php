@@ -529,37 +529,53 @@
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    $query_sponsors = "SELECT * FROM guest_sponsors WHERE type='sponsors'";
-                                                    $result_sponsors = mysqli_query($conn, $query_sponsors);
-                                                    while ($sponsors = mysqli_fetch_array($result_sponsors)) {
+                                                    $query_get_sponsor = "SELECT sponsors_id FROM events WHERE id = $id";
+                                                    $result_get_sponsors = mysqli_query($conn, $query_get_sponsor);
+
+                                                    $sponsor_ids = array();
+
+                                                    while ($check_sponsors = mysqli_fetch_array($result_get_sponsors)) {
+                                                        if ($check_sponsors['sponsors_id']){
+                                                            $s_ids = explode(',', $check_sponsors['sponsors_id']);
+                                                            $merge_ids = isset($merge_ids) ? $merge_ids : array();
+                                                            $merge_ids = array_merge($merge_ids, $s_ids);
+                                                            $sponsor_ids = array_unique($merge_ids);
+                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id IN (" . implode(',', $sponsor_ids) . ")";
+                                                        } else { 
+                                                            $query_sponsors = "SELECT * FROM guest_sponsors WHERE id = $id";
+                                                        }
+
+                                                        $result_sponsors = mysqli_query($conn, $query_sponsors);
+                                                        while ($sponsors = mysqli_fetch_array($result_sponsors)) {
+       
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo $sponsors['name'] ?></td>
+                                                                <td><?php echo $sponsors['position'] ?></td>
+                                                                <td><?php echo $sponsors['company'] ?></td>
+                                                                <td><?php echo $sponsors['status'] ?></td>
+                                                                <td>
+                                                                    <form action="./include/process.php" method="POST">
+                                                                        <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
+                                                                        <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                        <button class="btn btn-sm btn-success"><i class="fa-solid fa-ticket"></i></button>
+                                                                        <button type="submit" name="delSponsor" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    }
                                                 ?>
-                                                <tr>
-                                                    <td><?php echo $sponsors['name'] ?></td>
-                                                    <td><?php echo $sponsors['position'] ?></td>
-                                                    <td><?php echo $sponsors['company'] ?></td>
-                                                    <td><?php echo $sponsors['status'] ?></td>
-                                                    <td>
-                                                        <form action="./include/process.php" method="POST">
-                                                            <input type="hidden" name='part_id' value="<?php echo $part_id ?>">
-                                                            <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
-                                                            <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
-                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
-                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
-                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
-                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
-                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
-                                                            <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
-                                                            <button class="btn btn-sm btn-success"><i class="fa-solid fa-ticket"></i></button>
-                                                            <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
-                                                          
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                  
                                 </div>
                             </div>
                         </div>
