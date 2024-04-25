@@ -517,7 +517,7 @@
                                     <hr>
                                     <div class="mt-3">
                                         <h5 class="text-center"><strong>Sponsors Table</strong></h5>
-                                        <table class="table" id="Sponsors">
+                                        <table class="table" id="SponsorT">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Name</th>
