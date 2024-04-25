@@ -15,6 +15,7 @@
     $('#GSTable').DataTable()
     $('#Sponsors').DataTable()
     $('#Agenda').DataTable()
+    $('#SponsorT').DataTable()
 </script>
 <?php 
     if (isset($_SESSION['status']) && $_SESSION['status'] !='')
