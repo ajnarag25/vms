@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 05:33 PM
+-- Generation Time: Apr 25, 2024 at 07:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,6 +85,15 @@ CREATE TABLE `guest_sponsors` (
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `guest_sponsors`
+--
+
+INSERT INTO `guest_sponsors` (`id`, `name`, `type`, `position`, `company`, `date_added`, `status`) VALUES
+(1, 'Juan Dela Cruz', 'sponsors', 'CEO', 'Juans Company', '2024-04-24', 'New'),
+(2, 'Mark Zuckenburger', 'sponsors', 'FB CEO', 'Facebook', '2024-04-25', 'New'),
+(3, 'Jeff Bezot', 'sponsors', 'CEO AMAZON', 'AMAZON na luge', '2024-04-25', 'New');
+
 -- --------------------------------------------------------
 
 --
@@ -97,7 +106,8 @@ CREATE TABLE `tickets` (
   `start` text NOT NULL,
   `end` text NOT NULL,
   `ticket_title` text NOT NULL,
-  `ticket_desc` text NOT NULL
+  `ticket_desc` text NOT NULL,
+  `ticket_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -148,7 +158,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `guest_sponsors`
 --
 ALTER TABLE `guest_sponsors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tickets`
