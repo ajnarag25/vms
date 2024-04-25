@@ -59,31 +59,26 @@
                             <h4 class="mt-4"><b>Ticket Panel</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
-                            <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
+                            <h4 class="mt-4"> <span id="currentDate"></span> </h4>
                         </div>
                     </div>
                     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar"
-                                type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button"
-                                role="tab" aria-controls="board" aria-selected="false">Board</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button" role="tab" aria-controls="board" aria-selected="false">Board</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gantt" type="button"
-                                role="tab" aria-controls="gantt" aria-selected="false">Gantt Chart</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gantt" type="button" role="tab" aria-controls="gantt" aria-selected="false">Gantt Chart</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#time" type="button"
-                                role="tab" aria-controls="time" aria-selected="false">Time Log</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#time" type="button" role="tab" aria-controls="time" aria-selected="false">Time Log</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Calendar -->
-                        <div class="tab-pane fade show active" id="calendar" role="tabpanel"
-                            aria-labelledby="calendar-tab">
+                        <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
 
                             <div class="row mt-3">
                                 <div class="col-md-8">
@@ -94,8 +89,7 @@
                                             Calendar
                                         </div>
                                         <div class="card-body p-4">
-                                            <div id="bsb-calendar-1"
-                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            <div id="bsb-calendar-1" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                         </div>
                                     </div>
@@ -107,8 +101,7 @@
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -164,8 +157,7 @@
                                         <div class="text-center mt-3">
                                             <label for="">Completion Percent:</label>
                                             <div class="progress mt-2">
-                                                <div class="progress-bar bg-success w-25" role="progressbar"
-                                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                <div class="progress-bar bg-success w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                                             </div>
                                         </div>
                                     </div>
@@ -285,8 +277,7 @@
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -369,8 +360,7 @@
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -428,7 +418,24 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch and update the current date
+            function updateDate() {
+                $.ajax({
+                    url: "./include/currentdatetime.php",
+                    type: "GET",
+                    success: function(data) {
+                        $("#currentDate").text(data);
+                    }
+                });
+            }
 
+            // Initial update
+            updateDate();
+            var intervalId = setInterval(updateDate, 1000);
+        });
+    </script>
 </body>
 
 </html>

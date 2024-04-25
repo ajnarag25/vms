@@ -4,6 +4,38 @@
 <head>
     <?php include('./include/header.php') ?>
     <title>Volunteer Report - Volunteer Management Strageties</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            // Function to update status icon and login/logout times
+            function updateStatusIcon() {
+                // Loop through each table row
+                $("tbody tr td#status").each(function() {
+                    // status_word
+                    var loginTime = $(this).find("#login-time").val(); // Get login time value
+                    var logoutTime = $(this).find("#logout-time").val(); // Get logout time value
+                    var statusIcon = $(this).find("#status-icon"); // Get status icon element
+                    var statusword = $(this).find("#status_word");
+
+                    // Check logout time to determine status
+                    if (logoutTime === "0000-00-00 00:00:00") {
+                        statusIcon.css("color", "green"); // Set status icon color to green for onlin
+                        statusword.text("Online");
+                    } else if (logoutTime === "") {
+                        console.log("No Login status yet");
+                        statusIcon.css("display", "none"); // Hide status icon
+                    } else {
+                        statusIcon.css("color", "gray"); // Set status icon color to gray for offline
+                        statusword.text("Offline");
+                    }
+                });
+            }
+
+            // Call updateStatusIcon function every 5 seconds
+            setInterval(updateStatusIcon, 0o0);
+        });
+    </script>
 </head>
 
 
@@ -84,7 +116,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md-8">
-                            <table class="table">
+                            <table class="table" id="tb">
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>
@@ -94,24 +126,92 @@
                                     </tr>
                                 </thead>
                                 <!-- php for selecting account on accounts table  -->
-                                <?php
+                                <tbody>
+                                    <?php
 
-                                $query = "SELECT * FROM accounts WHERE type!='superadmin'";
-                                $result = mysqli_query($conn, $query);
-                                while ($row = mysqli_fetch_array($result)) {
+                                    $query = "SELECT * FROM accounts WHERE type!='superadmin' AND type!='admin'";
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_array($result)) {
 
-                                ?>
-                                    <tbody>
+                                    ?>
+
                                         <tr>
                                             <th><?php echo $row['username'] ?></th>
-                                            <td>Status Sample</td>
-                                            <td>Event Sample</td>
-                                            <td>Ticket Sample</td>
+                                            <!-- <i class="bi-circle-fill" style="color: green;" id="stats"> online</i> -->
+                                            <td id="status">
+                                                <?php
+                                                $max_log_ID = NULL;
+                                                $username = $row['username'];
+                                                $volunteer_id = $row['id'];
+                                                $status_query = "SELECT * FROM volunteer_logtime WHERE username ='$username' AND volunteer_id='$volunteer_id'";
+                                                $status_result = mysqli_query($conn, $status_query);
+                                                // Check if query was successful
+                                                if ($status_result) {
+                                                    // Loop through each row in the result set
+                                                    while ($status_row = mysqli_fetch_array($status_result)) {
+                                                        $username = $status_row['username'];
+                                                        $volunteer_id = $status_row['volunteer_id'];
+                                                        // Query to retrieve the maximum log_ID for the given username and volunteer_id
+                                                        $log_query = "SELECT MAX(log_ID) AS max_log_ID FROM volunteer_logtime WHERE username ='$username' AND volunteer_id ='$volunteer_id'";
+                                                        // Execute the query
+                                                        $log_result = mysqli_query($conn, $log_query);
+                                                        // Check if query was successful
+                                                        if ($log_result) {
+                                                            // Fetch the result
+                                                            $log_row = mysqli_fetch_assoc($log_result);
+                                                            $max_log_ID = $log_row['max_log_ID'];
+                                                            // Output the maximum log_ID
+                                                        } else {
+                                                            // Error handling if the query fails
+                                                            echo "Error in log query: " . mysqli_error($conn);
+                                                        }
+                                                    }
+                                                } else {
+                                                    // Error handling if the query fails
+                                                    echo "Error in status query: " . mysqli_error($conn);
+                                                }
+
+                                                $check_logout = "SELECT * FROM volunteer_logtime WHERE `log_ID`='$max_log_ID'";
+                                                $check_result = mysqli_query($conn, $check_logout);
+
+                                                if ($check_result) {
+                                                    if (mysqli_num_rows($check_result) > 0) {
+                                                        // If at least one row is returned
+                                                        $logout_row = mysqli_fetch_assoc($check_result);
+                                                        $logout_time = $logout_row['logout_time'];
+                                                        $login_time = $logout_row['login_time'];
+                                                    } else {
+                                                        // If no rows are returned
+                                                        $login_time = NULL;
+                                                        echo $login_time;
+                                                        $logout_time = Null;
+                                                        echo $logout_time;
+                                                        echo "No Login Session Yet";
+                                                    }
+                                                } else {
+                                                    // Error handling if the query fails
+
+                                                    echo "Error in check_logout query: " . mysqli_error($conn);
+                                                }
+
+                                                ?>
+                                                <!-- for table data of status -->
+                                                <div class="status-container">
+                                                    <i class="fas fa-circle" id="status-icon" style="display: inline-block; vertical-align: top;"></i>
+                                                    <p id="status_word" style="display: inline-block; vertical-align: bottom;"></p>
+
+                                                    <input type="text" id="login-time" value="<?php echo $login_time; ?>" hidden readonly>
+                                                    <input type="text" id="logout-time" value="<?php echo $logout_time; ?>" hidden readonly>
+                                                </div>
+                                            </td>
+                                            <td>2</td>
+                                            <td>10</td>
                                         </tr>
-                                    </tbody>
-                                <?php
-                                }
-                                ?>
+
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
                             </table>
 
                         </div>
@@ -121,19 +221,20 @@
 
                                 <div class="card-body p-4">
                                     <div class="text-center mb-4">
+                                        Volunteer Intensity:
                                         <div class="progress mt-2">
                                             <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col">
-                                                <h6>Completed</h6>
-                                                <h6>Assigned</h6>
-                                                <h6>Revisions</h6>
+                                                <h6>Completed:</h6>
+                                                <h6>Assigned:</h6>
+                                                <h6>Revisions:</h6>
                                             </div>
                                             <div class="col">
-                                                <h6>Ave</h6>
-                                                <h6>Online Skills</h6>
+                                                <h6>Ave Online:</h6>
+                                                <h6>Skills:</h6>
                                             </div>
                                         </div>
                                     </div>
