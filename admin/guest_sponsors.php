@@ -90,10 +90,9 @@
                                 <div class="modal-content">
                                     <div class="modal-header bg-success text-white">
                                         <h5 class="modal-title">Add Guest / Sponsors</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </button>
-                                    </div>  
+                                    </div>
                                     <form action="./include/process.php" method="POST">
                                         <div class="modal-body">
                                             <label for=""><span class="text-danger">*</span> Type:</label>
@@ -111,8 +110,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" name="addGS" class="btn btn-success">Add</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </form>
                                 </div>
@@ -131,21 +129,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
-                                                        
-                                            $query = "SELECT * FROM guest_sponsors";
-                                            $result = mysqli_query($conn, $query);
-                                            while ($row = mysqli_fetch_array($result)) {
+                                        <?php
+
+                                        $query = "SELECT * FROM guest_sponsors";
+                                        $result = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_array($result)) {
 
                                         ?>
-                                        <tr>
-                                            <th><?php echo $row['name'] ?></th>
-                                            <td><?php echo $row['position'] ?></td>
-                                            <td><?php echo $row['company'] ?></td>
-                                            <td><?php echo $row['date_added'] ?></td>
-                                            <td><?php echo $row['status'] ?></td>
-                                        </tr>
-                                        <?php 
+                                            <tr>
+                                                <th><?php echo $row['name'] ?></th>
+                                                <td><?php echo $row['position'] ?></td>
+                                                <td><?php echo $row['company'] ?></td>
+                                                <td><?php echo $row['date_added'] ?></td>
+                                                <td><?php echo $row['status'] ?></td>
+                                            </tr>
+                                        <?php
                                         }
                                         ?>
                                     </tbody>

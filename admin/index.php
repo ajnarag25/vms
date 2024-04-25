@@ -178,8 +178,7 @@
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
-                                    <div id="bsb-calendar-1"
-                                        class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                    <div id="bsb-calendar-1" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
                             </div>
