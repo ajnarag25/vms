@@ -154,7 +154,7 @@
                                                             <th scope="col">Time Start</th>
                                                             <th scope="col">Time End</th>
                                                             <th scope="col">Event Duration</th>
-                                                            <th scope="col">Sponsors</th>
+                                                            <!-- <th scope="col">Sponsors</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -185,7 +185,7 @@
                                                             <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                             <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                             <td><?php echo $duration; ?></td>
-                                                            <td><?php echo $row['sponsors'] ?></td>
+                                                            <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                         </tr>
                                                         <?php 
                                                         }
@@ -474,8 +474,42 @@
                                                         </div>
                                                     </div>
 
-                                                    <button class="btn btn-sm btn-success" title="Add Ticket"><i class="fa-solid fa-ticket"></i></button>
+                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicket<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
+                                                    <!--Modal Add Ticket-->
+                                                    <div class="modal fade" id="addTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-success text-white">
+                                                                    <h5 class="modal-title">Add Ticket</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                    </button>
+                                                                </div>  
+                                                                <form action="./include/process.php" method="POST">
+                                                                    <div class="modal-body">
+                                                                        <label for="">Ticket Title:</label>
+                                                                        <input class="form-control" name="ticket_title" type="text" required>
+                                                                        <hr>
+                                                                        <label for="">Ticket Description:</label>
+                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                        <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                        <button type="submit" name="addTicketPart" class="btn btn-success">Add Ticket</button>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    
                                                     <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
 
                                                     <!-- Modal Delete Part-->
@@ -555,6 +589,41 @@
                                                                 <td><?php echo $sponsors['company'] ?></td>
                                                                 <td><?php echo $sponsors['status'] ?></td>
                                                                 <td>
+                                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
+
+                                                                    <!--Modal Add Ticket-->
+                                                                    <div class="modal fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicketSponsor" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header bg-success text-white">
+                                                                                    <h5 class="modal-title">Add Ticket</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                    </button>
+                                                                                </div>  
+                                                                                <form action="./include/process.php" method="POST">
+                                                                                    <div class="modal-body">
+                                                                                        <label for="">Ticket Title:</label>
+                                                                                        <input class="form-control" name="ticket_title" type="text" required>
+                                                                                        <hr>
+                                                                                        <label for="">Ticket Description:</label>
+                                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                        <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                        <button type="submit" name="addTicketSponsor" class="btn btn-success">Add Ticket</button>
+                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                            data-bs-dismiss="modal">Close</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     <form action="./include/process.php" method="POST">
                                                                         <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
                                                                         <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
@@ -564,8 +633,7 @@
                                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                                         <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                                         <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
-                                                                        <button class="btn btn-sm btn-success"><i class="fa-solid fa-ticket"></i></button>
-                                                                        <button type="submit" name="delSponsor" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                                        <button type="submit" name="delSponsor" title="Delete" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
                                                                     </form>
                                                                 </td>
                                                             </tr>
@@ -611,7 +679,7 @@
                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                         <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                         <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
-                                                        <button type="submit" name="addTicket" class="btn btn-success">Add Ticket</button>
+                                                        <button type="submit" name="addTicketEvent" class="btn btn-success">Add Ticket</button>
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                     </div>
@@ -631,7 +699,7 @@
                                             <div class="col-md-4 mb-3">
                                                 <div class="card">
                                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?></strong></h6>
+                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?> - <i><?php echo $row['ticket_type'] ?></i></strong></h6>
                                                         <div class="place-it-on-the-right-side-corner">
                                                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delTicket"><i class="fa-solid fa-trash"></i></button>
 
@@ -672,6 +740,7 @@
                                                     <div class="card-body">
                                                         <p class="card-text"><?php echo $row['ticket_desc'] ?></p>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <?php 

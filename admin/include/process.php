@@ -196,9 +196,10 @@
 
     
     // ADD TICKET
-    if (isset($_POST['addTicket'])) {
+    if (isset($_POST['addTicketPart'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Event Part';
 
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
@@ -210,8 +211,82 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    if (isset($_POST['addTicketSponsor'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Sponsor';
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+
+            $url = 'event_plan.php?id=' . urlencode($main_id) .
+            '&event_id=' . urlencode($main_event_id) .
+            '&allday=' . urlencode($main_allday) .
+            '&title=' . urlencode($main_title) .
+            '&start=' . urlencode($main_start) .
+            '&end=' . urlencode($main_end) .
+            '&desc=' . urlencode($main_desc);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    if (isset($_POST['addTicketEvent'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+        $ticket_type = 'Event';
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
