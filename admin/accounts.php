@@ -3,7 +3,7 @@
 
 <head>
     <?php include('./include/header.php') ?>
-    <title>Task Backlog - Volunteer Management Strageties</title>
+    <title>Accounts - Volunteer Management Strageties</title>
 </head>
 
 
@@ -47,7 +47,7 @@
                             Guest / Sponsors
                         </a>
 
-                        <a class="nav-link active" href="task_backlog.php">
+                        <a class="nav-link" href="task_backlog.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                             Task Backlog
                         </a>
@@ -57,11 +57,11 @@
                             Templates
                         </a>
 
-                        <a class="nav-link" href="accounts.php">
+                        <a class="nav-link active" href="accounts.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
                             Accounts
                         </a>
-                        
+
                         <a class="nav-link" href="my_account.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-id-card"></i></div>
                             My Account
@@ -80,7 +80,7 @@
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col-md-6 left-side">
-                            <h4 class="mt-4"><b>Task Backlog</b></h4>
+                            <h4 class="mt-4"><b>Accounts</b></h4>
                         </div>
                         <div class="col-md-6 text-end">
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
@@ -89,24 +89,61 @@
                     <div class="mt-3">
                         <div class="card p-3">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="Accounts">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Event</th>
-                                            <th scope="col">Ticket</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Notification</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Account Type</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                            $admin_id = $_SESSION['admin']['id'];
+                                            $query = "SELECT * FROM accounts WHERE id != $admin_id";
+                                            $result = mysqli_query($conn, $query);
+                                            while ($row = mysqli_fetch_array($result)) {
+                                        ?>
                                         <tr>
-                                            <th>Event Sample</th>
-                                            <td>Ticket 1</td>
-                                            <td>03/19/2024</td>
-                                            <td>3:00pm</td>
-                                            <td>New</td>
+                                            <th><?php echo $row['username'] ?></th>
+                                            <td>
+                                            <?php 
+                                                if($row['status'] == 'Verified'){
+                                                ?>
+                                                    <label class="text-success">Verified</label>
+                                                <?php
+                                                }else{
+                                                    ?>
+                                                    <label class="text-warning">Unverified</label>
+                                                <?php
+                                                }
+                                            ?>
+                                            </td>
+                                            <td><?php echo $row['contact'] ?></td>
+                                            <td><?php echo $row['email'] ?></td>
+                                            <td>
+                                            <?php 
+                                                if($row['type'] == 'superadmin'){
+                                                    echo 'Super Admin';
+                                                }elseif($row['type'] == 'admin'){
+                                                    echo 'Admin';
+                                                }else{
+                                                    echo 'Volunteer';
+                                                }
+                                            ?>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning text-white" title="Change Account Type" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-user-gear"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Remove Account" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-minus"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-ticket"></i></button>
+                                            </td>
                                         </tr>
+                                        <?php 
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

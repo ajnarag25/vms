@@ -16,6 +16,7 @@
     $('#Agenda').DataTable()
     $('#SponsorT').DataTable()
     $('#tb').DataTable()
+    $('#Accounts').DataTable()
 
 </script>
 <?php

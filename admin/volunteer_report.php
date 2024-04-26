@@ -89,6 +89,11 @@
                             Templates
                         </a>
 
+                        <a class="nav-link" href="accounts.php">
+                            <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
+                            Accounts
+                        </a>
+                        
                         <a class="nav-link" href="my_account.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-id-card"></i></div>
                             My Account
