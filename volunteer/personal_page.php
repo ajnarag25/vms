@@ -73,7 +73,7 @@
                                 <div class="card-body p-4">
                                     <?php
                                     // Fetch events from database
-                                    $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                    $sql = "SELECT id, title, startdate, enddate, allday FROM personal_agenda";
                                     $result = $conn->query($sql);
 
                                     $events = array();
@@ -179,7 +179,7 @@
                 selectMirror: true,
                 dayMaxEvents: true,
                 select: function(arg) {
-                    var title = prompt('Event Title:');
+                    var title = prompt('Personal Task:');
                     if (title) {
                         var eventData = {
                             title: title,
@@ -234,7 +234,7 @@
             function saveEventToDatabase(saveData) {
                 // Send event data to server for saving
                 $.ajax({
-                    url: './include/process.php',
+                    url: './include/personalprocess.php',
                     name: 'calendar',
                     type: 'POST',
                     contentType: 'application/json',
@@ -258,7 +258,7 @@
                     delId: event.id
                 };
                 $.ajax({
-                    url: './include/process.php',
+                    url: './include/personalprocess.php',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
@@ -278,7 +278,7 @@
             function updateEventInDatabase(updateData) {
                 // Send updated event data to server
                 $.ajax({
-                    url: './include/process.php',
+                    url: './include/personalprocess.php',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
