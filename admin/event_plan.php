@@ -158,38 +158,38 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php 
-                                                            $query = "SELECT * FROM events WHERE event_id = $id";
-                                                            $result = mysqli_query($conn, $query);
-                                                            while ($row = mysqli_fetch_array($result)) {
-                                                            
+                                                    <?php 
+                                                        $query = "SELECT * FROM events WHERE event_id = $id";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while ($row = mysqli_fetch_array($result)) {
                                                             $start_timestamp = strtotime($row['startdate']);
                                                             $end_timestamp = strtotime($row['enddate']);
 
-                                                            // Calculate the difference in seconds
+                                                            // Calculate the duration in seconds
                                                             $duration_seconds = $end_timestamp - $start_timestamp;
-
-                                                            // Calculate hours, minutes, and seconds
+                                                            
+                                                            // Convert duration to hours, minutes, and seconds
                                                             $hours = floor($duration_seconds / 3600);
                                                             $minutes = floor(($duration_seconds % 3600) / 60);
                                                             $seconds = $duration_seconds % 60;
 
                                                             // Format the duration
-                                                            $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds)
+                                                            $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
                                                         ?>
                                                         <tr>
                                                             <th><?php echo $row['title'] ?></th>
-                                                            <td><?php echo $desc ?></td>
+                                                            <td><?php echo $row['description'] ?></td>
                                                             <td>Guests Sample</td>
                                                             <td>Volunteer Sample</td>
-                                                            <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
-                                                            <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
+                                                            <td><?php echo date('h:i:s A', $start_timestamp); ?></td>
+                                                            <td><?php echo date('h:i:s A', $end_timestamp); ?></td>
                                                             <td><?php echo $duration; ?></td>
                                                             <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                         </tr>
-                                                        <?php 
-                                                        }
-                                                        ?>
+                                                    <?php 
+                                                    }
+                                                    ?>
+
                                                     </tbody>
                                                 </table>
                                  
@@ -430,6 +430,20 @@
                                                 $result = mysqli_query($conn, $query);
                                                 while ($row = mysqli_fetch_array($result)) {
                                                 $part_id = $row['id'];
+
+                                                $start_timestamp = strtotime($row['startdate']);
+                                                $end_timestamp = strtotime($row['enddate']);
+
+                                                // Calculate the duration in seconds
+                                                $duration_seconds = $end_timestamp - $start_timestamp;
+                                                
+                                                // Convert duration to hours, minutes, and seconds
+                                                $hours = floor($duration_seconds / 3600);
+                                                $minutes = floor(($duration_seconds % 3600) / 60);
+                                                $seconds = $duration_seconds % 60;
+
+                                                // Format the duration
+                                                $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
                                             ?>
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
