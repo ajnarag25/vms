@@ -103,7 +103,7 @@
                                     <tbody>
                                         <?php 
                                             $admin_id = $_SESSION['admin']['id'];
-                                            $query = "SELECT * FROM accounts WHERE id != $admin_id";
+                                            $query = "SELECT * FROM accounts WHERE id != $admin_id AND type != 'superadmin'";
                                             $result = mysqli_query($conn, $query);
                                             while ($row = mysqli_fetch_array($result)) {
                                         ?>
@@ -136,8 +136,61 @@
                                             ?>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning text-white" title="Change Account Type" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-user-gear"></i></button>
-                                                <button class="btn btn-sm btn-danger" title="Remove Account" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-minus"></i></button>
+                                                <button class="btn btn-sm btn-warning text-white" title="Change Account Type" data-bs-toggle="modal" data-bs-target="#accType<?php echo $row['id'] ?>"><i class="fa-solid fa-user-gear"></i></button>
+
+                                                 <!-- Modal Change Account Type-->
+                                                 <div class="modal fade" id="accType<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addDuration" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form action="./include/process.php" method="POST">
+                                                                <div class="modal-header bg-success text-white">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Change Account Type</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <label for="">Account Type:</label>    
+                                                                    <select class="form-select" name="acc_type" id="" required>
+                                                                        <option value="" selected disabled>--Select Account Type--</option>
+                                                                        <option value="admin">Admin</option>
+                                                                        <option value="volunteer">Volunteer</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="acc_id" value="<?php echo $row['id'] ?>">
+                                                                    <button type="submit" name="accType" class="btn btn-warning text-white">Change Account Type</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button class="btn btn-sm btn-danger" title="Remove Account" data-bs-toggle="modal" data-bs-target="#removeAcc<?php echo $row['id'] ?>"><i class="fa-solid fa-minus"></i></button>
+
+                                                 <!-- Modal Remove Account-->
+                                                 <div class="modal fade" id="removeAcc<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addPart" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form action="./include/process.php" method="POST">
+                                                                <div class="modal-header bg-success text-white">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Remove Account</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <h5> <b>Are you sure you want to remove this account?</b></h5>
+                                                                    <p class="text-danger">* This action is irreversible!</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                                                                    <button type="submit" name="removeAcc" class="btn btn-danger text-white">Remove</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-ticket"></i></button>
                                             </td>
                                         </tr>

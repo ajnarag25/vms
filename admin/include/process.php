@@ -529,6 +529,7 @@
         }
     }
 
+    // DELETE PART
     if (isset($_POST['delPart'])) {
         $id = $_POST['id'];
 
@@ -563,4 +564,60 @@
         }
     }
 
+    // CHANGE ACCOUNT TYPE
+    if (isset($_POST['accType'])) {
+        $id = $_POST['acc_id'];
+        $type = $_POST['acc_type'];
+        
+        $result = $conn->query("SELECT type FROM accounts WHERE id = $id");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentType = $row['type'];
+
+            if ($currentType == $type) {
+                $_SESSION['status'] = 'No changes made. Account type is already set to ' . $type;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../accounts.php');
+                exit();
+            } else {
+                if (!empty($id)) {
+                    $conn->query("UPDATE accounts SET type = '$type' WHERE id = $id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully changed account type to ' . $type;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../accounts.php');
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../accounts.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred while fetching account details!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../accounts.php');
+            exit();
+        }
+    }
+
+    // REMOVE ACCOUNT
+    if (isset($_POST['removeAcc'])) {
+        $id = $_POST['id'];
+
+        if (!empty($id)) {
+
+            $conn->query("DELETE FROM accounts WHERE id='$id'") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Removed the Account';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../accounts.php');
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../accounts.php');
+            exit();
+        }
+    }
+    
 ?>
