@@ -496,7 +496,7 @@
                                                     <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicket<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
                                                     <!--Modal Add Ticket-->
-                                                    <div class="modal fade" id="addTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                                    <div class="modal modal-xl fade" id="addTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-success text-white">
@@ -507,20 +507,84 @@
                                                                 </div>  
                                                                 <form action="./include/process.php" method="POST">
                                                                     <div class="modal-body">
-                                                                        <label for="">Ticket Title:</label>
-                                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                                        <hr>
-                                                                        <label for="">Ticket Description:</label>
-                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="text-center">
+                                                                                    <label for="">Event Title:</label>
+                                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <label class="mt-3" for="">Admin Username:</label>
+                                                                                            <h5><b><?php echo $_SESSION['admin']['username']; ?></b></h5>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                                            <h5><b>Event Ticket</b></h5>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                                <table class="table" id="Volunteers">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th scope="col">#</th>
+                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                            <th scope="col">Proficiency</th>
+                                                                                            <th scope="col">View</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                    <tr>
+                                                                                        <td><input type="checkbox"></td>
+                                                                                        <td>Sample Name</td>
+                                                                                        <td>Sample Proficiency</td>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="text-center">
+                                                                                    <label for="">Priority:</label>
+                                                                                    <br>
+                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" >
+                                                                                        <label class="btn btn-outline-danger" for="btnradio1">Urgent</label>
+
+                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                                                                        <label class="btn btn-outline-warning" for="btnradio2">High</label>
+
+                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                                                                        <label class="btn btn-outline-primary" for="btnradio3">Mid</label>
+
+                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked>
+                                                                                        <label class="btn btn-outline-secondary" for="btnradio4">Low</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            
+                                                                                <br>
+                                                                                <label class="" for="">Set Deadline:</label>
+                                                                                <input type="date" class="form-control">
+                                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                                <input class="form-control" name="ticket_title" type="text" required>
+
+                                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                            
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                                         <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                                         <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                                         <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
-                                                                        <button type="submit" name="addTicketPart" class="btn btn-success">Add Ticket</button>
+                                                                        <button type="submit" name="addTicketEvent" class="btn btn-success">Add Ticket</button>
                                                                         <button type="button" class="btn btn-secondary"
                                                                             data-bs-dismiss="modal">Close</button>
                                                                     </div>
@@ -611,7 +675,7 @@
                                                                     <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
                                                                     <!--Modal Add Ticket-->
-                                                                    <div class="modal fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicketSponsor" aria-hidden="true">
+                                                                    <div class="modal modal-xl fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicketSponsor" aria-hidden="true">
                                                                         <div class="modal-dialog" role="document">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header bg-success text-white">
@@ -622,20 +686,84 @@
                                                                                 </div>  
                                                                                 <form action="./include/process.php" method="POST">
                                                                                     <div class="modal-body">
-                                                                                        <label for="">Ticket Title:</label>
-                                                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                                                        <hr>
-                                                                                        <label for="">Ticket Description:</label>
-                                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="text-center">
+                                                                                                    <label for="">Event Title:</label>
+                                                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                                                    <div class="row">
+                                                                                                        <div class="col">
+                                                                                                            <label class="mt-3" for="">Admin Username:</label>
+                                                                                                            <h5><b><?php echo $_SESSION['admin']['username']; ?></b></h5>
+                                                                                                        </div>
+                                                                                                        <div class="col">
+                                                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                                                            <h5><b>Sponsors Ticket</b></h5>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <hr>
+                                                                                                <table class="table" id="Volunteers">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col">#</th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Proficiency</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox"></td>
+                                                                                                        <td>Sample Name</td>
+                                                                                                        <td>Sample Proficiency</td>
+                                                                                                        <td></td>
+                                                                                                    </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="text-center">
+                                                                                                    <label for="">Priority:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" >
+                                                                                                        <label class="btn btn-outline-danger" for="btnradio1">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-warning" for="btnradio2">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-primary" for="btnradio3">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked>
+                                                                                                        <label class="btn btn-outline-secondary" for="btnradio4">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            
+                                                                                                <br>
+                                                                                                <label class="" for="">Set Deadline:</label>
+                                                                                                <input type="date" class="form-control">
+                                                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                                                <input class="form-control" name="ticket_title" type="text" required>
+
+                                                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                            
                                                                                     </div>
                                                                                     <div class="modal-footer">
                                                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                        <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                                                         <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                                                         <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                                                         <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
-                                                                                        <button type="submit" name="addTicketSponsor" class="btn btn-success">Add Ticket</button>
+                                                                                        <button type="submit" name="addTicketEvent" class="btn btn-success">Add Ticket</button>
                                                                                         <button type="button" class="btn btn-secondary"
                                                                                             data-bs-dismiss="modal">Close</button>
                                                                                     </div>
@@ -673,7 +801,7 @@
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTicket">Add Ticket <i class="fa-solid fa-plus"></i></button>
 
                                     <!--Add Ticket-->
-                                    <div class="modal fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                    <div class="modal modal-xl fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-success text-white">
@@ -684,11 +812,74 @@
                                                 </div>  
                                                 <form action="./include/process.php" method="POST">
                                                     <div class="modal-body">
-                                                        <label for="">Ticket Title:</label>
-                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                        <hr>
-                                                        <label for="">Ticket Description:</label>
-                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="text-center">
+                                                                    <label for="">Event Title:</label>
+                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <label class="mt-3" for="">Admin Username:</label>
+                                                                            <h5><b><?php echo $_SESSION['admin']['username']; ?></b></h5>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                            <h5><b>Event Ticket</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <table class="table" id="Volunteers">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Volunteers Name</th>
+                                                                            <th scope="col">Proficiency</th>
+                                                                            <th scope="col">View</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td><input type="checkbox"></td>
+                                                                        <td>Sample Name</td>
+                                                                        <td>Sample Proficiency</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                               
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="text-center">
+                                                                    <label for="">Priority:</label>
+                                                                    <br>
+                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" >
+                                                                        <label class="btn btn-outline-danger" for="btnradio1">Urgent</label>
+
+                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                                                        <label class="btn btn-outline-warning" for="btnradio2">High</label>
+
+                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                                                        <label class="btn btn-outline-primary" for="btnradio3">Mid</label>
+
+                                                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked>
+                                                                        <label class="btn btn-outline-secondary" for="btnradio4">Low</label>
+                                                                    </div>
+                                                                </div>
+                                                              
+                                                                <br>
+                                                                <label class="" for="">Set Deadline:</label>
+                                                                <input type="date" class="form-control">
+                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                <input class="form-control" name="ticket_title" type="text" required>
+
+                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                                
+                                                            </div>
+                                                        </div>
+                             
                                                     </div>
                                                     <div class="modal-footer">
                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
