@@ -4,6 +4,7 @@ include('currentdatetime.php');
 
 // REGISTRATION
 if (isset($_POST['register'])) {
+    $name = $_POST['name'];
     $user = $_POST['username'];
     $emails = $_POST['email'];
     $contact = $_POST['contact'];
@@ -25,8 +26,8 @@ if (isset($_POST['register'])) {
         if (!$result->num_rows > 0) {
             $setOTP = rand(0000, 9999);
 
-            $insertQuery = "INSERT INTO accounts (username, email, contact, password, status, otp, type) 
-                                VALUES ('$user', '$emails', '$contact', '" . password_hash($pass1, PASSWORD_DEFAULT) . "', 'Unverified', '$setOTP', 'volunteer')";
+            $insertQuery = "INSERT INTO accounts (name, username, email, contact, password, status, otp, type) 
+                                VALUES ('$name', '$user', '$emails', '$contact', '" . password_hash($pass1, PASSWORD_DEFAULT) . "', 'Unverified', '$setOTP', 'volunteer')";
             $conn->query($insertQuery) or die($conn->error);
 
             $get_id = $conn->insert_id;

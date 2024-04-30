@@ -8,6 +8,7 @@
 
 
 <?php
+    error_reporting(0);
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $event_id = isset($_GET['event_id']) ? $_GET['event_id'] : '';
     $title = isset($_GET['title']) ? $_GET['title'] : '';
@@ -819,10 +820,12 @@
                                                                     <h5><b><?php echo $title; ?></b></h5>
                                                                     <div class="row">
                                                                         <div class="col">
-                                                                            <label class="mt-3" for="">Admin Username:</label>
-                                                                            <h5><b><?php echo $_SESSION['admin']['username']; ?></b></h5>
+                                                                            <input type="hidden" name="ticket_type" value="<?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?>" >
+                                                                            <label class="mt-3" for="">Admin Name:</label>
+                                                                            <h5><b><?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?></b></h5>
                                                                         </div>
                                                                         <div class="col">
+                                                                            <input type="hidden" name="ticket_type" value="Event Ticket">
                                                                             <label class="mt-3" for="">Ticket Type:</label>
                                                                             <h5><b>Event Ticket</b></h5>
                                                                         </div>
@@ -832,19 +835,50 @@
                                                                 <table class="table" id="Volunteers">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col">#</th>
+                                                                            <th scope="col"></th>
                                                                             <th scope="col">Volunteers Name</th>
-                                                                            <th scope="col">Proficiency</th>
+                                                                            <th scope="col">Email</th>
                                                                             <th scope="col">View</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                    <?php 
+                                                                        $query = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $result = mysqli_query($conn, $query);
+                                                                        while ($row = mysqli_fetch_array($result)) {
+                                                                    ?>
                                                                     <tr>
                                                                         <td><input type="checkbox"></td>
-                                                                        <td>Sample Name</td>
-                                                                        <td>Sample Proficiency</td>
-                                                                        <td></td>
+                                                                        <td><?php echo $row['name'] ?></td>
+                                                                        <td><?php echo $row['email'] ?></td>
+                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteer<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                     </tr>
+
+                                                                    <div class="modal modal-lg fade" id="volunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addPart" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                            <div class="modal-content">
+                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $row['name'] ?></h5>
+                                                                                       
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <h3>Volunteer Details:</h3>
+                                                                                        <ul>
+                                                                                            <li>Name: <?php echo $row['name'] ?></li>
+                                                                                            <li>Username: <?php echo $row['username'] ?></li>
+                                                                                            <li>Email: <?php echo $row['email'] ?></li>
+                                                                                            <li>Contact: <?php echo $row['contact'] ?></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                  
+                                                                          
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <?php 
+                                                                    }
+                                                                    ?>
                                                                     </tbody>
                                                                 </table>
                                                                
@@ -867,21 +901,18 @@
                                                                         <label class="btn btn-outline-secondary" for="btnradio4">Low</label>
                                                                     </div>
                                                                 </div>
-                                                              
                                                                 <br>
                                                                 <label class="" for="">Set Deadline:</label>
-                                                                <input type="date" class="form-control">
+                                                                <input type="date" class="form-control" required>
                                                                 <label class="mt-3" for="">Ticket Title:</label>
                                                                 <input class="form-control" name="ticket_title" type="text" required>
-
                                                                 <label class="mt-3" for="">Ticket Description:</label>
                                                                 <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
-                                                                
                                                             </div>
                                                         </div>
                              
                                                     </div>
-                                                    <div class="modal-footer">
+                                                    <div class="modal-footer justify-content-center">
                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
                                                         <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">

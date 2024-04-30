@@ -22,6 +22,10 @@
                                 <form action="./functions/process.php" method="POST">
                                     <h4 class="mt-3 text-center"> <b>Register | Volunteer</b></h4>
                                     <div class="form-outline mb-4 mt-3">
+                                        <input type="text" placeholder="Name" name="name" class="form-control"
+                                            required />
+                                    </div>
+                                    <div class="form-outline mb-4 mt-3">
                                         <input type="text" placeholder="Username" name="username" class="form-control"
                                             required />
                                     </div>

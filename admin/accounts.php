@@ -92,6 +92,7 @@
                                 <table class="table" id="Accounts">
                                     <thead>
                                         <tr>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Username</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Phone</th>
@@ -115,6 +116,7 @@
                                             while ($row = mysqli_fetch_array($result)) {
                                         ?>
                                         <tr>
+                                            <th><?php echo $row['name'] ?></th>
                                             <th><?php echo $row['username'] ?></th>
                                             <td>
                                             <?php 
@@ -218,7 +220,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <label class="mt-3" for="">Admin Username:</label>
-                                                                                        <h5><b><?php echo $_SESSION['admin']['username']; ?> <?php echo $_SESSION['superadmin']['username']; ?></b></h5>
+                                                                                        <h5><b><?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?></b></h5>
                                                                                     </div>
                                                                                     <div class="col">
                                                                                         <label class="mt-3" for="">Ticket Type:</label>
