@@ -196,6 +196,7 @@
 
     
     // ADD TICKET
+    // PART
     if (isset($_POST['addTicketPart'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
@@ -233,6 +234,7 @@
         }
     }
 
+    // SPONSORS
     if (isset($_POST['addTicketSponsor'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
@@ -270,10 +272,18 @@
         }
     }
 
+    // EVENT
     if (isset($_POST['addTicketEvent'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
-        $ticket_type = 'Event';
+
+        $ticket_admin = $_POST['ticket_admin'];
+        $ticket_type = $_POST['ticket_type'];
+        $volunteer_ids = $_POST['volunteer_id'];
+        $eventBtn = $_POST['eventBtn'];
+        $ticket_deadline = $_POST['ticket_deadline'];
+
+        $volunteer_ids_str = implode(', ', $volunteer_ids);
 
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
@@ -285,8 +295,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$eventBtn', '$volunteer_ids_str')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .

@@ -18,7 +18,7 @@
     $('#tb').DataTable()
     $('#Accounts').DataTable()
     $('#Volunteers').DataTable()
-
+    $('#VolunteersEvent').DataTable()
 </script>
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
