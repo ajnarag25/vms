@@ -64,6 +64,27 @@
                     </div>
 
                     <div class="row mt-3">
+                        <div id="PersonalModal" class="modal fade" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add Personal Task</h5>
+                                        <button type="button" class="close" id="closeModal2" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" id="taskTitle" class="form-control" placeholder="Task Title">
+                                        <br>
+                                        <textarea class="tinymce form-control" id="taskDescription" name="desc" rows="10" cols="30" placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" id="closeModal1" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="saveTask">Save Task</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-9">
                             <div class="card mb-4 ">
                                 <div class="bg-dark text-white card-header text-center">
@@ -73,7 +94,9 @@
                                 <div class="card-body p-4">
                                     <?php
                                     // Fetch events from database
-                                    $sql = "SELECT id, title, startdate, enddate, allday FROM personal_agenda";
+                                    $volunteer_id = $_SESSION['id'];
+                                    $username = $_SESSION['username'];
+                                    $sql = "SELECT * FROM personal_agenda WHERE `volunteer_id`='$volunteer_id' AND `username`='$username'";
                                     $result = $conn->query($sql);
 
                                     $events = array();
@@ -85,7 +108,10 @@
                                                 'title' => $row['title'],
                                                 'start' => $row['startdate'],
                                                 'end' => $row['enddate'],
-                                                'allDay' => $row['allday']
+                                                'allDay' => $row['allday'],
+                                                'backgroundColor' => '#DF0000',
+                                                'borderColor' => '#5D0004',
+                                                'textColor' => 'FFFFFF'
                                             );
                                             array_push($events, $event);
                                         }
@@ -106,16 +132,23 @@
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search Personal Task" aria-label="Search">
 
                                 <div class="p-3">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">
+                                    <?php
+                                    $query = "SELECT * FROM personal_agenda WHERE volunteer_id ='$volunteer_id' AND username='$username'";
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <div class="card bg-success text-white mb-4">
+                                            <div class="card-body">
 
-                                            <h5>Personal Task Sample 1</h5>
-                                            <hr>
-                                            <p>This is only a sample personal task. Details goes here</p>
+                                                <h5><?php echo $row['title'] ?></h5>
+                                                <hr>
+                                                <p><?php echo $row['description'] ?>e</p>
+                                            </div>
+
                                         </div>
-
-                                    </div>
-
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="card bg-dark text-white mb-4">
                                         <div class="card-body">
 
@@ -179,23 +212,39 @@
                 selectMirror: true,
                 dayMaxEvents: true,
                 select: function(arg) {
-                    var title = prompt('Personal Task:');
-                    if (title) {
-                        var eventData = {
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay
-                        };
+                    $('#PersonalModal').modal('show');
 
-                        // Add event to calendar
-                        calendar.addEvent(eventData);
+                    $('#saveTask').click(function() {
+                        var title = $('#taskTitle').val();
+                        var description = $('#taskDescription').val();
+                        if (title) {
+                            var eventData = {
+                                title: title,
+                                start: arg.start,
+                                end: arg.end,
+                                allDay: arg.allDay,
+                                backgroundColor: '#DF0000',
+                                borderColor: '#5D0004',
+                                textColor: 'FFFFFF',
+                                description: description
+                            };
 
-                        // Save event to database
-                        saveEventToDatabase(eventData);
+                            // Add event to calendar
+                            calendar.addEvent(eventData);
+
+                            // Save event to database
+                            saveEventToDatabase(eventData);
+                        }
+                        $('#PersonalModal').modal('hide');
+                        calendar.unselect();
                         location.reload();
-                    }
-                    calendar.unselect();
+                    });
+                    $('#closeModal1').click(function() {
+                        $('#PersonalModal').modal('hide');
+                    });
+                    $('#closeModal2').click(function() {
+                        $('#PersonalModal').modal('hide');
+                    });
                 },
                 eventClick: function(arg) {
                     if (confirm('Are you sure you want to delete this event?')) {

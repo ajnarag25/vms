@@ -14,9 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $start = $eventData['eventData']['start'];
             $end = $eventData['eventData']['end'];
             $allday = $eventData['eventData']['allDay'];
+            $description = $eventData['eventData']['description'];
+            $volunteer_id = $_SESSION['id'];
+            $username = $_SESSION['username'];
 
-            $conn->query("INSERT INTO personal_agenda (title, startdate, enddate, allday) 
-                VALUES('$title', '$start', '$end', '$allday')") or die($conn->error);
+
+
+
+            $conn->query("INSERT INTO personal_agenda (title, startdate, enddate, allday, description, volunteer_id, username) 
+                VALUES('$title', '$start', '$end', '$allday', '$description', '$volunteer_id', '$username')") or die($conn->error);
 
             echo "Saved Successfully";
         } elseif ($action == 'update') {
