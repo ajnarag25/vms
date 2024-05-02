@@ -130,8 +130,8 @@
                         <div class="col-md-3">
                             <div class="card mb-4">
                                 <div class="bg-success text-white card-header">
-                                    <!-- code for displaying number beside personal task -->
                                     <span style="vertical-align: +0.3em; margin-right: 5px; margin-left: 3px;">
+                                        <!-- query for displaying the number beside the personal task -->
                                         <div
                                             style="display: inline-block; justify-content: center; align-items: flex-start; width: 25px; height: 25px; border-radius: 50%; background-color: gray; padding: 0px; text-align: center;">
                                             <?php
@@ -149,31 +149,33 @@
                                     <i class="fa-solid fa-address-book"></i>
                                     Personal Task
                                 </div>
+                                <!-- search bar under personal task -->
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search Personal Task"
                                     aria-label="Search">
 
                                 <div class="p-3 overflow-auto" style="max-height: 650px;">
-                                    <!-- sql command that will get the personal agenda of the volunteers -->
+                                    <!-- query for selecting and displaying the personal agenda from volunteer_id -->
                                     <?php
                                     $query = "SELECT * FROM personal_agenda WHERE volunteer_id ='$volunteer_id' AND username='$username'";
                                     $result = mysqli_query($conn, $query);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
 
+
                                     <div class="card bg-danger text-white mb-4">
-                                        <!-- start of the button code for the reason details -->
                                         <button class="btn btn-danger"
                                             style="border: none; background-color: transparent; padding: 0;"
                                             data-toggle="modal" data-target="#exampleModal<?php echo $row['id'] ?>">
                                             <div class=" card-body">
+                                                <!-- query to convert the month from fullcalendar into normal month -->
                                                 <?php
-                                                    // php code for converting the format of fullcalendar.io date into normal date
                                                     $startdate = strtotime($row['startdate']);
                                                     $enddate = strtotime($row['enddate']);
                                                     $enddate -= 86400;
-                                                    $convertstart = date("Y-m-d", $startdate);
-                                                    $convertend = date("Y-m-d", $enddate);
+                                                    $convertstart = date("l, F j, Y", $startdate);
+                                                    $convertend = date("l, F j, Y", $enddate);
                                                     ?>
+                                                <!-- body of the personal task description -->
                                                 <h5>Reason: <?php echo $row['title']; ?></h5>
                                                 <hr>
                                                 <p>Details: <?php echo $row['description']; ?></p>
@@ -182,12 +184,11 @@
                                             </div>
                                         </button>
                                     </div>
-                                    <!-- pop-op modal that will show the details when the personal task reason is clicked -->
+                                    <!-- Modal for displaying details when a personal task is clicked -->
                                     <div class="modal fade" id="exampleModal<?php echo $row['id'] ?>" tabindex="-1"
                                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <!-- modal header -->
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -202,7 +203,7 @@
                                                     <p>From: <?php echo $convertstart; ?></p>
                                                     <p>To: <?php echo $convertend; ?></p>
                                                 </div>
-                                                <!-- Modal footer and buttons  -->
+                                                <!-- Modal footer -->
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close</button>
