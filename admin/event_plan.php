@@ -581,17 +581,17 @@
                                                                                     <label for="">Priority:</label>
                                                                                     <br>
                                                                                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Urgent" id="eventUrgent" autocomplete="off" >
-                                                                                        <label class="btn btn-outline-danger" for="eventUrgent">Urgent</label>
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Urgent" id="partUrgent" autocomplete="off" >
+                                                                                        <label class="btn btn-outline-danger" for="partUrgent">Urgent</label>
 
-                                                                                        <input type="radio" class="btn-check" name="partBtn" value="High" id="eventHigh" autocomplete="off">
-                                                                                        <label class="btn btn-outline-warning" for="eventHigh">High</label>
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="High" id="partHigh" autocomplete="off">
+                                                                                        <label class="btn btn-outline-warning" for="partHigh">High</label>
 
-                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Mid" id="eventMid" autocomplete="off">
-                                                                                        <label class="btn btn-outline-primary" for="eventMid">Mid</label>
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Mid" id="partMid" autocomplete="off">
+                                                                                        <label class="btn btn-outline-primary" for="partMid">Mid</label>
 
-                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Low" id="eventLow" autocomplete="off" checked>
-                                                                                        <label class="btn btn-outline-secondary" for="eventLow">Low</label>
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Low" id="partLow" autocomplete="off" checked>
+                                                                                        <label class="btn btn-outline-secondary" for="partLow">Low</label>
                                                                                     </div>
                                                                                 </div>
                                                                                 <br>
@@ -788,17 +788,17 @@
                                                                                                     <label for="">Priority:</label>
                                                                                                     <br>
                                                                                                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Urgent" id="eventUrgent" autocomplete="off" >
-                                                                                                        <label class="btn btn-outline-danger" for="eventUrgent">Urgent</label>
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Urgent" id="sponsorUrgent" autocomplete="off" >
+                                                                                                        <label class="btn btn-outline-danger" for="sponsorUrgent">Urgent</label>
 
-                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="High" id="eventHigh" autocomplete="off">
-                                                                                                        <label class="btn btn-outline-warning" for="eventHigh">High</label>
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="High" id="sponsorHigh" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-warning" for="sponsorHigh">High</label>
 
-                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Mid" id="eventMid" autocomplete="off">
-                                                                                                        <label class="btn btn-outline-primary" for="eventMid">Mid</label>
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Mid" id="sponsorMid" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-primary" for="sponsorMid">Mid</label>
 
-                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Low" id="eventLow" autocomplete="off" checked>
-                                                                                                        <label class="btn btn-outline-secondary" for="eventLow">Low</label>
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Low" id="sponsorLow" autocomplete="off" checked>
+                                                                                                        <label class="btn btn-outline-secondary" for="sponsorLow">Low</label>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <br>
