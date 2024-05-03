@@ -4,6 +4,7 @@
 <head>
     <?php include('./include/header.php') ?>
     <title>Team Dashboard - Volunteer Management Strageties</title>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 </head>
 
 
@@ -74,17 +75,207 @@
                                         <div class="card-body">
                                             <h5>Your Tickets Sample 1</h5>
                                         </div>
-
                                     </div>
-
-                                    <div class="card bg-dark text-white mb-4">
+                                </div>
+                                <div class="p-3">
+                                    <div class="card bg-success text-white mb-4">
                                         <div class="card-body">
-                                            <h5>Your Tickets Sample 2</h5>
+                                            <button class="btn btn-outline-light" data-toggle="modal"
+                                                data-target="#exampleModal">Sample ticket design</button>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">"Task Title"</h5>
+                                            <div
+                                                class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+                                                <!-- Navbar starts from right -->
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <!-- Align navbar items to right -->
+                                                    <li class="nav-item">
+                                                        <button class="nav-link active" data-toggle="tab"
+                                                            data-target="#main" type="button" role="tab"
+                                                            aria-controls="main" aria-selected="true">Main</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button class="nav-link" data-toggle="tab"
+                                                            data-target="#comment" type="button" role="tab"
+                                                            aria-controls="comment"
+                                                            aria-selected="false">Comment</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="tab-pane fade show active" id="main" role="tabpanel"
+                                            aria-labelledby="main-tab">
+                                            <div class="modal-body" style="max-height:450px; overflow-y: auto;">
+                                                <div class="row mt-12">
+                                                    <!-- left side of the modal main display -->
+                                                    <div class="col-md-8" style="margin-right: 50px;">
+                                                        <h5>Template: </h5>
+                                                        <p>"Template Title"</p>
+                                                        <h5>Started by: </h5>
+                                                        <p>"Admin Username"</p>
+                                                        <h5>Description: </h5>
+                                                        <p>" "</p>
+                                                        <hr>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-auto">
+                                                                <h5>Priority Level:</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                    role="alert">
+                                                                    <strong>Low</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-auto">
+                                                                <h5>Status:</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1"
+                                                                    role="alert">
+                                                                    <strong>Your-ticket</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card">
+                                                            <div class="bg-dark text-white card-header text-center">
+                                                                <i class="fa-solid fa-calendar-days"></i>
+                                                                Calendar
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div id="calendar"
+                                                                    class="calendar fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <hr>
+                                                        <div class="ml-3">
+                                                            <p class="font-italic mb-0">• "instructions from admin side"
+                                                            </p>
+                                                            <p class="font-italic mb-0">• "instructions from admin side"
+                                                            </p>
+                                                            <p class="font-italic mb-0">• "instructions from admin side"
+                                                            </p>
+                                                            <p>• ...</p>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- rigth side of the modal main display -->
+                                                    <div class="col-md-3">
+                                                        <p>Plan Progress:</p>
+                                                        <div class="col-md-10">
+                                                            <div id="progress-bar-container"
+                                                                style="position: relative;">
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <p>Event Plan Deadline: May 24, 2024</p>
+                                                        <p>Ticket Deadline: May 23, 2024</p>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            style="width: 100%;">Add Target (Time)</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            style="width: 100%; margin-top: 5px;">View Plan</button>
+                                                        <div class="row">
+                                                            <div class="col-md-6" style="width: 50%;">
+                                                                <button type="button"
+                                                                    class="btn btn-secondary btn-block"
+                                                                    style="width: 100%; margin-top: 5px;">Ask</button>
+                                                            </div>
+                                                            <div class="col-md-6" style="width: 50%;">
+                                                                <button type="button"
+                                                                    class="btn btn-secondary btn-block"
+                                                                    style="width: 100%; margin-top: 5px;">Upload</button>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            style="width: 100%; margin-top: 5px;">Submit</button>
+                                                    </div>
+                                                </div>
+                                                <hr style="box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);">
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show active" id="comment" role="tabpanel"
+                                            aria-labelledby="comment-tab">
+                                            <div class="modal-body" style="max-height:450px; overflow-y: auto;">
+                                                <div class="row mt-12">
+                                                    <!-- left side of the modal comment display -->
+                                                    <div class="col-md-8" style="margin-right: 50px;">
+                                                        <h5>Comment Section:</h5>
+                                                        <p>"Comment Content"</p>
+                                                        <!-- Add your comment-related content here -->
+                                                    </div>
+                                                    <!-- right side of the modal comment display -->
+                                                    <div class="col-md-3">
+                                                        <!-- Add any additional content related to comments here -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div>
+                                                <h5>Volunteer/s <button
+                                                        style="border: none; background-color: transparent; padding: 0;">
+                                                        <i class="bi bi-plus-square-fill">
+                                                        </i></button>
+                                                </h5>
+                                                <div class="col">
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button
+                                                        style="border: none; background-color: transparent; padding: 0; box-shadow: -2px 0 4px rgba(0, 0, 0, 0.2);">
+                                                        <i class="bi bi-list h2"></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class=" modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of modal -->
                         </div>
 
                         <div class="col-md-2">
@@ -185,7 +376,8 @@
                                 </div>
 
 
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search Tickets" aria-label="Search">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search Tickets"
+                                    aria-label="Search">
 
 
                                 <div class="p-3">
@@ -272,23 +464,98 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <!-- script for calendar -->
     <script>
-        $(document).ready(function() {
-            // Function to fetch and update the current date
-            function updateDate() {
-                $.ajax({
-                    url: "./include/currentdatetime.php",
-                    type: "GET",
-                    success: function(data) {
-                        $("#currentDate").text(data);
-                    }
-                });
-            }
-
-            // Initial update
-            updateDate();
-            var intervalId = setInterval(updateDate, 1000);
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next, today',
+                center: 'title',
+                right: 'dayGridMonth'
+            },
+            initialView: 'dayGridMonth',
+            events: [{
+                    id: '1',
+                    title: 'Event 1',
+                    start: '2024-04-01',
+                    end: '2024-04-03',
+                    allDay: false,
+                },
+                {
+                    id: '2',
+                    title: 'Event 2',
+                    start: '2024-04-05T10:00:00',
+                    end: '2024-04-05T12:00:00',
+                    allDay: false,
+                },
+            ],
+            navLinks: true,
+            selectable: true,
+            editable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
         });
+        calendar.render();
+    });
+    </script>
+
+
+    <script>
+    $(document).ready(function() {
+        // Function to fetch and update the current date
+        function updateDate() {
+            $.ajax({
+                url: "./include/currentdatetime.php",
+                type: "GET",
+                success: function(data) {
+                    $("#currentDate").text(data);
+                }
+            });
+        }
+
+        // Initial update
+        updateDate();
+        var intervalId = setInterval(updateDate, 1000);
+    });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    var progressBar = new ProgressBar.Circle('#progress-bar-container', {
+        strokeWidth: 6,
+        easing: 'easeInOut',
+        duration: 1400,
+        color: '#4caf50',
+        trailColor: '#f3f3f3',
+        trailWidth: 6,
+        svgStyle: {
+            // Center align the progress percentage text
+            transform: 'translateX(-40%) translateY(00%)',
+            position: 'relative',
+            left: '50%',
+            top: '50%'
+        },
+        text: {
+            value: '70%', // Initial value of the progress text
+            className: 'progressbar-text', // CSS class for the progress text
+            autoStyleContainer: false, // Disable automatic styling of the text container
+            style: {
+                position: 'absolute',
+                left: '50%',
+                top: '45%',
+                padding: 0,
+                margin: 0,
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: '#000'
+            }
+        }
+    });
+
+    // Set the initial progress value
+    progressBar.animate(0.5); // Example: 50% progress
     </script>
 </body>
 

@@ -74,6 +74,8 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
+                                    <!-- Modal for adding unavailability reason -->
+                                    <!-- event modal pop-up when a calendar cell is clicked -->
                                     <div class="modal-body">
                                         <input type="text" id="taskTitle" class="form-control" placeholder="Task Title">
                                         <br>
@@ -183,6 +185,7 @@
                                                 <p id="personal_end">To: <?php echo $convertend; ?></p>
                                             </div>
                                         </button>
+
                                     </div>
                                     <!-- Modal for displaying details when a personal task is clicked -->
                                     <div class="modal fade" id="exampleModal<?php echo $row['id'] ?>" tabindex="-1"
@@ -240,7 +243,7 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'dayGridMonth'
             },
             initialView: 'dayGridMonth',
             events: <?php echo json_encode($events); ?>,

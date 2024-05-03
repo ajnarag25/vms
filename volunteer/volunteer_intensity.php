@@ -77,6 +77,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+
+                                        ?>
                                         <tr>
                                             <th>Juan Delacruz</th>
                                             <td>Today</td>
@@ -85,6 +88,9 @@
                                             <td>Pending</td>
                                             <td>20</td>
                                         </tr>
+                                        <?php
+
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -100,22 +106,22 @@
 
     <?php include('./include/scripts.php') ?>
     <script>
-        $(document).ready(function() {
-            // Function to fetch and update the current date
-            function updateDate() {
-                $.ajax({
-                    url: "./include/currentdatetime.php",
-                    type: "GET",
-                    success: function(data) {
-                        $("#currentDate").text(data);
-                    }
-                });
-            }
+    $(document).ready(function() {
+        // Function to fetch and update the current date
+        function updateDate() {
+            $.ajax({
+                url: "./include/currentdatetime.php",
+                type: "GET",
+                success: function(data) {
+                    $("#currentDate").text(data);
+                }
+            });
+        }
 
-            // Initial update
-            updateDate();
-            var intervalId = setInterval(updateDate, 1000);
-        });
+        // Initial update
+        updateDate();
+        var intervalId = setInterval(updateDate, 1000);
+    });
     </script>
 </body>
 
