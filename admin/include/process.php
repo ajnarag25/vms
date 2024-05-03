@@ -1,6 +1,7 @@
 <?php 
     include('connection.php');
     session_start();
+    error_reporting(0);
 
     // LOGOUT
     if (isset($_GET['logout'])) {
@@ -200,8 +201,19 @@
     if (isset($_POST['addTicketPart'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
-        $ticket_type = 'Event Part';
 
+        $ticket_admin = $_POST['ticket_admin'];
+        $ticket_type = $_POST['ticket_type'];
+        $volunteer_ids = $_POST['volunteer_id'];
+        $partBtn = $_POST['partBtn'];
+        $ticket_deadline = $_POST['ticket_deadline'];
+
+        if($volunteer_ids){
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        }else{
+            $volunteer_ids_str = ' ';
+        }
+        
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
@@ -212,8 +224,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -238,8 +250,19 @@
     if (isset($_POST['addTicketSponsor'])) {
         $ticket_title = $_POST['ticket_title'];
         $ticket_desc = $_POST['ticket_desc'];
-        $ticket_type = 'Sponsor';
 
+        $ticket_admin = $_POST['ticket_admin'];
+        $ticket_type = $_POST['ticket_type'];
+        $volunteer_ids = $_POST['volunteer_id'];
+        $sponsorBtn = $_POST['sponsorBtn'];
+        $ticket_deadline = $_POST['ticket_deadline'];
+
+        if($volunteer_ids){
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        }else{
+            $volunteer_ids_str = ' ';
+        }
+        
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
@@ -250,8 +273,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$sponsorBtn', '$volunteer_ids_str')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -283,8 +306,12 @@
         $eventBtn = $_POST['eventBtn'];
         $ticket_deadline = $_POST['ticket_deadline'];
 
-        $volunteer_ids_str = implode(', ', $volunteer_ids);
-
+        if($volunteer_ids){
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        }else{
+            $volunteer_ids_str = ' ';
+        }
+        
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
@@ -313,6 +340,40 @@
             $_SESSION['status'] = 'An Error Occurred!';
             $_SESSION['status_icon'] = 'error';
             header('Location: ../event_plan.php');
+            exit();
+        }
+    }
+
+    // ACCOUNTS
+    if (isset($_POST['addTicketAccount'])) {
+        $ticket_title = $_POST['ticket_title'];
+        $ticket_desc = $_POST['ticket_desc'];
+
+        $ticket_admin = $_POST['ticket_admin'];
+        $ticket_type = $_POST['ticket_type'];
+        $volunteer_ids = $_POST['volunteer_id'];
+        $partBtn = $_POST['partBtn'];
+        $ticket_deadline = $_POST['ticket_deadline'];
+
+        if($volunteer_ids){
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        }else{
+            $volunteer_ids_str = ' ';
+        }
+        
+
+        if (!empty($ticket_title)) {
+
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id) 
+            VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str')") or die($conn->error);
+
+            $_SESSION['status'] = 'Ticket Successfully Saved';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../accounts.php');
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../accounts.php');
             exit();
         }
     }
