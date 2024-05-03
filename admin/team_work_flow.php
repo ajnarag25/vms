@@ -100,7 +100,6 @@
                                     $result = mysqli_query($conn, $query);
                                     while ($row = mysqli_fetch_array($result)) {
                                     
-
                                     $url = 'event_plan.php?id=' . urlencode($row['id']) .
                                     '&event_id=' . urlencode($row['event_id']) .
                                     '&allday=' . urlencode($row['allday']) .
@@ -109,8 +108,8 @@
                                     '&end=' . urlencode($row['enddate']) .
                                     '&desc=' . urlencode($row['description']);
                                 ?>
-                                <div class="col-md-2">
-                                    <div class="card text-center">
+                                <div class="col-md-3">
+                                    <div class="card text-center h-100">
         
                                         <div class="card-header bg-dark text-white">
                                             <div class="card-title text-center">
@@ -138,7 +137,6 @@
                                     <i class="fa-solid fa-clock-rotate-left"></i>
                                     Time Log
                                 </div>
-
 
                                 <div class="p-3">
                                     <table class="table">
