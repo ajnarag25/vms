@@ -88,10 +88,19 @@
                                 <div class="row">
                                     <div class="col-md-7">
                                         Contacts:
-                                        <br>
+                                        <br><button type="button" class="btn btn-warning" data-toggle="#"
+                                            data-target="#exampleModal"
+                                            style="width: 100px; height: 25px; font-size: 15px; padding: 0;">
+                                            Update
+                                        </button>
                                         Email: <b>juandelacruz@gmail.com</b>
-                                        <br>
+                                        <br><button type="button" class="btn btn-warning" data-toggle="#"
+                                            data-target="#exampleModal"
+                                            style="width: 100px; height: 25px; font-size: 15px; padding: 0;">
+                                            Update
+                                        </button>
                                         Phone Number: <b>09123456789</b>
+                                        <br>
                                         <br>
                                         Average Online Time: <b> 2 Hr/s per day</b>
                                     </div>
@@ -260,7 +269,7 @@
         }
     });
     // Set the initial progress value
-    progressBar.animate(0.7); // Example: 50% progress
+    progressBar.animate(0.7); // Example: 70% progress
     </script>
 </body>
 

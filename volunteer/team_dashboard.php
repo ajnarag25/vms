@@ -126,7 +126,7 @@
                                             <div class="tab-content" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="main" role="tabpanel"
                                                     aria-labelledby="main-tab">
-                                                    <div class="row mt-12">
+                                                    <div class="row">
                                                         <!-- left side of the modal main display -->
                                                         <div class="col-md-8" style="margin-right: 50px;">
                                                             <h5>Template: </h5>
@@ -188,8 +188,7 @@
 
                                                         <!-- rigth side of the modal main display -->
                                                         <div class="col-md-3">
-                                                            <p>Plan Progress:</p>
-                                                            <div class="col-md-10">
+                                                            <div class="col-md-10 text-center">
                                                                 <div id="progress-bar-container"
                                                                     style="position: relative;">
                                                                 </div>
@@ -222,35 +221,8 @@
                                                 <div class="tab-pane fade" id="comment" role="tabpanel"
                                                     aria-labelledby="comment-tab">
                                                     <div class="row mt-12">
-                                                        <!-- left side of the modal comment display -->
-                                                        <div class="col-md-3" style="margin-right: 50px;">
-                                                            <div class="container">
-                                                                <div class="chat-container">
-                                                                    <div class="message received">
-                                                                        <div class="alert alert-primary" role="alert">
-                                                                            Hello! How can I help you?
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="message sent">
-                                                                        <div class="alert alert-secondary" role="alert">
-                                                                            Hi! I have a question about your services.
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="message received">
-                                                                        <div class="alert alert-primary" role="alert">
-                                                                            Sure, feel free to ask.
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="message sent">
-                                                                        <div class="alert alert-secondary" role="alert">
-                                                                            Hi! I have a question about your services.
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <!-- right side of the modal comment display -->
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-12">
                                                             <div class="container">
                                                                 <div class="chat-container">
                                                                     <div class="message received">
@@ -266,6 +238,16 @@
                                                                     <div class="message received">
                                                                         <div class="alert alert-primary" role="alert">
                                                                             Sure, feel free to ask.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
                                                                         </div>
                                                                     </div>
                                                                     <div class="message sent">
@@ -591,21 +573,24 @@
         svgStyle: {
             // Center align the progress percentage text
             transform: 'translateX(-40%) translateY(00%)',
+            width: '200px', //size of the circle
+            height: '200px', //size of the circle
             position: 'relative',
             left: '50%',
             top: '50%'
         },
         text: {
-            value: '70%', // Initial value of the progress text
+            value: 'Plan Progress: 70%', // Initial value of the progress text
             className: 'progressbar-text', // CSS class for the progress text
             autoStyleContainer: false, // Disable automatic styling of the text container
             style: {
                 position: 'absolute',
-                left: '50%',
-                top: '45%',
+                left: '45%',
+                right: '20%',
+                top: '34%',
                 padding: 0,
                 margin: 0,
-                fontSize: '1.5rem',
+                fontSize: '1.0rem',
                 fontWeight: 'bold',
                 color: '#000'
             }
