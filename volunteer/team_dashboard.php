@@ -107,7 +107,7 @@
                                                         <button class="nav-link" data-toggle="tab"
                                                             data-target="#comment" type="button" role="tab"
                                                             aria-controls="comment"
-                                                            aria-selected="false">Comment</button>
+                                                            aria-selected="false">Comments</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -115,118 +115,121 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="tab-pane fade show active" id="main" role="tabpanel"
-                                            aria-labelledby="main-tab">
-                                            <div class="modal-body" style="max-height:450px; overflow-y: auto;">
-                                                <div class="row mt-12">
-                                                    <!-- left side of the modal main display -->
-                                                    <div class="col-md-8" style="margin-right: 50px;">
-                                                        <h5>Template: </h5>
-                                                        <p>"Template Title"</p>
-                                                        <h5>Started by: </h5>
-                                                        <p>"Admin Username"</p>
-                                                        <h5>Description: </h5>
-                                                        <p>" "</p>
-                                                        <hr>
-                                                        <div class="row align-items-center">
-                                                            <div class="col-auto">
-                                                                <h5>Priority Level:</h5>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="alert alert-secondary d-inline-flex align-items-center py-1"
-                                                                    role="alert">
-                                                                    <strong>Low</strong>
+
+                                        <div class="modal-body" style="max-height:450px; overflow-y: auto;">
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="main" role="tabpanel"
+                                                    aria-labelledby="main-tab">
+                                                    <div class="row mt-12">
+                                                        <!-- left side of the modal main display -->
+                                                        <div class="col-md-8" style="margin-right: 50px;">
+                                                            <h5>Template: </h5>
+                                                            <p>"Template Title"</p>
+                                                            <h5>Started by: </h5>
+                                                            <p>"Admin Username"</p>
+                                                            <h5>Description: </h5>
+                                                            <p>" "</p>
+                                                            <hr>
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <h5>Priority Level:</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                        role="alert">
+                                                                        <strong>Low</strong>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row align-items-center">
-                                                            <div class="col-auto">
-                                                                <h5>Status:</h5>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1"
-                                                                    role="alert">
-                                                                    <strong>Your-ticket</strong>
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <h5>Status:</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1"
+                                                                        role="alert">
+                                                                        <strong>Your-ticket</strong>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="card">
-                                                            <div class="bg-dark text-white card-header text-center">
-                                                                <i class="fa-solid fa-calendar-days"></i>
-                                                                Calendar
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div id="calendar"
-                                                                    class="calendar fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                                            <div class="card">
+                                                                <div class="bg-dark text-white card-header text-center">
+                                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                                    Calendar
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div id="calendar"
+                                                                        class="calendar fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <br>
+                                                            <hr>
+                                                            <div class="ml-3">
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p>• ...</p>
+                                                            </div>
                                                         </div>
-                                                        <br>
-                                                        <hr>
-                                                        <div class="ml-3">
-                                                            <p class="font-italic mb-0">• "instructions from admin side"
-                                                            </p>
-                                                            <p class="font-italic mb-0">• "instructions from admin side"
-                                                            </p>
-                                                            <p class="font-italic mb-0">• "instructions from admin side"
-                                                            </p>
-                                                            <p>• ...</p>
+
+
+                                                        <!-- rigth side of the modal main display -->
+                                                        <div class="col-md-3">
+                                                            <p>Plan Progress:</p>
+                                                            <div class="col-md-10">
+                                                                <div id="progress-bar-container"
+                                                                    style="position: relative;">
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <p>Event Plan Deadline: May 24, 2024</p>
+                                                            <p>Ticket Deadline: May 23, 2024</p>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%;">Add Target (Time)</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%; margin-top: 5px;">View Plan</button>
+                                                            <div class="row">
+                                                                <div class="col-md-6" style="width: 50%;">
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-block"
+                                                                        style="width: 100%; margin-top: 5px;">Ask</button>
+                                                                </div>
+                                                                <div class="col-md-6" style="width: 50%;">
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-block"
+                                                                        style="width: 100%; margin-top: 5px;">Upload</button>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%; margin-top: 5px;">Submit</button>
                                                         </div>
                                                     </div>
-
-
-                                                    <!-- rigth side of the modal main display -->
-                                                    <div class="col-md-3">
-                                                        <p>Plan Progress:</p>
-                                                        <div class="col-md-10">
-                                                            <div id="progress-bar-container"
-                                                                style="position: relative;">
-                                                            </div>
+                                                    <hr style="box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);">
+                                                </div>
+                                                <div class="tab-pane fade" id="comment" role="tabpanel"
+                                                    aria-labelledby="comment-tab">
+                                                    <div class="row mt-12">
+                                                        <!-- left side of the modal comment display -->
+                                                        <div class="col-md-8" style="margin-right: 50px;">
+                                                            <h5>Comment Section:</h5>
+                                                            <p>"Comment Content"</p>
+                                                            <!-- Add your comment-related content here -->
                                                         </div>
-                                                        <hr>
-                                                        <p>Event Plan Deadline: May 24, 2024</p>
-                                                        <p>Ticket Deadline: May 23, 2024</p>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            style="width: 100%;">Add Target (Time)</button>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            style="width: 100%; margin-top: 5px;">View Plan</button>
-                                                        <div class="row">
-                                                            <div class="col-md-6" style="width: 50%;">
-                                                                <button type="button"
-                                                                    class="btn btn-secondary btn-block"
-                                                                    style="width: 100%; margin-top: 5px;">Ask</button>
-                                                            </div>
-                                                            <div class="col-md-6" style="width: 50%;">
-                                                                <button type="button"
-                                                                    class="btn btn-secondary btn-block"
-                                                                    style="width: 100%; margin-top: 5px;">Upload</button>
-                                                            </div>
+                                                        <!-- right side of the modal comment display -->
+                                                        <div class="col-md-3">
+                                                            <!-- Add any additional content related to comments here -->
                                                         </div>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            style="width: 100%; margin-top: 5px;">Submit</button>
                                                     </div>
                                                 </div>
-                                                <hr style="box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);">
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade show active" id="comment" role="tabpanel"
-                                            aria-labelledby="comment-tab">
-                                            <div class="modal-body" style="max-height:450px; overflow-y: auto;">
-                                                <div class="row mt-12">
-                                                    <!-- left side of the modal comment display -->
-                                                    <div class="col-md-8" style="margin-right: 50px;">
-                                                        <h5>Comment Section:</h5>
-                                                        <p>"Comment Content"</p>
-                                                        <!-- Add your comment-related content here -->
-                                                    </div>
-                                                    <!-- right side of the modal comment display -->
-                                                    <div class="col-md-3">
-                                                        <!-- Add any additional content related to comments here -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="modal-body">
                                             <div>
                                                 <h5>Volunteer/s <button
