@@ -696,7 +696,7 @@
         
         $category = $_POST['category'];
 
-        $sql = "SELECT * FROM skill_tag WHERE category = '$category' ";
+        $sql = "SELECT * FROM skill_tag WHERE category = '$category' AND category_id = 0";
         $result = mysqli_query($conn, $sql);
 
         if(!$result->num_rows > 0){
