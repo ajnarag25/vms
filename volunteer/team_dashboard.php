@@ -5,6 +5,12 @@
     <?php include('./include/header.php') ?>
     <title>Team Dashboard - Volunteer Management Strageties</title>
     <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+    <!-- chat style -->
+    <style>
+    .message.sent {
+        text-align: right;
+    }
+    </style>
 </head>
 
 
@@ -116,7 +122,7 @@
                                             </button>
                                         </div>
 
-                                        <div class="modal-body" style="max-height:450px; overflow-y: auto;">
+                                        <div class="modal-body" style="max-height:350px; overflow-y: auto;">
                                             <div class="tab-content" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="main" role="tabpanel"
                                                     aria-labelledby="main-tab">
@@ -217,16 +223,61 @@
                                                     aria-labelledby="comment-tab">
                                                     <div class="row mt-12">
                                                         <!-- left side of the modal comment display -->
-                                                        <div class="col-md-8" style="margin-right: 50px;">
-                                                            <h5>Comment Section:</h5>
-                                                            <p>"Comment Content"</p>
-                                                            <!-- Add your comment-related content here -->
+                                                        <div class="col-md-3" style="margin-right: 50px;">
+                                                            <div class="container">
+                                                                <div class="chat-container">
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Hello! How can I help you?
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Sure, feel free to ask.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <!-- right side of the modal comment display -->
-                                                        <div class="col-md-3">
-                                                            <!-- Add any additional content related to comments here -->
+                                                        <div class="col-md-9">
+                                                            <div class="container">
+                                                                <div class="chat-container">
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Hello! How can I help you?
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Sure, feel free to ask.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -465,7 +516,10 @@
 
         </div>
     </div>
-
+    <!-- additional libraries for comment view -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <?php include('./include/scripts.php') ?>
     <!-- script for calendar -->
     <script>
@@ -525,6 +579,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- codes for progress bar -->
     <script>
     var progressBar = new ProgressBar.Circle('#progress-bar-container', {
         strokeWidth: 6,
