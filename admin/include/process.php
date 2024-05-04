@@ -690,5 +690,96 @@
             exit();
         }
     }
+
+    // ADD CATEGORY
+    if (isset($_POST['add_category'])) {
+        
+        $category = $_POST['category'];
+
+        $sql = "SELECT * FROM skill_tag WHERE category = '$category' ";
+        $result = mysqli_query($conn, $sql);
+
+        if(!$result->num_rows > 0){
+   
+            $conn->query("INSERT INTO skill_tag (category, category_id, tag_name) 
+            VALUES('$category', 0, ' ')") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Added';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../skill_tag.php');
+           
+        }else{
+            $_SESSION['status'] = 'Category Already Existing!';
+            $_SESSION['status_icon'] = 'warning';
+            header('location:../skill_tag.php');
+        }
+    
+    }
+
+    // ADD TAG
+    if (isset($_POST['add_tag'])) {
+    
+        $tag = $_POST['tag'];
+        $category = $_POST['category'];
+        $category_id = $_POST['category_id'];
+
+        $sql = "SELECT * FROM skill_tag WHERE tag_name = '$tag' AND category = '$category' ";
+        $result = mysqli_query($conn, $sql);
+
+        if(!$result->num_rows > 0){
+    
+            $conn->query("INSERT INTO skill_tag (category, category_id, tag_name) 
+            VALUES('$category', '$category_id', '$tag')") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Added';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../skill_tag.php');
+            
+        }else{
+            $_SESSION['status'] = 'Tag Already Existing!';
+            $_SESSION['status_icon'] = 'warning';
+            header('location:../skill_tag.php');
+        }
+    
+    }
+    
+    // DELETE CATEGORY
+    if (isset($_POST['del_category'])) {
+        $category_id = $_POST['category_id'];
+
+        if (!empty($category_id)) {
+
+            $conn->query("DELETE FROM skill_tag WHERE id='$category_id'") or die($conn->error);
+            $conn->query("DELETE FROM skill_tag WHERE category_id='$category_id'") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Deleted the Category';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../skill_tag.php');
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../skill_tag.php');
+            exit();
+        }
+    }
+
+    // REMOVE TAG
+    if (isset($_POST['del_tag'])) {
+        $tag_id = $_POST['tag_id'];
+
+        if (!empty($tag_id)) {
+
+            $conn->query("DELETE FROM skill_tag WHERE id='$tag_id'") or die($conn->error);
+
+            $_SESSION['status'] = 'Successfully Removed the Skill Tag';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../skill_tag.php');
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../skill_tag.php');
+            exit();
+        }
+    }
     
 ?>
