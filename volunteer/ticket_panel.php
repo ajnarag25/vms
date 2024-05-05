@@ -64,7 +64,7 @@
                     </div>
                     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar_box" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button" role="tab" aria-controls="board" aria-selected="false">Board</button>
@@ -78,10 +78,10 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Calendar -->
-                        <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                        <div class="tab-pane fade show active" id="calendar_box" role="tabpanel" aria-labelledby="calendar-tab">
 
                             <div class="row mt-3">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
                                     <div class="card mb-4 ">
                                         <div class="bg-dark text-white card-header text-center">
@@ -89,13 +89,33 @@
                                             Calendar
                                         </div>
                                         <div class="card-body p-4">
-                                            <div id="bsb-calendar-1" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            <?php
+                                            // Fetch events from database
+                                            $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                            $result = $conn->query($sql);
+
+                                            $events = array();
+
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $event = array(
+                                                        'id' => $row['id'],
+                                                        'title' => $row['title'],
+                                                        'start' => $row['startdate'],
+                                                        'end' => $row['enddate'],
+                                                        'allDay' => $row['allday']
+                                                    );
+                                                    array_push($events, $event);
+                                                }
+                                            }
+                                            ?>
+                                            <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card mb-4">
                                         <div class="bg-success text-white card-header text-center">
                                             <i class="fa-solid fa-address-book"></i>
@@ -418,6 +438,26 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialView: 'dayGridMonth',
+                events: <?php echo json_encode($events); ?>,
+                navLinks: true,
+                selectable: true,
+                editable: true,
+                selectMirror: true,
+                dayMaxEvents: true,
+            });
+            calendar.render();
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // Function to fetch and update the current date
