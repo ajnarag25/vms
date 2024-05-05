@@ -1137,26 +1137,34 @@
                                                                                                         <div class="modal-header bg-dark text-white">
                                                                                                             <h5 class="modal-title" id="">Update Priority Level</h5>
                                                                                                         </div>
-                                                                                                        <form action="">
+                                                                                                        <form action="./include/process.php" method="POST">
                                                                                                             <div class="modal-body text-center">
                                                                                                                 <label for="">Select Priority Level:</label>
                                                                                                                 <br>
                                                                                                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent" autocomplete="off" required>
-                                                                                                                    <label class="btn btn-outline-danger" for="updtUrgent">Urgent</label>
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
 
-                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh" autocomplete="off" required>
-                                                                                                                    <label class="btn btn-outline-warning" for="updtHigh">High</label>
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
 
-                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid" autocomplete="off" required>
-                                                                                                                    <label class="btn btn-outline-primary" for="updtMid">Mid</label>
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
 
-                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow" autocomplete="off" required>
-                                                                                                                    <label class="btn btn-outline-secondary" for="updtLow">Low</label>
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                             <div class="modal-footer">
-                                                                                                                <button type="submit" class="btn btn-dark">Update</button>
+                                                                                                                <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                                <button type="submit" class="btn btn-dark" name="update_priority">Update</button>
                                                                                                             </div>
                                                                                                         </form>
                                                                                                     </div>
@@ -1170,11 +1178,37 @@
                                                                                             <h5>Status:</h5>
                                                                                         </div>
                                                                                         <div class="col">
-                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1"
-                                                                                                role="alert">
-                                                                                                <strong>Your-ticket</strong>
-                                                                                            </div>
-
+                                                                                            <?php 
+                                                                                                if($row['ticket_status'] == 'Your-ticket'){
+                                                                                                ?>
+                                                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>Your-ticket</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                elseif($row['ticket_status'] == 'To-Do'){
+                                                                                                ?>
+                                                                                                    <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>To-Do</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                elseif($row['ticket_status'] == 'In-Review'){ 
+                                                                                                ?>
+                                                                                                    <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>In-Review</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                else{
+                                                                                                ?>
+                                                                                                    <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>Revision</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                            ?>
+                                                                                            
                                                                                             <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
                                                                                             <i class="fa-solid fa-pencil"></i></button>
 
@@ -1185,19 +1219,27 @@
                                                                                                         <div class="modal-header bg-dark text-white">
                                                                                                             <h5 class="modal-title" id="">Update Status</h5>
                                                                                                         </div>
-                                                                                                        <form action="">
+                                                                                                        <form action="./include/process.php" method="POST">
                                                                                                             <div class="modal-body">
                                                                                                                 <label for="">Select Status:</label>
-                                                                                                                <select class="form-select" name="" id="" required>
+                                                                                                                <select class="form-select" name="stat" id="" required>
                                                                                                                     <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
-                                                                                                                    <option value="">Your-Ticket</option>
-                                                                                                                    <option value="">To-Do</option>
-                                                                                                                    <option value="">In-Review</option>
-                                                                                                                    <option value="">Revision</option>
+                                                                                                                    <option value="Your-Ticket">Your-Ticket</option>
+                                                                                                                    <option value="To-Do">To-Do</option>
+                                                                                                                    <option value="In-Review">In-Review</option>
+                                                                                                                    <option value="Revision">Revision</option>
                                                                                                                 </select>
                                                                                                             </div>
                                                                                                             <div class="modal-footer">
-                                                                                                                <button type="submit" class="btn btn-dark">Update</button>
+                                                                                                                <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                                <button type="submit" name="update_status" class="btn btn-dark">Update</button>
                                                                                                             </div>
                                                                                                         </form>
                                                                                                     </div>

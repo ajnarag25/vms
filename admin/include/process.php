@@ -782,4 +782,112 @@
         }
     }
     
+    // UPDATE PRIORITY LEVEL
+    if (isset($_POST['update_priority'])) {
+        $priority_id = $_POST['priority_id'];
+        $updtLevel = $_POST['updtBtn'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&event_id=' . urlencode($main_event_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+        
+        $result = $conn->query("SELECT * FROM tickets WHERE id = '$priority_id'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentLevel = $row['ticket_priority'];
+            
+            if ($currentLevel == $updtLevel) {
+                $_SESSION['status'] = 'No changes made. Priority level is already set to ' . $updtLevel;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../'. $url);
+                exit();
+            } else {
+                if (!empty($priority_id)) {
+                    $conn->query("UPDATE tickets SET ticket_priority = '$updtLevel' WHERE id = $priority_id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully updated the priority level to ' . $updtLevel;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../'. $url);
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../'. $url);
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../'. $url);
+            exit();
+        }
+
+    }
+
+    // UPDATE STATUS
+    if (isset($_POST['update_status'])) {
+        $status_id = $_POST['status_id'];
+        $stat = $_POST['stat'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&event_id=' . urlencode($main_event_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+        
+        $result = $conn->query("SELECT * FROM tickets WHERE id = '$status_id'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentStat = $row['ticket_status'];
+            
+            if ($currentStat == $stat) {
+                $_SESSION['status'] = 'No changes made. Ticket Status is already set to ' . $stat;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../'. $url);
+                exit();
+            } else {
+                if (!empty($status_id)) {
+                    $conn->query("UPDATE tickets SET ticket_status = '$stat' WHERE id = $status_id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully updated the ticket status to ' . $stat;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../'. $url);
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../'. $url);
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../'. $url);
+            exit();
+        }
+
+    }
+        
 ?>
