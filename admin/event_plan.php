@@ -1127,8 +1127,42 @@
                                                                                             }
                                                                                             
                                                                                             ?>
-                                                                                            <button class="btn btn-sm btn-dark text-white" title="Edit" style="font-size:8px">
+                                                                                            <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
                                                                                             <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                            <!-- Modal Priority -->
+                                                                                            <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                                            <h5 class="modal-title" id="">Update Priority Level</h5>
+                                                                                                        </div>
+                                                                                                        <form action="">
+                                                                                                            <div class="modal-body text-center">
+                                                                                                                <label for="">Select Priority Level:</label>
+                                                                                                                <br>
+                                                                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-danger" for="updtUrgent">Urgent</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-warning" for="updtHigh">High</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-primary" for="updtMid">Mid</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-secondary" for="updtLow">Low</label>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="modal-footer">
+                                                                                                                <button type="submit" class="btn btn-dark">Update</button>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="row align-items-center">
@@ -1140,21 +1174,134 @@
                                                                                                 role="alert">
                                                                                                 <strong>Your-ticket</strong>
                                                                                             </div>
-                                                                                            <button class="btn btn-sm btn-dark text-white" title="Edit" style="font-size:8px">
+
+                                                                                            <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
                                                                                             <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                             <!-- Modal Status -->
+                                                                                            <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                                            <h5 class="modal-title" id="">Update Status</h5>
+                                                                                                        </div>
+                                                                                                        <form action="">
+                                                                                                            <div class="modal-body">
+                                                                                                                <label for="">Select Status:</label>
+                                                                                                                <select class="form-select" name="" id="" required>
+                                                                                                                    <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                                    <option value="">Your-Ticket</option>
+                                                                                                                    <option value="">To-Do</option>
+                                                                                                                    <option value="">In-Review</option>
+                                                                                                                    <option value="">Revision</option>
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                            <div class="modal-footer">
+                                                                                                                <button type="submit" class="btn btn-dark">Update</button>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                         <button
-                                                                                            style="border: none; background-color: transparent; padding: 0;">
-                                                                                            <i class="bi bi-plus-square-fill">
-                                                                                            </i></button> <label for="">Additional Instructions</label>
+                                                                                        style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                                        <i class="bi bi-plus-square-fill">
+                                                                                        </i></button> <label for="">Additional Instructions</label>
+
+                                                                                        <!-- Modal Additional Instructions -->
+                                                                                        <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                        <h5 class="modal-title" id="">Add Additional Instructions</h5>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <label for="input">Instruction:</label>
+                                                                                                        <input id="input" class="form-control" type="text">
+                                                                                                        <br>
+                                                                                                        <button id="addBtn" class="btn btn-sm btn-secondary"><i class="bi bi-plus-square-fill"></i> Add Others</button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-dark">Add</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     <hr>
                                                                                     <div>
-                                                                                        <h5>Ticket Volunteers: <button
-                                                                                            style="border: none; background-color: transparent; padding: 0;">
+                                                                                        <h5>Ticket Volunteers: 
+                                                                                            <button
+                                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
                                                                                             <i class="bi bi-plus-square-fill">
                                                                                             </i></button>
                                                                                         </h5>
+
+                                                                                         <!-- Modal Add Volunteer -->
+                                                                                         <div class="modal modal-lg fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                        <h5 class="modal-title" id="">Add Volunteer</h5>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <table class="table" id="">
+                                                                                                            <thead>
+                                                                                                                <tr>
+                                                                                                                    <th scope="col"></th>
+                                                                                                                    <th scope="col">Volunteers Name</th>
+                                                                                                                    <th scope="col">Email</th>
+                                                                                                                    <th scope="col">View</th>
+                                                                                                                </tr>
+                                                                                                            </thead>
+                                                                                                            <tbody>
+                                                                                                            <?php 
+                                                                                                                $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                                                                $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                                
+                                                                                                                while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                            ?>
+                                                                                                            <tr>
+                                                                                                                <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                                <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                                <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                                <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                            </tr>
+
+                                                                                                            <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                                    <div class="modal-content">
+                                                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                                                <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h5>
+                                                                                                                            
+                                                                                                                            </div>
+                                                                                                                            <div class="modal-body">
+                                                                                                                                <h3>Volunteer Details:</h3>
+                                                                                                                                <ul>
+                                                                                                                                    <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                                    <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                                    <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                                    <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                                </ul>
+                                                                                                                            </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                            
+                                                                                                            <?php 
+                                                                                                            }
+                                                                                                            ?>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-dark">Add</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
                                                                                         <div class="col">
                                                                                         <?php 
                                                                                             $ids = $row['ticket_volunteers_id'];
@@ -1185,7 +1332,7 @@
                                                                             
                                                                                     <hr>
                                                                                     <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
-                                                                                    <h6 class="mt-3">Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                                    <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1353,6 +1500,16 @@
 
     });
 
+    </script>
+
+    <!--Add Instruction Input-->
+    <script>
+        document.getElementById("addBtn").addEventListener("click", function() {
+            var input = document.createElement("input");
+            input.classList.add("form-control");
+            input.setAttribute("type", "text");
+            document.querySelector(".container").appendChild(input);
+        });
     </script>
 
 </body>

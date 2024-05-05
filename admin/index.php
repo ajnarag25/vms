@@ -218,7 +218,7 @@
                         <hr class="mt-3">
 
 
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="card mb-4 h-100">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
@@ -253,13 +253,13 @@
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-bookmark"></i>
                                     Tickets
                                 </div>
-                                <div style="max-height: 400px; overflow-y: auto;">
+                                <div style="max-height: 500px; overflow-y: auto;">
                                 <?php
                                     $query = "SELECT * FROM tickets";
                                     $result = mysqli_query($conn, $query);
