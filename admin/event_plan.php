@@ -514,7 +514,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <hr>
-                                                                                <table class="table" id="VolunteersEvent">
+                                                                                <table class="table" id="VolunteersPart">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th scope="col"></th>
@@ -533,10 +533,10 @@
                                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $row['id'] ?>"></td>
                                                                                         <td><?php echo $row['name'] ?></td>
                                                                                         <td><?php echo $row['email'] ?></td>
-                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteer<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerPart<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                     </tr>
 
-                                                                                    <div class="modal modal-lg fade" id="volunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                    <div class="modal modal-lg fade" id="volunteerPart<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
                                                                                         <div class="modal-dialog modal-dialog-scrollable">
                                                                                             <div class="modal-content">
                                                                                                     <div class="modal-header bg-dark text-white">
@@ -721,7 +721,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <hr>
-                                                                                                <table class="table" id="VolunteersEvent">
+                                                                                                <table class="table" id="VolunteersSponsor">
                                                                                                     <thead>
                                                                                                         <tr>
                                                                                                             <th scope="col"></th>
@@ -740,10 +740,10 @@
                                                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $row['id'] ?>"></td>
                                                                                                         <td><?php echo $row['name'] ?></td>
                                                                                                         <td><?php echo $row['email'] ?></td>
-                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteer<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerSponsor<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                                     </tr>
 
-                                                                                                    <div class="modal modal-lg fade" id="volunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                    <div class="modal modal-lg fade" id="volunteerSponsor<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
                                                                                                         <div class="modal-dialog modal-dialog-scrollable">
                                                                                                             <div class="modal-content">
                                                                                                                     <div class="modal-header bg-dark text-white">
@@ -894,10 +894,10 @@
                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $row['id'] ?>"></td>
                                                                         <td><?php echo $row['name'] ?></td>
                                                                         <td><?php echo $row['email'] ?></td>
-                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteer<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerEvent<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                     </tr>
 
-                                                                    <div class="modal modal-lg fade" id="volunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                    <div class="modal modal-lg fade" id="volunteerEvent<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
                                                                         <div class="modal-dialog modal-dialog-scrollable">
                                                                             <div class="modal-content">
                                                                                     <div class="modal-header bg-dark text-white">

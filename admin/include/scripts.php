@@ -19,6 +19,8 @@
     $('#Accounts').DataTable()
     $('#Volunteers').DataTable()
     $('#VolunteersEvent').DataTable()
+    $('#VolunteersPart').DataTable()
+    $('#VolunteersSponsor').DataTable()
 </script>
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
