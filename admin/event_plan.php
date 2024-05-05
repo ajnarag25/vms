@@ -241,31 +241,18 @@
                                                 class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                             <hr>
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h5><b>Tickets:</b> Sample Tickets</h5>
-                                                    <h5><b>Volunteers:</b> Sample Volunteers</h5>
-                                                    <br>
-                                                    <h5>Acquisition Speed</h5>
-                                                    <div class="text-center mb-4">
-                                                        <div class="progress mt-2">
-                                                            <div class="progress-bar bg-success w-50" role="progressbar"
-                                                                aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <label for="">Normal</label>
+                                    
+                                            <h5 class="text-center">Acquisition Speed</h5>
+                                            <div class="text-center mb-4">
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar bg-success w-50" role="progressbar"
+                                                        aria-valuenow="50" aria-valuemin="0"
+                                                        aria-valuemax="100">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 text-center">
-                                                    <label for="">Completeness:</label>
-                                                    <div class="progress mt-2">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <label for="">Normal</label>
                                             </div>
+                                   
                                             <h6>Prediction Date:</h6>
                                             <div class="card mb-4">
                                                 <div class="bg-dark text-white card-header text-center">

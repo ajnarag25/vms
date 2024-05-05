@@ -217,45 +217,8 @@
 
                         <hr class="mt-3">
 
-                        <div class="col-md-4">
-                            <div class="card mb-4 h-100">
-                                <div class="bg-dark text-white card-header text-center">
-                                    <i class="fa-solid fa-clock-rotate-left"></i>
-                                    History
-                                </div>
-                                <br>
-                                <div class="p-3">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Ticket</th>
-                                                <th scope="col">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>03/09/2024</th>
-                                                <td>Ticket 1</td>
-                                                <td class="text-success">Success</td>
-                                            </tr>
-                                            <tr>
-                                                <th>03/10/2024</th>
-                                                <td>Ticket 2</td>
-                                                <td class="text-warning">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <th>03/05/2024</th>
-                                                <td>Ticket 3</td>
-                                                <td class="text-danger">Fail</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="card mb-4 h-100">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
