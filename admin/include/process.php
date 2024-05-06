@@ -224,8 +224,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', ' ')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -273,8 +273,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$sponsorBtn', '$volunteer_ids_str', 'Your-ticket', ' ')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$sponsorBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -322,8 +322,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$eventBtn', '$volunteer_ids_str', 'Your-ticket', ' ')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$eventBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -364,8 +364,8 @@
 
         if (!empty($ticket_title)) {
 
-            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments) 
-            VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', ' ')") or die($conn->error);
+            $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
+            VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
 
             $_SESSION['status'] = 'Ticket Successfully Saved';
             $_SESSION['status_icon'] = 'success';
@@ -889,5 +889,53 @@
         }
 
     }
+
+    // ADD INSTRUCTIONS
+    if (isset($_POST['addInstructions'])) {
+        $instructions_id = $_POST['instructions_id'];
+
+        $instructions = array();
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, 'instruction_') === 0) {
+                $instructions[] = $value;
+            }
+        }
+
+        $newInstructionStr = implode(', ', $instructions);
+
+        $existingInstructionsQuery = $conn->query("SELECT ticket_instructions FROM tickets WHERE id = '$instructions_id'");
+        $existingInstructionsRow = $existingInstructionsQuery->fetch_assoc();
+        $existingInstructionStr = $existingInstructionsRow['ticket_instructions'];
+
+        if (!empty($existingInstructionStr)) {
+            $instructionStr = $existingInstructionStr . ', ' . $newInstructionStr;
+        } else {
+            $instructionStr = $newInstructionStr;
+        }
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&event_id=' . urlencode($main_event_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+
+        $conn->query("UPDATE tickets SET ticket_instructions = '$instructionStr' WHERE id = '$instructions_id'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully Added the Instruction/s';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../'. $url);
+        exit();
+    }
+
+
         
 ?>

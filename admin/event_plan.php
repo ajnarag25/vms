@@ -1247,6 +1247,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
+
                                                                                         <button
                                                                                         style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
                                                                                         <i class="bi bi-plus-square-fill">
@@ -1259,16 +1260,21 @@
                                                                                                     <div class="modal-header bg-dark text-white">
                                                                                                         <h5 class="modal-title" id="">Add Additional Instructions</h5>
                                                                                                     </div>
-                                                                                                    <form action="./includes/process.php">
+                                                                                                    <form action="./include/process.php" method="POST">
                                                                                                         <div class="modal-body">
-                                                                                                            <div style="max-height: 200px; overflow-y: auto;">
-                                                                                                                <label for="input">Instruction:</label>
-                                                                                                                <input id="input" class="form-control" name="instruction" type="text" required>
-                                                                                                                <br>
-                                                                                                                <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary"><i class="bi bi-plus-square-fill"></i> Add Others</button>
+                                                                                                            <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                                <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="modal-footer">
+                                                                                                            <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
                                                                                                             <button type="submit" name="addInstructions" class="btn btn-dark">Add</button>
                                                                                                         </div>
                                                                                                     </form>
@@ -1281,15 +1287,45 @@
                                                                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                                                         <script>
                                                                                             $(document).ready(function(){
+                                                                                                var count = 1;
                                                                                                 $("#addBtn<?php echo $row['id'] ?>").click(function(){
-                                                                                                    console.log('Button Clicked');
-                                                                                                    var input = $("<input>").addClass("form-control mt-3").attr("type", "text").prop("required", true);
-                                                                                                    $(".modal-body").append(input);
+                                                                                                    var input = $("<input>")
+                                                                                                        .addClass("form-control mt-3")
+                                                                                                        .attr("type", "text")
+                                                                                                        .attr("name", "instruction_" + count)
+                                                                                                        .prop("required", true)
+                                                                                                        .attr("placeholder", "Instruction " + count);
+                                                                                                    $(".instructions").append(input);
+                                                                                                    count++;
                                                                                                 });
 
                                                                                             });
                                                                                         </script>
+                                                                                    
+                                                                                    <div style="max-height: 200px; overflow-y: auto;">
+                                                                                    <?php 
+                                                                                        $ticket_id = $row['id'];
+                                                                                        $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
+                                                                                        $resultInstruction = mysqli_query($conn, $queryInstruction);
 
+                                                                                        while ($instructionRow = mysqli_fetch_assoc($resultInstruction)) {
+                                                                                            // Get the instructions from the row
+                                                                                            $instructionStr = $instructionRow['ticket_instructions'];
+                                                                                            
+                                                                                            // Explode the instructions into an array
+                                                                                            $instructionsArray = explode(', ', $instructionStr);
+
+                                                                                            // Output each instruction in a list item
+                                                                                            echo '<ul>';
+                                                                                            foreach ($instructionsArray as $instruction) {
+                                                                                                echo '<li>' . $instruction . '</li>';
+                                                                                            }
+                                                                                            echo '</ul>';
+                                                                                        }
+                                                                                    ?>
+
+                                                                                    </div>
+                                                                                  
                                                                                     <hr>
                                                                                     <div>
                                                                                         <h5>Ticket Volunteers: 
