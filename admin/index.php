@@ -259,7 +259,7 @@
                                     <i class="fa-solid fa-bookmark"></i>
                                     Tickets
                                 </div>
-                                <div style="max-height: 500px; overflow-y: auto;">
+                                <div style="max-height: 800px; overflow-y: auto;">
                                 <?php
                                     $query = "SELECT * FROM tickets";
                                     $result = mysqli_query($conn, $query);

@@ -1259,18 +1259,37 @@
                                                                                                     <div class="modal-header bg-dark text-white">
                                                                                                         <h5 class="modal-title" id="">Add Additional Instructions</h5>
                                                                                                     </div>
-                                                                                                    <div class="modal-body">
-                                                                                                        <label for="input">Instruction:</label>
-                                                                                                        <input id="input" class="form-control" type="text">
-                                                                                                        <br>
-                                                                                                        <button id="addBtn" class="btn btn-sm btn-secondary"><i class="bi bi-plus-square-fill"></i> Add Others</button>
-                                                                                                    </div>
-                                                                                                    <div class="modal-footer">
-                                                                                                        <button type="button" class="btn btn-dark">Add</button>
-                                                                                                    </div>
+                                                                                                    <form action="./includes/process.php">
+                                                                                                        <div class="modal-body">
+                                                                                                            <div style="max-height: 200px; overflow-y: auto;">
+                                                                                                                <label for="input">Instruction:</label>
+                                                                                                                <input id="input" class="form-control" name="instruction" type="text" required>
+                                                                                                                <br>
+                                                                                                                <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary"><i class="bi bi-plus-square-fill"></i> Add Others</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="modal-footer">
+                                                                                                            <button type="submit" name="addInstructions" class="btn btn-dark">Add</button>
+                                                                                                        </div>
+                                                                                                    </form>
+                                                                                                    
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
+
+                                                                                        <!--Add Instruction Input-->
+                                                                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                                        <script>
+                                                                                            $(document).ready(function(){
+                                                                                                $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                                    console.log('Button Clicked');
+                                                                                                    var input = $("<input>").addClass("form-control mt-3").attr("type", "text").prop("required", true);
+                                                                                                    $(".modal-body").append(input);
+                                                                                                });
+
+                                                                                            });
+                                                                                        </script>
+
                                                                                     <hr>
                                                                                     <div>
                                                                                         <h5>Ticket Volunteers: 
@@ -1542,16 +1561,6 @@
 
     });
 
-    </script>
-
-    <!--Add Instruction Input-->
-    <script>
-        document.getElementById("addBtn").addEventListener("click", function() {
-            var input = document.createElement("input");
-            input.classList.add("form-control");
-            input.setAttribute("type", "text");
-            document.querySelector(".container").appendChild(input);
-        });
     </script>
 
 </body>
