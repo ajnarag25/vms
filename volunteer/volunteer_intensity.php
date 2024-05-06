@@ -65,7 +65,7 @@
                     <div class="mt-3">
                         <div class="card p-3">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="volunteerIntensity">
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
@@ -78,18 +78,26 @@
                                     </thead>
                                     <tbody>
                                         <?php
-
+                                        $query = "SELECT * FROM accounts WHERE type ='volunteer'";
+                                        $result = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_array($result)) {
                                         ?>
                                         <tr>
-                                            <th>Juan Delacruz</th>
-                                            <td>Today</td>
-                                            <td>Sample To-Do</td>
-                                            <td>Sample Revisions</td>
-                                            <td>Pending</td>
-                                            <td>20</td>
+                                            <th><?php echo $row['username'] ?></th>
+                                            <td>3</td>
+                                            <td>5</td>
+                                            <td>10</td>
+                                            <td>5</td>
+                                            <td>
+                                                <div class="progress" style="height: 30px;">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: 70%;" aria-valuenow="70" aria-valuemin="0"
+                                                        aria-valuemax="100">70%</div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <?php
-
+                                        }
                                         ?>
                                     </tbody>
                                 </table>
