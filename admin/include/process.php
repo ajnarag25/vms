@@ -602,8 +602,8 @@
 
     // DELETE PART
     if (isset($_POST['delPart'])) {
-        $id = $_POST['id'];
-
+        $id = $_POST['part_id'];
+        
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
