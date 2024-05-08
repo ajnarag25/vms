@@ -299,8 +299,36 @@
                                                                 <hr>
                                                                 <label for="">Guests / Volunteer:</label>
                                                                 <select class="form-select" name="gv_people" id="">
-                                                                    <option value="">Sample People / Volunteer</option>
-                                                                    <option value="">Others</option>
+
+                                                                    <option value="" disabled selected>--Select Guests/Volunteers--</option>
+                                                                    <?php 
+                                                                        $query1 = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $query2 = "SELECT * FROM guest_sponsors WHERE type = 'guest'";
+                                                                        
+                                                                        $result1 = mysqli_query($conn, $query1);
+                                                                        $result2 = mysqli_query($conn, $query2);
+                                                                        
+                                                                        $combinedRows = array();
+                                                                    
+                                                                        while ($rowVolunteer = mysqli_fetch_array($result1)) {
+                                                                            $combinedRows[] = $rowVolunteer;
+                                                                        }
+                                                                    
+                                                                        while ($rowGuest = mysqli_fetch_array($result2)) {
+                                                                            $combinedRows[] = $rowGuest;
+                                                                        }
+                                                                    
+                                                                    ?>
+
+                                                                    <?php 
+                                                                    
+                                                                    foreach ($combinedRows as $volunteer_guests) {
+                                                                        ?>
+                                                                            <option value="<?php echo $volunteer_guests['id'] ?> <?php echo $volunteer_guests['type'] ?>"><?php echo $volunteer_guests['name'] ?> - <?php echo $volunteer_guests['type'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+
                                                                 </select>
                                                                 <label for="" class="mt-3">Volunteer:</label>
                                                                 <select class="form-select" name="volunteer" id="">
