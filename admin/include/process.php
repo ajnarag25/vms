@@ -156,6 +156,12 @@
         $from = $_POST['from'];
         $to = $_POST['to'];
 
+        $parts = explode(" ", $gv_people);
+
+        $ids = $parts[0]; 
+        $types = $parts[1];
+        $names = $parts[2];
+
         $main_id = $_POST['main_id'];
         $main_title = $_POST['main_title'];
         $main_start = $_POST['main_start'];
@@ -172,21 +178,31 @@
         $start = date('Y-m-d\TH:i:s', strtotime($from . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
         $end = date('Y-m-d\TH:i:s', strtotime($to . ' ' . $utc_offset, $main_start_utc)) . '.000Z';
 
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+
         if (!empty($part_name) && !empty($from) && !empty($to)) {
 
-            $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description) 
-            VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc')") or die($conn->error);
+            if($types == 'volunteer'){
+                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, volunteer, volunteer_id) 
+                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids')") or die($conn->error);
 
-            $url = 'event_plan.php?id=' . urlencode($main_id) .
-            '&allday=' . urlencode($main_allday) .
-            '&title=' . urlencode($main_title) .
-            '&start=' . urlencode($main_start) .
-            '&end=' . urlencode($main_end) .
-            '&desc=' . urlencode($main_desc);
-
-            $_SESSION['status'] = 'Add Part Successfully Saved';
-            $_SESSION['status_icon'] = 'success';
-            header('Location: ../' . $url);
+                $_SESSION['status'] = 'Add Part Successfully Saved';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../' . $url);
+            }else{
+                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, guests, guests_id) 
+                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids')") or die($conn->error);
+                
+                $_SESSION['status'] = 'Add Part Successfully Saved';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../' . $url);
+            }
+ 
         } else {
             $_SESSION['status'] = 'An Error Occurred!';
             $_SESSION['status_icon'] = 'error';
@@ -602,8 +618,8 @@
 
     // DELETE PART
     if (isset($_POST['delPart'])) {
-        $id = $_POST['part_id'];
-        
+        $id = $_POST['id'];
+
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
@@ -901,6 +917,18 @@
             }
         }
 
+        $newInstructionStr = implode(', ', $instructions);
+
+        $existingInstructionsQuery = $conn->query("SELECT ticket_instructions FROM tickets WHERE id = '$instructions_id'");
+        $existingInstructionsRow = $existingInstructionsQuery->fetch_assoc();
+        $existingInstructionStr = $existingInstructionsRow['ticket_instructions'];
+
+        if (!empty($existingInstructionStr)) {
+            $instructionStr = $existingInstructionStr . ', ' . $newInstructionStr;
+        } else {
+            $instructionStr = $newInstructionStr;
+        }
+
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
         $main_title = $_POST['main_title'];
@@ -916,86 +944,14 @@
         '&start=' . urlencode($main_start) .
         '&end=' . urlencode($main_end) .
         '&desc=' . urlencode($main_desc);
-        
-        if($instructions){
-            $newInstructionStr = implode(', ', $instructions);
 
-            $existingInstructionsQuery = $conn->query("SELECT ticket_instructions FROM tickets WHERE id = '$instructions_id'");
-            $existingInstructionsRow = $existingInstructionsQuery->fetch_assoc();
-            $existingInstructionStr = $existingInstructionsRow['ticket_instructions'];
-    
-            if (!empty($existingInstructionStr)) {
-                $instructionStr = $existingInstructionStr . ', ' . $newInstructionStr;
-            } else {
-                $instructionStr = $newInstructionStr;
-            }
-    
-            $conn->query("UPDATE tickets SET ticket_instructions = '$instructionStr' WHERE id = '$instructions_id'") or die($conn->error);
-            $_SESSION['status'] = 'Successfully Added the Instruction/s';
-            $_SESSION['status_icon'] = 'success';
-            header('Location: ../'. $url);
-            exit();
-        }else{
-            $_SESSION['status'] = 'No Instructions Added';
-            $_SESSION['status_icon'] = 'info';
-            header('Location: ../'. $url);
-            exit();
-        }
-      
+        $conn->query("UPDATE tickets SET ticket_instructions = '$instructionStr' WHERE id = '$instructions_id'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully Added the Instruction/s';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../'. $url);
+        exit();
     }
 
-    // ADD VOLUNTEERS
-    if (isset($_POST['addVolunteers'])) {
-        $vl_id = $_POST['vl_id'];
-        $volunteer_ids = isset($_POST['volunteer_id']) ? $_POST['volunteer_id'] : [];
-        
-        $main_id = $_POST['main_id'];
-        $main_event_id = $_POST['main_event_id'];
-        $main_title = $_POST['main_title'];
-        $main_start = $_POST['main_start'];
-        $main_end = $_POST['main_end'];
-        $main_allday = $_POST['main_allday'];
-        $main_desc = $_POST['main_desc'];
-    
-        $url = 'event_plan.php?id=' . urlencode($main_id) .
-        '&event_id=' . urlencode($main_event_id) .
-        '&allday=' . urlencode($main_allday) .
-        '&title=' . urlencode($main_title) .
-        '&start=' . urlencode($main_start) .
-        '&end=' . urlencode($main_end) .
-        '&desc=' . urlencode($main_desc);
 
-        if (!empty($volunteer_ids)) {
-            $volunteer_ids_str = implode(', ', $volunteer_ids);
-        } else {
-            $_SESSION['status'] = 'No Volunteers Added';
-            $_SESSION['status_icon'] = 'info';
-            header('Location: ../'. $url);
-            exit();
-        }
         
-        if ($vl_id) {
-            $existingVolunteersQuery = $conn->query("SELECT ticket_volunteers_id FROM tickets WHERE id = '$vl_id'");
-            $existingVolunteersRow = $existingVolunteersQuery->fetch_assoc();
-            $existingVolunteerStr = $existingVolunteersRow['ticket_volunteers_id'];
-    
-            if (!empty($existingVolunteerStr)) {
-                $volunteerStr = $existingVolunteerStr . ', ' . $volunteer_ids_str;
-            } else {
-                $volunteerStr = $volunteer_ids_str;
-            }
-    
-            $conn->query("UPDATE tickets SET ticket_volunteers_id = '$volunteerStr' WHERE id = '$vl_id'") or die($conn->error);
-            $_SESSION['status'] = 'Successfully Added Volunteer/s';
-            $_SESSION['status_icon'] = 'success';
-            header('Location: ../'. $url);
-            exit();
-        } else {
-            $_SESSION['status'] = 'No Volunteers Added';
-            $_SESSION['status_icon'] = 'info';
-            header('Location: ../'. $url);
-            exit();
-        }
-    }
-    
 ?>

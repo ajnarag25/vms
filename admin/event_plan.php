@@ -321,10 +321,11 @@
                                                                     ?>
 
                                                                     <?php 
-                                                                    
+
                                                                     foreach ($combinedRows as $volunteer_guests) {
                                                                         ?>
-                                                                            <option value="<?php echo $volunteer_guests['id'] ?> <?php echo $volunteer_guests['type'] ?>"><?php echo $volunteer_guests['name'] ?> - <?php echo $volunteer_guests['type'] ?></option>
+                                                                            <option value="<?php echo $volunteer_guests['id'] ?> <?php echo $volunteer_guests['type'] ?> <?php echo $volunteer_guests['name'] ?>">
+                                                                            <?php echo $volunteer_guests['name'] ?> - <?php echo $volunteer_guests['type'] ?></option>
                                                                         <?php
                                                                     }
                                                                     ?>
