@@ -68,12 +68,18 @@
                             <div class="card-head">
                                 <div class="row">
                                     <div class="col-md-10 text-left">
-                                        <h5><b>Name:</b> Juan Delacruz</h5>
+                                        <?php
+                                        $sesId = $_SESSION['id'];
+                                        $ses_query = "SELECT * FROM accounts WHERE `id`='$sesId'";
+                                        $ses_result = mysqli_query($conn, $ses_query);
+                                        while ($ses_row = mysqli_fetch_array($ses_result)){
+                                        ?>
+                                        <h5><b>Name:</b> <?php echo $ses_row['name'] ?></h5>
                                         <h5><b>Date Joined:</b> 03/18/2024</h5>
                                         <h5><b>Account Type: </b>
                                             <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2"
                                                 role="alert">
-                                                Volunteer
+                                                <?php echo $ses_row['type'] ?>
                                             </div>
                                         </h5>
                                     </div>
@@ -88,20 +94,69 @@
                                 <div class="row">
                                     <div class="col-md-7">
                                         Contacts:
-                                        <br><button type="button" class="btn btn-warning" data-toggle="#"
-                                            data-target="#exampleModal"
+                                        <br><button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#updateemail"
                                             style="width: 100px; height: 25px; font-size: 15px; padding: 0;">
                                             Update
                                         </button>
-                                        Email: <b>juandelacruz@gmail.com</b>
-                                        <br><button type="button" class="btn btn-warning" data-toggle="#"
-                                            data-target="#exampleModal"
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="updateemail" tabindex="-1" role="dialog"
+                                            aria-labelledby="updateemail" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Update Email</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        Email: <b><?php echo $ses_row['email'] ?></b>
+                                        <br><button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#updatenumber"
                                             style="width: 100px; height: 25px; font-size: 15px; padding: 0;">
                                             Update
                                         </button>
-                                        Phone Number: <b>09123456789</b>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="updatenumber" tabindex="-1" role="dialog"
+                                            aria-labelledby="updatenumber" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Update Number
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        Phone Number: <b><?php echo $ses_row['contact'] ?></b>
                                         <br>
                                         <br>
+                                        <!-- closing for while loop on selecting volunteer account -->
+                                        <?php
+                                        }
+                                        ?>
                                         Average Online Time: <b> 2 Hr/s per day</b>
                                     </div>
                                     <div class="col-md-5">
@@ -172,7 +227,8 @@
                                                                             }
                                                                         }
                                                                         ?>
-                                                                        <button id='display'>Display array</button>
+                                                                        <button id='display'>Display
+                                                                            array</button>
                                                                         <div id="result2"></div>
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -224,7 +280,8 @@
                                                                         <?php
                                                                         }
                                                                         ?>
-                                                                        <button id='display2'>Display array</button>
+                                                                        <button id='display2'>Display
+                                                                            array</button>
                                                                         <div id="result3"></div>
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -243,58 +300,32 @@
                                             </div>
                                             <div class="col-12 text-center mt-3"
                                                 style="overflow-y: auto; max-height: 250px;">
-                                                Category
+                                                <?php
+                                                $category_display = "SELECT * FROM skill_tag WHERE `tag_name`=''";
+                                                $execute_result = mysqli_query($conn, $category_display);
+                                                while ($display_result = mysqli_fetch_array($execute_result)){
+                                                ?>
+                                                <?php echo $display_result['category'] ?>
                                                 <ol class="list-unstyled d-flex flex-wrap">
-                                                    <li class="col-md-4">Sample skills 6</li>
-                                                    <li class="col-md-4">Sample skills 7</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
+                                                    <?php
+                                                    $volunteerid = $_SESSION['id'];
+                                                    $pull_category_id = $display_result['id'];
+                                                    $skill_display = "SELECT * FROM volunteer_skills WHERE `volunteer_id`='$volunteerid' && `category_id`='$pull_category_id'";
+                                                    $list_skills = mysqli_query($conn, $skill_display);
+                                                    while ($display_skills = mysqli_fetch_array($list_skills)){
+                                                    ?>
+                                                    <li class="col-md-4"><button type="button"
+                                                            class="remove-button btn btn-dark"
+                                                            disabled><?php echo $display_skills['tag_name']; ?></button>
+                                                    </li>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </ol>
-                                                Category
-                                                <ol class="list-unstyled d-flex flex-wrap">
-                                                    <li class="col-md-4">Sample skills 1</li>
-                                                    <li class="col-md-4">Sample skills 2</li>
-                                                    <li class="col-md-4">Sample skills 3</li>
-                                                    <li class="col-md-4">Sample skills 4</li>
-                                                    <li class="col-md-4">Sample skills 5</li>
-                                                    <li class="col-md-4">Sample skills 6</li>
-                                                    <li class="col-md-4">Sample skills 7</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                </ol>
-                                                Category
-                                                <ol class="list-unstyled d-flex flex-wrap">
-                                                    <li class="col-md-4">Sample skills 1</li>
-                                                    <li class="col-md-4">Sample skills 2</li>
-                                                    <li class="col-md-4">Sample skills 3</li>
-                                                    <li class="col-md-4">Sample skills 4</li>
-                                                    <li class="col-md-4">Sample skills 5</li>
-                                                    <li class="col-md-4">Sample skills 6</li>
-                                                    <li class="col-md-4">Sample skills 7</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                    <li class="col-md-4">Sample skills 8</li>
-                                                </ol>
+
+                                                <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
