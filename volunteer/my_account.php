@@ -106,40 +106,145 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="row">
-                                            <div class="col-md-5 text-left">
+                                            <div class="col-md-6 text-left">
                                                 <h4><b>Skills:</b></h4>
                                             </div>
-                                            <div class="col-md-7">
-                                                <!-- button for modal -->
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal" style="width: 235px;">
-                                                    Edit Skills
-                                                </button>
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg" role="document">
-                                                        <!-- Added modal-lg class -->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Edit
-                                                                    Skills</h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <!-- button for modal of addskill-->
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            data-toggle="modal" data-target="#addskills">
+                                                            Add Skills
+                                                        </button>
+                                                        <!-- modal for addskill -->
+                                                        <div class="modal fade" id="addskills" tabindex="-1"
+                                                            role="dialog" aria-labelledby="addskillsLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <!-- Added modal-lg class -->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="addskillsLabel">Add
+                                                                            Skills</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <?php
+                                                                            $query = "SELECT * FROM skill_tag WHERE `tag_name`=''";
+                                                                            $result = mysqli_query($conn, $query);
+                                                                            while ($row = mysqli_fetch_array($result)) {
+                                                                        ?>
+                                                                        <p><?php echo $row['category']; ?></p>
+                                                                        <!-- nested php -->
+                                                                        <?php
+                                                                            $category = $row['category'];
+                                                                            $query2 = "SELECT * FROM skill_tag WHERE `tag_name`!='' AND `category`='$category'";
+                                                                            $result2 = mysqli_query($conn,$query2);
+                                                                            while($row2 = mysqli_fetch_array($result2)){
+                                                                        ?>
+                                                                        <!-- html inside the nested php -->
+                                                                        <?php
+                                                                        $volunteer_id = $_SESSION['id'];
+                                                                        $category_id = $row2['category_id'];
+                                                                        $tagname = $row2['tag_name'];
+                                                                        $addtagsql = "SELECT * FROM volunteer_skills WHERE category_id ='$category_id' AND tag_name='$tagname' AND volunteer_id='$volunteer_id'";
+                                                                        $addtagresult = mysqli_query($conn, $addtagsql);
+                                                                        if (mysqli_fetch_array($addtagresult)) {  
+                                                                        ?>
+                                                                        <button type="button"
+                                                                            class="add-button btn btn-info disabled"
+                                                                            value="<?php echo $row2['category_id']; ?>"><?php echo $row2['tag_name']; ?></button>
+                                                                        <!-- nested php -->
+                                                                        <?php
+                                                                        } else {
+                                                                        ?>
+                                                                        <button type="button"
+                                                                            class="add-button btn btn-info"
+                                                                            value="<?php echo $row2['category_id']; ?>"><?php echo $row2['tag_name']; ?></button>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                        <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                        <button id='display'>Display array</button>
+                                                                        <div id="result2"></div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="close btn btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button type="button"
+                                                                            class="saveSkils btn btn-primary">Save
+                                                                            changes</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                This is the content of the modal.
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Close</button>
-                                                                <button type="button" class="btn btn-primary">Save
-                                                                    changes</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!-- button for modal of removeskills-->
+                                                        <button type="button" class="btn btn-danger btn-sm"
+                                                            data-toggle="modal" data-target="#removeskills">
+                                                            Remove Skills
+                                                        </button>
+                                                        <!-- modal for removeskills -->
+                                                        <div class="modal fade" id="removeskills" tabindex="-1"
+                                                            role="dialog" aria-labelledby="removeskillsLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <!-- Added modal-lg class -->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="removeskillsLabel">
+                                                                            Remove
+                                                                            Skills</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <?php
+                                                                            $query = "SELECT * FROM skill_tag WHERE `tag_name`=''";
+                                                                            $result = mysqli_query($conn, $query);
+                                                                            while ($row = mysqli_fetch_array($result)) {
+                                                                        ?>
+                                                                        <p><?php echo $row['category']; ?></p>
+                                                                        <!-- nested php -->
+                                                                        <?php
+                                                                            $category = $row['category'];
+                                                                            $query2 = "SELECT * FROM skill_tag WHERE `tag_name`!='' AND `category`='$category'";
+                                                                            $result2 = mysqli_query($conn,$query2);
+                                                                            while($row2 = mysqli_fetch_array($result2)){
+                                                                        ?>
+                                                                        <!-- html inside the nested php -->
+                                                                        <button type="button"
+                                                                            class="btn btn-info"><?php echo $row2['tag_name']; ?></button>
+                                                                        <!-- nested php -->
+                                                                        <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary">Save
+                                                                            changes</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
 
                                             </div>
                                             <div class="col-12 text-center mt-3"
@@ -212,6 +317,64 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+    $(document).ready(function() {
+        // Define an empty array
+        var myArray = [];
+
+        $(".close").click(function() {
+            myArray = [];
+            window.location.reload();
+        })
+        $(".saveSkils").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "./include/add_tags.php", // Replace "save_skills.php" with the URL of your PHP script
+                data: {
+                    skills: JSON.stringify(myArray)
+                }, // Send myArray data as JSON
+                success: function(response) {
+                    // Update index page content based on the response
+                    console.log(
+                        "Skills saved successfully!"
+                    ); // Display response message on the page
+                    // Optionally, you can reload the page after saving
+                    // window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle error if AJAX request fails
+                    console.error(xhr.responseText);
+                }
+            });
+            myArray = [];
+        })
+        $('#addskills').on('hidden.bs.modal', function(e) {
+            myArray = [];
+            window.location.reload();
+        });
+        // jQuery function to add value of each button to the array and display array elements
+        $(".add-button").click(function() {
+            var buttonValue = $(this).text(); // Get the text value of the clicked button
+            var buttonId = $(this).val(); // Get the value attribute of the clicked button
+            myArray.push({
+                id: buttonId,
+                value: buttonValue
+            }); // Add the value and id to the array
+
+            // Disable button after it is clicked
+            $(this).prop('disabled', true);
+        });
+        // ======================
+        // to be remove function
+        $("#display").click(function() {
+            var output = "";
+            $.each(myArray, function(index, obj) {
+                output += "Element " + index + ": " + obj.value + " id: " + obj.id + "<br>";
+            });
+            $("#result2").html(output);
+        });
+    });
+    </script>
     <script>
     $(document).ready(function() {
         // Function to fetch and update the current date

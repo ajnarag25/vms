@@ -65,7 +65,7 @@
                     <div class="mt-3">
                         <div class="card p-3">
                             <div class="card-body">
-                                <table class="table" id="volunteerIntensity">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
@@ -77,27 +77,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $query = "SELECT * FROM accounts WHERE type ='volunteer'";
-                                        $result = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        ?>
+                                    <?php
+                                         $sql = "SELECT * FROM accounts";
+                                         $result = $conn->query($sql);                              
+                                         while ($row = $result->fetch_assoc()) {
+                                    ?>
                                         <tr>
-                                            <th><?php echo $row['username'] ?></th>
-                                            <td>3</td>
-                                            <td>5</td>
-                                            <td>10</td>
-                                            <td>5</td>
-                                            <td>
-                                                <div class="progress" style="height: 30px;">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: 70%;" aria-valuenow="70" aria-valuemin="0"
-                                                        aria-valuemax="100">70%</div>
-                                                </div>
-                                            </td>
+                                            <th><a href="#" style="text-decoration:none; color:black;"><?php echo $row['username'] ?></a></th>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Today</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Sample To-Do</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Sample Revisions</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Pending</a></td>
+                                            <td><div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-success" style="width: 25%">25%</div>
+                                                </div></td>
                                         </tr>
                                         <?php
-                                        }
+                                         }
                                         ?>
                                     </tbody>
                                 </table>
