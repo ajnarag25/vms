@@ -187,6 +187,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!-- start of remove skills -->
                                                     <div class="col-md-6">
                                                         <!-- button for modal of removeskills-->
                                                         <button type="button" class="btn btn-danger btn-sm"
@@ -211,32 +212,27 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <?php
-                                                                            $query = "SELECT * FROM skill_tag WHERE `tag_name`=''";
-                                                                            $result = mysqli_query($conn, $query);
-                                                                            while ($row = mysqli_fetch_array($result)) {
+                                                                        $volunteer_skill = $_SESSION['id'];
+                                                                        $username_skill = $_SESSION['username'];
+                                                                        $skill_query = "SELECT * FROM volunteer_skills WHERE `username`='$username_skill' && `volunteer_id`='$volunteer_skill'";
+                                                                        $skill_result = mysqli_query($conn, $skill_query);
+                                                                        while ($skill_row = mysqli_fetch_array($skill_result)) {
                                                                         ?>
-                                                                        <p><?php echo $row['category']; ?></p>
-                                                                        <!-- nested php -->
-                                                                        <?php
-                                                                            $category = $row['category'];
-                                                                            $query2 = "SELECT * FROM skill_tag WHERE `tag_name`!='' AND `category`='$category'";
-                                                                            $result2 = mysqli_query($conn,$query2);
-                                                                            while($row2 = mysqli_fetch_array($result2)){
-                                                                        ?>
-                                                                        <!-- html inside the nested php -->
                                                                         <button type="button"
-                                                                            class="btn btn-info"><?php echo $row2['tag_name']; ?></button>
-                                                                        <!-- nested php -->
+                                                                            class="remove-button btn btn-info"
+                                                                            value="<?php echo $skill_row['category_id']; ?>"><?php echo $skill_row['tag_name']; ?></button>
                                                                         <?php
-                                                                            }
                                                                         }
                                                                         ?>
+                                                                        <button id='display2'>Display array</button>
+                                                                        <div id="result3"></div>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
+                                                                        <button type="button"
+                                                                            class="close2 btn btn-secondary"
                                                                             data-dismiss="modal">Close</button>
                                                                         <button type="button"
-                                                                            class="btn btn-primary">Save
+                                                                            class="removeSkills btn btn-primary">Save
                                                                             changes</button>
                                                                     </div>
                                                                 </div>
@@ -244,8 +240,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="col-12 text-center mt-3"
                                                 style="overflow-y: auto; max-height: 250px;">
@@ -317,6 +311,7 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <!-- script for adding volunteer skills -->
     <script>
     $(document).ready(function() {
         // Define an empty array
@@ -347,6 +342,7 @@
                 }
             });
             myArray = [];
+            window.location.reload();
         })
         $('#addskills').on('hidden.bs.modal', function(e) {
             myArray = [];
@@ -375,6 +371,68 @@
         });
     });
     </script>
+
+    <!-- script for removing volunteer skills -->
+    <script>
+    $(document).ready(function() {
+        // Define an empty array
+        var myArray = [];
+
+        $(".close2").click(function() {
+            myArray = [];
+            window.location.reload();
+        })
+        $(".removeSkills").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "./include/remove_tags.php", // Replace "save_skills.php" with the URL of your PHP script
+                data: {
+                    Deleteskills: JSON.stringify(myArray)
+                }, // Send myArray data as JSON
+                success: function(response) {
+                    // Update index page content based on the response
+                    console.log(
+                        "Skills deleted successfully!"
+                    ); // Display response message on the page
+                    // Optionally, you can reload the page after saving
+                    // window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle error if AJAX request fails
+                    console.error(xhr.responseText);
+                }
+            });
+            myArray = [];
+            window.location.reload();
+        })
+        $('#removeskills').on('hidden.bs.modal', function(e) {
+            myArray = [];
+            window.location.reload();
+        });
+        // jQuery function to add value of each button to the array and display array elements
+        $(".remove-button").click(function() {
+            var buttonValue = $(this).text(); // Get the text value of the clicked button
+            var buttonId = $(this).val(); // Get the value attribute of the clicked button
+            myArray.push({
+                id: buttonId,
+                value: buttonValue
+            }); // Add the value and id to the array
+
+            // Disable button after it is clicked
+            $(this).prop('disabled', true);
+        });
+        // ======================
+        // to be remove function
+        $("#display2").click(function() {
+            var output = "";
+            $.each(myArray, function(index, obj) {
+                output += "Element " + index + ": " + obj.value + " id: " + obj.id + "<br>";
+            });
+            $("#result3").html(output);
+        });
+    });
+    </script>
+
     <script>
     $(document).ready(function() {
         // Function to fetch and update the current date
