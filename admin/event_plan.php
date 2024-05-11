@@ -252,7 +252,7 @@
                                                 </div>
                                                 <label for="">Normal</label>
                                             </div>
-                                   
+                                        
                                             <h6>Prediction Date:</h6>
                                             <div class="card mb-4">
                                                 <div class="bg-dark text-white card-header text-center">
@@ -280,7 +280,7 @@
                                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPart">Add Part <i class="fa-solid fa-plus"></i></button>
 
                                             <!-- Modal Event Start -->
-                                            <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
+                                            <div class="modal fade" id="addPart"  aria-labelledby="addPart"
                                             aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -298,7 +298,7 @@
                                                                 <textarea class="form-control" name="desc" id="" cols="10" rows="5"></textarea>
                                                                 <hr>
                                                                 <label for="">Guests / Volunteer:</label>
-                                                                <select class="form-select" name="gv_people" id="">
+                                                                <select class="form-select" name="gv_people" id="" required>
 
                                                                     <option value="" disabled selected>--Select Guests/Volunteers--</option>
                                                                     <?php 
@@ -332,10 +332,18 @@
 
                                                                 </select>
                                                                 <label for="" class="mt-3">Volunteer:</label>
-                                                                <select class="form-select" name="volunteer" id="">
-                                                                    <option value="">Sample Volunteer</option>
-                                                                    <option value="">Others</option>
+                                                                <select id="select2insidemodal" style="width:100%" name="vltag[]" multiple="multiple" required>
+                                                                    <?php 
+                                                                        $volunteer_tags = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $tag_result = mysqli_query($conn, $volunteer_tags);
+                                                                        while ($rowTag = mysqli_fetch_array($tag_result)) {
+                                                                    ?>
+                                                                        <option value="<?php echo $rowTag['id'] ?> <?php echo $rowTag['name'] ?>"><?php echo $rowTag['name'] ?></option>
+                                                                    <?php 
+                                                                    }
+                                                                    ?>
                                                                 </select>
+      
                                                                 <hr>
                                                                 <label for="">Set Time:</label>
                                                                 <br>
@@ -436,7 +444,6 @@
                                             <tr>
                                                 <th scope="col">Part Name</th>
                                                 <th scope="col">Description</th>
-                                                <th scope="col">Guests</th>
                                                 <th scope="col">Volunteers</th>
                                                 <th scope="col">Time Start</th>
                                                 <th scope="col">Time End</th>
@@ -470,8 +477,7 @@
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
                                                 <td><?php echo $row['description'] ?></td>
-                                                <td>Guests Sample</td>
-                                                <td>Volunteer Sample</td>
+                                                <td><?php echo $row['volunteer_tag'] ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                 <td><?php echo $duration; ?></td>
@@ -1628,9 +1634,13 @@
 
     <?php include('./include/scripts.php') ?> 
     <script src="./include/plugins/tinymce/tinymce.min.js"></script>
-    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>
-
+    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>                                  
     <script>
+        $(document).ready(function() {
+            $("#select2insidemodal").select2({
+                dropdownParent: $("#addPart")
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('daycalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {

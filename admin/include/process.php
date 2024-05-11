@@ -152,6 +152,7 @@
         $part_name = $_POST['part_name'];
         $desc = $_POST['desc'];
         $gv_people = $_POST['gv_people'];
+        $vl_tag = $_POST['vltag'];
         $volunteer = $_POST['volunteer'];
         $from = $_POST['from'];
         $to = $_POST['to'];
@@ -161,6 +162,17 @@
         $ids = $parts[0]; 
         $types = $parts[1];
         $names = $parts[2];
+
+        $vl_ids = array();
+        $vl_names = array();
+        foreach ($vl_tag as $item) {
+            $parts = explode(" ", $item, 2);
+            $vl_ids[] = $parts[0];
+            $vl_names[] = $parts[1];
+        }
+        
+        $vl_idsString = implode(", ", $vl_ids);
+        $vl_namesString = implode(", ", $vl_names);
 
         $main_id = $_POST['main_id'];
         $main_title = $_POST['main_title'];
@@ -188,15 +200,15 @@
         if (!empty($part_name) && !empty($from) && !empty($to)) {
 
             if($types == 'volunteer'){
-                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, volunteer, volunteer_id) 
-                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids')") or die($conn->error);
+                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, volunteer, volunteer_id, volunteer_tag, volunteer_tag_id) 
+                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids', '$vl_namesString', '$vl_idsString')") or die($conn->error);
 
                 $_SESSION['status'] = 'Add Part Successfully Saved';
                 $_SESSION['status_icon'] = 'success';
                 header('Location: ../' . $url);
             }else{
-                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, guests, guests_id) 
-                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids')") or die($conn->error);
+                $conn->query("INSERT INTO events (event_id, title, startdate, enddate, allday, description, guests, guests_id, volunteer_tag, volunteer_tag_id) 
+                VALUES('$main_id' ,'$part_name', '$start', '$end', '', '$desc', '$names', '$ids', '$vl_namesString', '$vl_idsString')") or die($conn->error);
                 
                 $_SESSION['status'] = 'Add Part Successfully Saved';
                 $_SESSION['status_icon'] = 'success';
@@ -618,7 +630,7 @@
 
     // DELETE PART
     if (isset($_POST['delPart'])) {
-        $id = $_POST['id'];
+        $id = $_POST['part_id'];
 
         $main_id = $_POST['main_id'];
         $main_event_id = $_POST['main_event_id'];
