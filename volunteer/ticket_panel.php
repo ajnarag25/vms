@@ -2,14 +2,21 @@
 <html lang="en">
 
 <head>
-    <?php include('./include/header.php') ?>
+    <?php include ('./include/header.php') ?>
     <title>Ticket Panel - Volunteer Management Strageties</title>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+    <!-- chat style -->
+    <style>
+    .message.sent {
+        text-align: right;
+    }
+    </style>
 </head>
 
 
 <body class="sb-nav-fixed">
 
-    <?php include('./include/nav.php') ?>
+    <?php include ('./include/nav.php') ?>
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -64,21 +71,26 @@
                     </div>
                     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar_box" type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#calendar_box"
+                                type="button" role="tab" aria-controls="calendar" aria-selected="true">Calendar</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button" role="tab" aria-controls="board" aria-selected="false">Board</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#board" type="button"
+                                role="tab" aria-controls="board" aria-selected="false">Board</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gantt" type="button" role="tab" aria-controls="gantt" aria-selected="false">Gantt Chart</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gantt" type="button"
+                                role="tab" aria-controls="gantt" aria-selected="false">Gantt Chart</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#time" type="button" role="tab" aria-controls="time" aria-selected="false">Time Log</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#time" type="button"
+                                role="tab" aria-controls="time" aria-selected="false">Time Log</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Calendar -->
-                        <div class="tab-pane fade show active" id="calendar_box" role="tabpanel" aria-labelledby="calendar-tab">
+                        <div class="tab-pane fade show active" id="calendar_box" role="tabpanel"
+                            aria-labelledby="calendar-tab">
 
                             <div class="row mt-3">
                                 <div class="col-md-9">
@@ -109,7 +121,8 @@
                                                 }
                                             }
                                             ?>
-                                            <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                            <div id="calendar"
+                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +134,8 @@
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
+                                            aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -173,11 +187,12 @@
                             <div class="row mt-3">
                                 <div class="col-md-8">
                                     <div class="text-center">
-                                        <h5><b>Plan Title Sample</b></h5>
+                                        <h5><b>Events</b></h5>
                                         <div class="text-center mt-3">
                                             <label for="">Completion Percent:</label>
                                             <div class="progress mt-2">
-                                                <div class="progress-bar bg-success w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                <div class="progress-bar bg-success w-25" role="progressbar"
+                                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                                             </div>
                                         </div>
                                     </div>
@@ -195,21 +210,241 @@
                                                             <div class="col-md-6">
                                                                 <div class="card bg-warning text-white mb-4">
                                                                     <div class="card-body">
-                                                                        <h5>Task Ticket 1</h5>
+                                                                        <h5><a href="#" style="text-decoration:none; color:white;" data-bs-toggle="modal" data-bs-target="#exampleModal">Task Ticket 1</a></h5>
                                                                     </div>
-
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="col-md-6">
                                                                 <div class="card bg-warning text-white mb-4">
                                                                     <div class="card-body">
-                                                                        <h5>Task Ticket 1</h5>
+                                                                        <h5><a href="" style="color:white; text-decoration:none;">Task Ticket 1</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">"Task Title"</h5>
+                                            <div
+                                                class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+                                                <!-- Navbar starts from right -->
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <!-- Align navbar items to right -->
+                                                    <li class="nav-item">
+                                                        <button class="nav-link active" data-toggle="tab"
+                                                            data-target="#main" type="button" role="tab"
+                                                            aria-controls="main" aria-selected="true">Main</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button class="nav-link" data-toggle="tab"
+                                                            data-target="#comment" type="button" role="tab"
+                                                            aria-controls="comment"
+                                                            aria-selected="false">Comments</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body" style="max-height:350px; overflow-y: auto;">
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="main" role="tabpanel"
+                                                    aria-labelledby="main-tab">
+                                                    <div class="row">
+                                                        <!-- left side of the modal main display -->
+                                                        <div class="col-md-8" style="margin-right: 50px;">
+                                                            <h5>Template: </h5>
+                                                            <p>"Template Title"</p>
+                                                            <h5>Started by: </h5>
+                                                            <p>"Admin Username"</p>
+                                                            <h5>Description: </h5>
+                                                            <p>" "</p>
+                                                            <hr>
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <h5>Priority Level:</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                        role="alert">
+                                                                        <strong>Low</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <h5>Status:</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1"
+                                                                        role="alert">
+                                                                        <strong>Your-ticket</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card">
+                                                                <div class="bg-dark text-white card-header text-center">
+                                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                                    Calendar
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div id="calendar"
+                                                                        class="calendar fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <hr>
+                                                            <div class="ml-3">
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p class="font-italic mb-0">• "instructions from admin
+                                                                    side"
+                                                                </p>
+                                                                <p>• ...</p>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- rigth side of the modal main display -->
+                                                        <div class="col-md-3">
+                                                            <div class="col-md-10 text-center">
+                                                                <div id="progress-bar-container"
+                                                                    style="position: relative;">
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <p>Event Plan Deadline: May 24, 2024</p>
+                                                            <p>Ticket Deadline: May 23, 2024</p>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%;">Add Target (Time)</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%; margin-top: 5px;">View Plan</button>
+                                                            <div class="row">
+                                                                <div class="col-md-6" style="width: 50%;">
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-block"
+                                                                        style="width: 100%; margin-top: 5px;">Ask</button>
+                                                                </div>
+                                                                <div class="col-md-6" style="width: 50%;">
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-block"
+                                                                        style="width: 100%; margin-top: 5px;">Upload</button>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                style="width: 100%; margin-top: 5px;">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                    <hr style="box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);">
+                                                </div>
+                                                <div class="tab-pane fade" id="comment" role="tabpanel"
+                                                    aria-labelledby="comment-tab">
+                                                    <div class="row mt-12">
+                                                        <!-- right side of the modal comment display -->
+                                                        <div class="col-md-12">
+                                                            <div class="container">
+                                                                <div class="chat-container">
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Hello! How can I help you?
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message received">
+                                                                        <div class="alert alert-primary" role="alert">
+                                                                            Sure, feel free to ask.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="message sent">
+                                                                        <div class="alert alert-secondary" role="alert">
+                                                                            Hi! I have a question about your services.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <h5>Volunteer/s <button
+                                                        style="border: none; background-color: transparent; padding: 0;">
+                                                        <i class="bi bi-plus-square-fill">
+                                                        </i></button>
+                                                </h5>
+                                                <div class="col">
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                        <strong>Volunteer Name</strong>
+                                                    </button>
+                                                    <button
+                                                        style="border: none; background-color: transparent; padding: 0; box-shadow: -2px 0 4px rgba(0, 0, 0, 0.2);">
+                                                        <i class="bi bi-list h2"></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class=" modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of modal -->
                                                 <div class="col-md-6 mb-3">
                                                     <div class="card p-3">
                                                         <div class="card bg-success text-white mb-4">
@@ -297,7 +532,8 @@
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
+                                            aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -346,7 +582,59 @@
                         </div>
                         <!-- Gantt Chart -->
                         <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="gantt-tab">
-                            Gantt Chart
+                            <br>
+                            <div class="container">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered p-4">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Event Title</th>
+                                                <th scope="col">Event Tickets</th>
+                                                <th scope="col">Event Deadline</th> <!-- Additional column -->
+                                                <th scope="col">Event Date</th> <!-- Additional column -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td class="p-3" style="cursor: pointer;" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseExample1" aria-expanded="false"
+                                                    aria-controls="collapseExample1">
+                                                    Click here
+                                                    <div class="collapse" id="collapseExample1" style="padding: 10px;">
+                                                        <div class="card card-body">
+                                                            <a href="#" style="text-decoration:none; color:black;" data-bs-toggle="modal" data-bs-target="#drpmodal">Dropdown content for row 1</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>Cell content</td> <!-- Additional column -->
+                                                <td>Cell content</td> <!-- Additional column -->
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="drpmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- Time Log -->
                         <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
@@ -363,24 +651,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <?php 
+                                        $query = "SELECT * FROM timelogs";
+                                        $result = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                    ?>
                                                 <tr>
-                                                    <th>Juan Delacruz</th>
-                                                    <td>3:30 pm</td>
-                                                    <td>Ticket Sample</td>
-                                                    <td>Ongoing Ticket</td>
+                                                    <th><?php echo $row['volunteer'] ?></th>
+                                                    <td><?php echo $row['time'] ?></td>
+                                                    <td><?php echo $row['ticket_name'] ?></td>
+                                                    <td><?php echo $row['information_report'] ?></td>
                                                 </tr>
+                                                <?php
+                                        }
+                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <div class="card mb-4">
                                         <div class="bg-success text-white card-header text-center">
                                             <i class="fa-solid fa-address-book"></i>
                                             Plan List
                                         </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan" aria-label="Search">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
+                                            aria-label="Search">
 
                                         <div class="p-3">
                                             <div class="card bg-success text-white mb-4">
@@ -432,14 +728,14 @@
                 </div>
             </main>
 
-            <?php include('./include/footer.php') ?>
+            <?php include ('./include/footer.php') ?>
 
         </div>
     </div>
 
-    <?php include('./include/scripts.php') ?>
+    <?php include ('./include/scripts.php') ?>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
@@ -458,23 +754,70 @@
             calendar.render();
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            // Function to fetch and update the current date
-            function updateDate() {
-                $.ajax({
-                    url: "./include/currentdatetime.php",
-                    type: "GET",
-                    success: function(data) {
-                        $("#currentDate").text(data);
+            <script>
+                $(document).ready(function() {
+                    // Function to fetch and update the current date
+                    function updateDate() {
+                        $.ajax({
+                            url: "./include/currentdatetime.php",
+                            type: "GET",
+                            success: function (data) {
+                                $("#currentDate").text(data);
+                            }
+                        });
                     }
-                });
-            }
 
             // Initial update
             updateDate();
-            var intervalId = setInterval(updateDate, 1000);
+                var intervalId = setInterval(updateDate, 1000);
         });
+                    document.querySelectorAll('.collapsed-cell').forEach(cell => {
+                    cell.addEventListener('click', () => {
+                        // Toggle the "show" class for the cell to expand/collapse it
+                        cell.nextElementSibling.classList.toggle('show');
+                    });
+                });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- codes for progress bar -->
+    <script>
+    var progressBar = new ProgressBar.Circle('#progress-bar-container', {
+        strokeWidth: 6,
+        easing: 'easeInOut',
+        duration: 1400,
+        color: '#4caf50',
+        trailColor: '#f3f3f3',
+        trailWidth: 6,
+        svgStyle: {
+            // Center align the progress percentage text
+            transform: 'translateX(-40%) translateY(00%)',
+            width: '200px', //size of the circle
+            height: '200px', //size of the circle
+            position: 'relative',
+            left: '50%',
+            top: '50%'
+        },
+        text: {
+            value: 'Plan Progress: 70%', // Initial value of the progress text
+            className: 'progressbar-text', // CSS class for the progress text
+            autoStyleContainer: false, // Disable automatic styling of the text container
+            style: {
+                position: 'absolute',
+                left: '45%',
+                right: '20%',
+                top: '34%',
+                padding: 0,
+                margin: 0,
+                fontSize: '1.0rem',
+                fontWeight: 'bold',
+                color: '#000'
+            }
+        }
+    });
+
+    // Set the initial progress value
+    progressBar.animate(0.5); // Example: 50% progress
     </script>
 </body>
 

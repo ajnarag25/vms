@@ -77,19 +77,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-
-                                        ?>
+                                    <?php
+                                         $sql = "SELECT * FROM accounts";
+                                         $result = $conn->query($sql);                              
+                                         while ($row = $result->fetch_assoc()) {
+                                    ?>
                                         <tr>
-                                            <th>Juan Delacruz</th>
-                                            <td>Today</td>
-                                            <td>Sample To-Do</td>
-                                            <td>Sample Revisions</td>
-                                            <td>Pending</td>
-                                            <td>20</td>
+                                            <th><a href="#" style="text-decoration:none; color:black;"><?php echo $row['username'] ?></a></th>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Today</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Sample To-Do</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Sample Revisions</a></td>
+                                            <td><a href="#" style="text-decoration:none; color:black;">Pending</a></td>
+                                            <td><div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-success" style="width: 25%">25%</div>
+                                                </div></td>
                                         </tr>
                                         <?php
-
+                                         }
                                         ?>
                                     </tbody>
                                 </table>
