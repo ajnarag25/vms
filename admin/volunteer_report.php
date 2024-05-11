@@ -64,6 +64,11 @@
                             Team Work Flow
                         </a>
 
+                        <a class="nav-link" href="team_dashboard.php">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
+                            Team Dashboard
+                        </a>
+                        
                         <!-- <a class="nav-link" href="event_plan.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-week"></i></div>
                             Event Plan
