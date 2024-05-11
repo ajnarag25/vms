@@ -1259,7 +1259,7 @@
                                                                                                                 <label for="">Select Status:</label>
                                                                                                                 <select class="form-select" name="stat" id="" required>
                                                                                                                     <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
-                                                                                                                    <option value="Your-Ticket">Your-Ticket</option>
+                                                                                                                    <option value="Your-ticket">Your-Ticket</option>
                                                                                                                     <option value="To-Do">To-Do</option>
                                                                                                                     <option value="In-Review">In-Review</option>
                                                                                                                     <option value="Revision">Revision</option>
