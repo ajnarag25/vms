@@ -9,14 +9,18 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.9/index.global.min.js"></script>
 <script src="https://unpkg.com/bs-brain@2.0.3/components/calendars/calendar-1/assets/controller/calendar-1.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
     $('#GSTable').DataTable()
     $('#Sponsors').DataTable()
     $('#Agenda').DataTable()
     $('#SponsorT').DataTable()
     $('#tb').DataTable()
-
+    $('#Accounts').DataTable()
+    $('#Volunteers').DataTable()
+    $('#VolunteersEvent').DataTable()
+    $('#VolunteersPart').DataTable()
+    $('#VolunteersSponsor').DataTable()
 </script>
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {

@@ -8,6 +8,7 @@
 
 
 <?php
+    error_reporting(0);
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $event_id = isset($_GET['event_id']) ? $_GET['event_id'] : '';
     $title = isset($_GET['title']) ? $_GET['title'] : '';
@@ -65,6 +66,11 @@
                         <a class="nav-link" href="templates.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                             Templates
+                        </a>
+
+                        <a class="nav-link" href="accounts.php">
+                            <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
+                            Accounts
                         </a>
 
                         <a class="nav-link" href="my_account.php">
@@ -158,38 +164,38 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php 
-                                                            $query = "SELECT * FROM events WHERE event_id = $id";
-                                                            $result = mysqli_query($conn, $query);
-                                                            while ($row = mysqli_fetch_array($result)) {
-                                                            
+                                                    <?php 
+                                                        $query = "SELECT * FROM events WHERE event_id = $id";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while ($row = mysqli_fetch_array($result)) {
                                                             $start_timestamp = strtotime($row['startdate']);
                                                             $end_timestamp = strtotime($row['enddate']);
 
-                                                            // Calculate the difference in seconds
+                                                            // Calculate the duration in seconds
                                                             $duration_seconds = $end_timestamp - $start_timestamp;
-
-                                                            // Calculate hours, minutes, and seconds
+                                                            
+                                                            // Convert duration to hours, minutes, and seconds
                                                             $hours = floor($duration_seconds / 3600);
                                                             $minutes = floor(($duration_seconds % 3600) / 60);
                                                             $seconds = $duration_seconds % 60;
 
                                                             // Format the duration
-                                                            $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds)
+                                                            $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
                                                         ?>
                                                         <tr>
                                                             <th><?php echo $row['title'] ?></th>
-                                                            <td><?php echo $desc ?></td>
+                                                            <td><?php echo $row['description'] ?></td>
                                                             <td>Guests Sample</td>
                                                             <td>Volunteer Sample</td>
-                                                            <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
-                                                            <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
+                                                            <td><?php echo date('h:i:s A', $start_timestamp); ?></td>
+                                                            <td><?php echo date('h:i:s A', $end_timestamp); ?></td>
                                                             <td><?php echo $duration; ?></td>
                                                             <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                         </tr>
-                                                        <?php 
-                                                        }
-                                                        ?>
+                                                    <?php 
+                                                    }
+                                                    ?>
+
                                                     </tbody>
                                                 </table>
                                  
@@ -235,31 +241,18 @@
                                                 class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                             </div>
                                             <hr>
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h5><b>Tickets:</b> Sample Tickets</h5>
-                                                    <h5><b>Volunteers:</b> Sample Volunteers</h5>
-                                                    <br>
-                                                    <h5>Acquisition Speed</h5>
-                                                    <div class="text-center mb-4">
-                                                        <div class="progress mt-2">
-                                                            <div class="progress-bar bg-success w-50" role="progressbar"
-                                                                aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <label for="">Normal</label>
+                                    
+                                            <h5 class="text-center">Acquisition Speed</h5>
+                                            <div class="text-center mb-4">
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar bg-success w-50" role="progressbar"
+                                                        aria-valuenow="50" aria-valuemin="0"
+                                                        aria-valuemax="100">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 text-center">
-                                                    <label for="">Completeness:</label>
-                                                    <div class="progress mt-2">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <label for="">Normal</label>
                                             </div>
+                                        
                                             <h6>Prediction Date:</h6>
                                             <div class="card mb-4">
                                                 <div class="bg-dark text-white card-header text-center">
@@ -287,7 +280,7 @@
                                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPart">Add Part <i class="fa-solid fa-plus"></i></button>
 
                                             <!-- Modal Event Start -->
-                                            <div class="modal fade" id="addPart" tabindex="-1" aria-labelledby="addPart"
+                                            <div class="modal fade" id="addPart"  aria-labelledby="addPart"
                                             aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -305,15 +298,52 @@
                                                                 <textarea class="form-control" name="desc" id="" cols="10" rows="5"></textarea>
                                                                 <hr>
                                                                 <label for="">Guests / Volunteer:</label>
-                                                                <select class="form-select" name="gv_people" id="">
-                                                                    <option value="">Sample People / Volunteer</option>
-                                                                    <option value="">Others</option>
+                                                                <select class="form-select" name="gv_people" id="" required>
+
+                                                                    <option value="" disabled selected>--Select Guests/Volunteers--</option>
+                                                                    <?php 
+                                                                        $query1 = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $query2 = "SELECT * FROM guest_sponsors WHERE type = 'guest'";
+                                                                        
+                                                                        $result1 = mysqli_query($conn, $query1);
+                                                                        $result2 = mysqli_query($conn, $query2);
+                                                                        
+                                                                        $combinedRows = array();
+                                                                    
+                                                                        while ($rowVolunteer = mysqli_fetch_array($result1)) {
+                                                                            $combinedRows[] = $rowVolunteer;
+                                                                        }
+                                                                    
+                                                                        while ($rowGuest = mysqli_fetch_array($result2)) {
+                                                                            $combinedRows[] = $rowGuest;
+                                                                        }
+                                                                    
+                                                                    ?>
+
+                                                                    <?php 
+
+                                                                    foreach ($combinedRows as $volunteer_guests) {
+                                                                        ?>
+                                                                            <option value="<?php echo $volunteer_guests['id'] ?> <?php echo $volunteer_guests['type'] ?> <?php echo $volunteer_guests['name'] ?>">
+                                                                            <?php echo $volunteer_guests['name'] ?> - <?php echo $volunteer_guests['type'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+
                                                                 </select>
                                                                 <label for="" class="mt-3">Volunteer:</label>
-                                                                <select class="form-select" name="volunteer" id="">
-                                                                    <option value="">Sample Volunteer</option>
-                                                                    <option value="">Others</option>
+                                                                <select id="select2insidemodal" style="width:100%" name="vltag[]" multiple="multiple" required>
+                                                                    <?php 
+                                                                        $volunteer_tags = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $tag_result = mysqli_query($conn, $volunteer_tags);
+                                                                        while ($rowTag = mysqli_fetch_array($tag_result)) {
+                                                                    ?>
+                                                                        <option value="<?php echo $rowTag['id'] ?> <?php echo $rowTag['name'] ?>"><?php echo $rowTag['name'] ?></option>
+                                                                    <?php 
+                                                                    }
+                                                                    ?>
                                                                 </select>
+      
                                                                 <hr>
                                                                 <label for="">Set Time:</label>
                                                                 <br>
@@ -414,7 +444,6 @@
                                             <tr>
                                                 <th scope="col">Part Name</th>
                                                 <th scope="col">Description</th>
-                                                <th scope="col">Guests</th>
                                                 <th scope="col">Volunteers</th>
                                                 <th scope="col">Time Start</th>
                                                 <th scope="col">Time End</th>
@@ -430,12 +459,25 @@
                                                 $result = mysqli_query($conn, $query);
                                                 while ($row = mysqli_fetch_array($result)) {
                                                 $part_id = $row['id'];
+
+                                                $start_timestamp = strtotime($row['startdate']);
+                                                $end_timestamp = strtotime($row['enddate']);
+
+                                                // Calculate the duration in seconds
+                                                $duration_seconds = $end_timestamp - $start_timestamp;
+                                                
+                                                // Convert duration to hours, minutes, and seconds
+                                                $hours = floor($duration_seconds / 3600);
+                                                $minutes = floor(($duration_seconds % 3600) / 60);
+                                                $seconds = $duration_seconds % 60;
+
+                                                // Format the duration
+                                                $duration = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
                                             ?>
                                             <tr>
                                                 <th><?php echo $row['title'] ?></th>
                                                 <td><?php echo $row['description'] ?></td>
-                                                <td>Guests Sample</td>
-                                                <td>Volunteer Sample</td>
+                                                <td><?php echo $row['volunteer_tag'] ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['startdate'])); ?></td>
                                                 <td><?php echo date('h:i:s A', strtotime($row['enddate'])); ?> </td>
                                                 <td><?php echo $duration; ?></td>
@@ -473,11 +515,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketPart<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
-                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicket<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
-
-                                                    <!--Modal Add Ticket-->
-                                                    <div class="modal fade" id="addTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                                    <!--Modal Add Ticket Part-->
+                                                    <div class="modal modal-xl fade" id="addTicketPart<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-success text-white">
@@ -488,14 +530,106 @@
                                                                 </div>  
                                                                 <form action="./include/process.php" method="POST">
                                                                     <div class="modal-body">
-                                                                        <label for="">Ticket Title:</label>
-                                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                                        <hr>
-                                                                        <label for="">Ticket Description:</label>
-                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="text-center">
+                                                                                    <label for="">Event Title:</label>
+                                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <input type="hidden" name="ticket_admin" value="<?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?>" >
+                                                                                            <label class="mt-3" for="">Admin Name:</label>
+                                                                                            <h5><b><?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?></b></h5>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <input type="hidden" name="ticket_type" value="Part Ticket">
+                                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                                            <h5><b>Part Ticket</b></h5>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                                <table class="table" id="VolunteersPart">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th scope="col"></th>
+                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                            <th scope="col">Email</th>
+                                                                                            <th scope="col">View</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                    <?php 
+                                                                                        $queryVl = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                                        $resultVl = mysqli_query($conn, $queryVl);
+                                                                                        while ($vl = mysqli_fetch_array($resultVl)) {
+                                                                                    ?>
+                                                                                    <tr>
+                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $vl['id'] ?>"></td>
+                                                                                        <td><?php echo $vl['name'] ?></td>
+                                                                                        <td><?php echo $vl['email'] ?></td>
+                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                    </tr>
+
+                                                                                    <div class="modal modal-lg fade" id="volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                            <div class="modal-content">
+                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $vl['name'] ?></h5>
+                                                                                                    
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <h3>Volunteer Details:</h3>
+                                                                                                        <ul>
+                                                                                                            <li>Name: <?php echo $vl['name'] ?></li>
+                                                                                                            <li>Username: <?php echo $vl['username'] ?></li>
+                                                                                                            <li>Email: <?php echo $vl['email'] ?></li>
+                                                                                                            <li>Contact: <?php echo $vl['contact'] ?></li>
+                                                                                                        </ul>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                    
+                                                                                    <?php 
+                                                                                    }
+                                                                                    ?>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="text-center">
+                                                                                    <label for="">Priority:</label>
+                                                                                    <br>
+                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Urgent" id="partUrgent<?php echo $row['id'] ?>" autocomplete="off" >
+                                                                                        <label class="btn btn-outline-danger" for="partUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="High" id="partHigh<?php echo $row['id'] ?>" autocomplete="off">
+                                                                                        <label class="btn btn-outline-warning" for="partHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Mid" id="partMid<?php echo $row['id'] ?>" autocomplete="off">
+                                                                                        <label class="btn btn-outline-primary" for="partMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                        <input type="radio" class="btn-check" name="partBtn" value="Low" id="partLow<?php echo $row['id'] ?>" autocomplete="off" checked>
+                                                                                        <label class="btn btn-outline-secondary" for="partLow<?php echo $row['id'] ?>">Low</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <br>
+                                                                                <label class="" for="">Set Deadline:</label>
+                                                                                <input type="date" name="ticket_deadline" class="form-control" required>
+                                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                                <input class="form-control" name="ticket_title" type="text" required>
+                                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                                            </div>
+                                                                        </div>
+                                            
                                                                     </div>
-                                                                    <div class="modal-footer">
+                                                                    <div class="modal-footer justify-content-center">
                                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                        <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                                         <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
@@ -509,7 +643,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                    
+
                                                     <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
 
                                                     <!-- Modal Delete Part-->
@@ -526,7 +660,7 @@
                                                                         <p class="text-danger">* This action is irreversible!</p>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                                                                        <input type="hidden" name="part_id" value="<?php echo $row['id'] ?>">
                                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
                                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                                         <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
@@ -591,8 +725,8 @@
                                                                 <td>
                                                                     <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
 
-                                                                    <!--Modal Add Ticket-->
-                                                                    <div class="modal fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicketSponsor" aria-hidden="true">
+                                                                    <!--Modal Add Ticket Sponsor-->
+                                                                    <div class="modal modal-xl fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                                                         <div class="modal-dialog" role="document">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header bg-success text-white">
@@ -603,14 +737,106 @@
                                                                                 </div>  
                                                                                 <form action="./include/process.php" method="POST">
                                                                                     <div class="modal-body">
-                                                                                        <label for="">Ticket Title:</label>
-                                                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                                                        <hr>
-                                                                                        <label for="">Ticket Description:</label>
-                                                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="text-center">
+                                                                                                    <label for="">Event Title:</label>
+                                                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                                                    <div class="row">
+                                                                                                        <div class="col">
+                                                                                                            <input type="hidden" name="ticket_admin" value="<?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?>" >
+                                                                                                            <label class="mt-3" for="">Admin Name:</label>
+                                                                                                            <h5><b><?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?></b></h5>
+                                                                                                        </div>
+                                                                                                        <div class="col">
+                                                                                                            <input type="hidden" name="ticket_type" value="Sponsor Ticket">
+                                                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                                                            <h5><b>Sponsor Ticket</b></h5>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <hr>
+                                                                                                <table class="table" id="VolunteersSponsor">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col"></th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Email</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <?php 
+                                                                                                        $queryVls = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                                                        $resultVls = mysqli_query($conn, $queryVls);
+                                                                                                        while ($vls = mysqli_fetch_array($resultVls)) {
+                                                                                                    ?>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $vls['id'] ?>"></td>
+                                                                                                        <td><?php echo $vls['name'] ?></td>
+                                                                                                        <td><?php echo $vls['email'] ?></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                    </tr>
+
+                                                                                                    <div class="modal modal-lg fade" id="volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                            <div class="modal-content">
+                                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $vls['name'] ?></h5>
+                                                                                                                    
+                                                                                                                    </div>
+                                                                                                                    <div class="modal-body">
+                                                                                                                        <h3>Volunteer Details:</h3>
+                                                                                                                        <ul>
+                                                                                                                            <li>Name: <?php echo $vls['name'] ?></li>
+                                                                                                                            <li>Username: <?php echo $vls['username'] ?></li>
+                                                                                                                            <li>Email: <?php echo $vls['email'] ?></li>
+                                                                                                                            <li>Contact: <?php echo $vls['contact'] ?></li>
+                                                                                                                        </ul>
+                                                                                                                    </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                    
+                                                                                                    <?php 
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="text-center">
+                                                                                                    <label for="">Priority:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Urgent" id="sponsorUrgent<?php echo $sponsors['id'] ?>" autocomplete="off" >
+                                                                                                        <label class="btn btn-outline-danger" for="sponsorUrgent<?php echo $sponsors['id'] ?>">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="High" id="sponsorHigh<?php echo $sponsors['id'] ?>" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-warning" for="sponsorHigh<?php echo $sponsors['id'] ?>">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Mid" id="sponsorMid<?php echo $sponsors['id'] ?>" autocomplete="off">
+                                                                                                        <label class="btn btn-outline-primary" for="sponsorMid<?php echo $sponsors['id'] ?>">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="sponsorBtn" value="Low" id="sponsorLow<?php echo $sponsors['id'] ?>" autocomplete="off" checked>
+                                                                                                        <label class="btn btn-outline-secondary" for="sponsorLow<?php echo $sponsors['id'] ?>">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <label class="" for="">Set Deadline:</label>
+                                                                                                <input type="date" name="ticket_deadline" class="form-control" required>
+                                                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                                                <input class="form-control" name="ticket_title" type="text" required>
+                                                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                            
                                                                                     </div>
-                                                                                    <div class="modal-footer">
+                                                                                    <div class="modal-footer justify-content-center">
                                                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                        <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
                                                                                         <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
                                                                                         <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
@@ -653,8 +879,8 @@
                                 <div class="col-md-9">
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTicket">Add Ticket <i class="fa-solid fa-plus"></i></button>
 
-                                    <!--Add Ticket-->
-                                    <div class="modal fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
+                                    <!--Add Ticket Event-->
+                                    <div class="modal modal-xl fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-success text-white">
@@ -665,13 +891,104 @@
                                                 </div>  
                                                 <form action="./include/process.php" method="POST">
                                                     <div class="modal-body">
-                                                        <label for="">Ticket Title:</label>
-                                                        <input class="form-control" name="ticket_title" type="text" required>
-                                                        <hr>
-                                                        <label for="">Ticket Description:</label>
-                                                        <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="5" cols="5" required></textarea>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="text-center">
+                                                                    <label for="">Event Title:</label>
+                                                                    <h5><b><?php echo $title; ?></b></h5>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <input type="hidden" name="ticket_admin" value="<?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?>" >
+                                                                            <label class="mt-3" for="">Admin Name:</label>
+                                                                            <h5><b><?php echo $_SESSION['admin']['name']; ?> <?php echo $_SESSION['superadmin']['name']; ?></b></h5>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <input type="hidden" name="ticket_type" value="Event Ticket">
+                                                                            <label class="mt-3" for="">Ticket Type:</label>
+                                                                            <h5><b>Event Ticket</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <table class="table" id="VolunteersEvent">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col"></th>
+                                                                            <th scope="col">Volunteers Name</th>
+                                                                            <th scope="col">Email</th>
+                                                                            <th scope="col">View</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <?php 
+                                                                        $query = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $result = mysqli_query($conn, $query);
+                                                                        while ($row = mysqli_fetch_array($result)) {
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $row['id'] ?>"></td>
+                                                                        <td><?php echo $row['name'] ?></td>
+                                                                        <td><?php echo $row['email'] ?></td>
+                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerEvent<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                    </tr>
+
+                                                                    <div class="modal modal-lg fade" id="volunteerEvent<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                            <div class="modal-content">
+                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $row['name'] ?></h5>
+                                                                                       
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <h3>Volunteer Details:</h3>
+                                                                                        <ul>
+                                                                                            <li>Name: <?php echo $row['name'] ?></li>
+                                                                                            <li>Username: <?php echo $row['username'] ?></li>
+                                                                                            <li>Email: <?php echo $row['email'] ?></li>
+                                                                                            <li>Contact: <?php echo $row['contact'] ?></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <?php 
+                                                                    }
+                                                                    ?>
+                                                                    </tbody>
+                                                                </table>
+                                                               
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="text-center">
+                                                                    <label for="">Priority:</label>
+                                                                    <br>
+                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                        <input type="radio" class="btn-check" name="eventBtn" value="Urgent" id="eventUrgent" autocomplete="off" >
+                                                                        <label class="btn btn-outline-danger" for="eventUrgent">Urgent</label>
+
+                                                                        <input type="radio" class="btn-check" name="eventBtn" value="High" id="eventHigh" autocomplete="off">
+                                                                        <label class="btn btn-outline-warning" for="eventHigh">High</label>
+
+                                                                        <input type="radio" class="btn-check" name="eventBtn" value="Mid" id="eventMid" autocomplete="off">
+                                                                        <label class="btn btn-outline-primary" for="eventMid">Mid</label>
+
+                                                                        <input type="radio" class="btn-check" name="eventBtn" value="Low" id="eventLow" autocomplete="off" checked>
+                                                                        <label class="btn btn-outline-secondary" for="eventLow">Low</label>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                                <label class="" for="">Set Deadline:</label>
+                                                                <input type="date" name="ticket_deadline" class="form-control" required>
+                                                                <label class="mt-3" for="">Ticket Title:</label>
+                                                                <input class="form-control" name="ticket_title" type="text" required>
+                                                                <label class="mt-3" for="">Ticket Description:</label>
+                                                                <textarea class="form-control" name="ticket_desc" value=""  name="desc" rows="10" cols="5" required></textarea>
+                                                            </div>
+                                                        </div>
+                             
                                                     </div>
-                                                    <div class="modal-footer">
+                                                    <div class="modal-footer justify-content-center">
                                                         <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
                                                         <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
                                                         <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
@@ -697,14 +1014,14 @@
                                                 while ($row = mysqli_fetch_array($result)) {
                                             ?>
                                             <div class="col-md-4 mb-3">
-                                                <div class="card">
+                                                <div class="card h-100">
                                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?> - <i><?php echo $row['ticket_type'] ?></i></strong></h6>
+                                                        <h6 class="card-title"><strong><?php echo $row['ticket_title'] ?></strong></h6>
                                                         <div class="place-it-on-the-right-side-corner">
-                                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delTicket"><i class="fa-solid fa-trash"></i></button>
-
+                                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delTicket<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
+                                                    
                                                             <!--Delete Ticket-->
-                                                            <div class="modal fade" id="delTicket" tabindex="-1" role="dialog" aria-labelledby="delTicket" aria-hidden="true">
+                                                            <div class="modal fade" id="delTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="delTicket" aria-hidden="true">
                                                                 <div class="modal-dialog" role="document">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header bg-success text-white">
@@ -738,11 +1055,536 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <p class="card-text"><?php echo $row['ticket_desc'] ?></p>
+                                                        <h6>Priority:
+                                                        <?php 
+                                                        if($row['ticket_priority'] == 'Low'){
+                                                            ?>
+                                                            <b><label class="text-secondary">Low</label></b>
+                                                        <?php
+                                                        }elseif($row['ticket_priority'] == 'Mid'){
+                                                            ?>
+                                                            <b><label class="text-primary">Mid</label></b>
+                                                        <?php
+                                                        }elseif($row['ticket_priority'] == 'High'){
+                                                            ?>
+                                                            <b><label class="text-warning">High</label></b>
+                                                        <?php
+                                                        }else{
+                                                            ?>
+                                                            <b><label class="text-danger">Urgent</label></b>
+                                                        <?php
+                                                        }
+                                                        
+                                                        ?>
+                                                        </h6>
+                                                        <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                        <h6>Created by: <b><?php echo $row['ticket_admin'] ?></b></h6>
+                                                        <h6>Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                               
+                                                    </div>
+                                                    <div class="card-footer text-center">
+                                                        <a style="text-decoration:none" href="" class="text-success" data-bs-toggle="modal" data-bs-target="#detTicket<?php echo $row['id'] ?>">View Details</a>
+                                                    </div>
+
+                                                    <!--Ticket Details-->
+                                                    <div class="modal modal-xl fade" id="detTicket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-success text-white">
+                                                                    <h5 class="modal-title">Ticket Details</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                    </button>
+                                                                </div>  
+                                                                <div class="card-body">
+                                                                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                        <li class="nav-item" role="presentation">
+                                                                            <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main<?php echo $row['id'] ?>" type="button" role="tab" aria-controls="main" aria-selected="true">Main</button>
+                                                                        </li>
+                                                                        <li class="nav-item" role="presentation">
+                                                                            <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments<?php echo $row['id'] ?>" type="button" role="tab" aria-controls="comments" aria-selected="false">Comments</button>
+                                                                        </li>
+                                                                    
+                                                                    </ul>
+                                                            
+                                                                    <div class="tab-content" id="myTabContent">
+                                                                        <div class="tab-pane fade show active p-3" id="main<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                            <div class="row">
+                                                                                <div class="col-md-8">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <h5 class="mt-3">Ticket Title:</h5>
+                                                                                            <h5 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h5>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <h5 class="mt-3">Ticket Admin: </h5>
+                                                                                            <h5 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h5>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <h5 class="mt-3">Ticket Description: </h5>
+                                                                                    <h5 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h5>
+                                                                                    <br>
+                                                                                    <hr>
+                                                                                    <div class="row align-items-center">
+                                                                                        <div class="col-auto">
+                                                                                            <h5>Priority Level:</h5>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <?php 
+                                                                                            if($row['ticket_priority'] == 'Low'){
+                                                                                                ?>
+                                                                                                <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                    role="alert">
+                                                                                                    <strong>Low</strong>
+                                                                                                </div>
+                                                                                            <?php
+                                                                                            }elseif($row['ticket_priority'] == 'Mid'){
+                                                                                                ?>
+                                                                                                <div class="alert alert-primary d-inline-flex align-items-center py-1"
+                                                                                                    role="alert">
+                                                                                                    <strong>Mid</strong>
+                                                                                                </div>
+                                                                                            <?php
+                                                                                            }elseif($row['ticket_priority'] == 'High'){
+                                                                                                ?>
+                                                                                                <div class="alert alert-warning d-inline-flex align-items-center py-1"
+                                                                                                    role="alert">
+                                                                                                    <strong>High</strong>
+                                                                                                </div>
+                                                                                            <?php
+                                                                                            }else{
+                                                                                                ?>
+                                                                                                <div class="alert alert-danger d-inline-flex align-items-center py-1"
+                                                                                                    role="alert">
+                                                                                                    <strong>Urgent</strong>
+                                                                                                </div>
+                                                                                            <?php
+                                                                                            }
+                                                                                            
+                                                                                            ?>
+                                                                                            <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
+                                                                                            <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                            <!-- Modal Priority -->
+                                                                                            <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                                            <h5 class="modal-title" id="">Update Priority Level</h5>
+                                                                                                        </div>
+                                                                                                        <form action="./include/process.php" method="POST">
+                                                                                                            <div class="modal-body text-center">
+                                                                                                                <label for="">Select Priority Level:</label>
+                                                                                                                <br>
+                                                                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                                                    <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                                    <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="modal-footer">
+                                                                                                                <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                                <button type="submit" class="btn btn-dark w-100" name="update_priority">Update</button>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row align-items-center">
+                                                                                        <div class="col-auto">
+                                                                                            <h5>Status:</h5>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <?php 
+                                                                                                if($row['ticket_status'] == 'Your-ticket'){
+                                                                                                ?>
+                                                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>Your-ticket</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                elseif($row['ticket_status'] == 'To-Do'){
+                                                                                                ?>
+                                                                                                    <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>To-Do</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                elseif($row['ticket_status'] == 'In-Review'){ 
+                                                                                                ?>
+                                                                                                    <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>In-Review</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                else{
+                                                                                                ?>
+                                                                                                    <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                        <strong>Revision</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                            ?>
+                                                                                            
+                                                                                            <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
+                                                                                            <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                             <!-- Modal Status -->
+                                                                                            <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                                            <h5 class="modal-title" id="">Update Status</h5>
+                                                                                                        </div>
+                                                                                                        <form action="./include/process.php" method="POST">
+                                                                                                            <div class="modal-body">
+                                                                                                                <label for="">Select Status:</label>
+                                                                                                                <select class="form-select" name="stat" id="" required>
+                                                                                                                    <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                                    <option value="Your-Ticket">Your-Ticket</option>
+                                                                                                                    <option value="To-Do">To-Do</option>
+                                                                                                                    <option value="In-Review">In-Review</option>
+                                                                                                                    <option value="Revision">Revision</option>
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                            <div class="modal-footer">
+                                                                                                                <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                                <button type="submit" name="update_status" class="btn btn-dark w-100">Update</button>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                        <button
+                                                                                        style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                                        <i class="bi bi-plus-square-fill">
+                                                                                        </i></button> <label for="">Additional Instructions</label>
+
+                                                                                        <!-- Modal Additional Instructions -->
+                                                                                        <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                        <h5 class="modal-title" id="">Add Additional Instructions</h5>
+                                                                                                    </div>
+                                                                                                    <form action="./include/process.php" method="POST">
+                                                                                                        <div class="modal-body">
+                                                                                                            <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                                <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary w-100"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="modal-footer">
+                                                                                                            <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                            <button type="submit" name="addInstructions" class="btn btn-dark w-100">Add</button>
+                                                                                                        </div>
+                                                                                                    </form>
+                                                                                                    
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <!--Add Instruction Input-->
+                                                                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                                        <script>
+                                                                                            $(document).ready(function(){
+                                                                                                var count = 1;
+                                                                                                $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                                    var input = $("<input>")
+                                                                                                        .addClass("form-control mt-3")
+                                                                                                        .attr("type", "text")
+                                                                                                        .attr("name", "instruction_" + count)
+                                                                                                        .prop("required", true)
+                                                                                                        .attr("placeholder", "Instruction " + count);
+                                                                                                    $(".instructions").append(input);
+                                                                                                    count++;
+                                                                                                });
+
+                                                                                            });
+                                                                                        </script>
+                                                                                    
+                                                                                    <div style="max-height: 200px; overflow-y: auto;">
+                                                                                    <?php 
+                                                                                        $ticket_id = $row['id'];
+                                                                                        $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
+                                                                                        $resultInstruction = mysqli_query($conn, $queryInstruction);
+
+                                                                                        while ($instructionRow = mysqli_fetch_assoc($resultInstruction)) {
+                                                                                            // Get the instructions from the row
+                                                                                            $instructionStr = $instructionRow['ticket_instructions'];
+                                                                                            
+                                                                                            // Explode the instructions into an array
+                                                                                            $instructionsArray = explode(', ', $instructionStr);
+
+                                                                                            // Output each instruction in a list item
+                                                                                            echo '<ul>';
+                                                                                            foreach ($instructionsArray as $instruction) {
+                                                                                                echo '<li>' . $instruction . '</li>';
+                                                                                            }
+                                                                                            echo '</ul>';
+                                                                                        }
+                                                                                    ?>
+
+                                                                                    </div>
+                                                                                  
+                                                                                    <hr>
+                                                                                    <div>
+                                                                                        <h5>Ticket Volunteers: 
+                                                                                            <button
+                                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
+                                                                                            <i class="bi bi-plus-square-fill">
+                                                                                            </i></button>
+                                                                                        </h5>
+
+                                                                                        <div class="col">
+                                                                                        <?php 
+                                                                                            $ids = $row['ticket_volunteers_id'];
+                                                                                            $idsArray = explode(',', $ids);
+                                                                                        
+                                                                                            $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                                            
+                                                                                            $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                                            $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                                        
+                                                                                            while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+
+                                                                                        ?>
+                                                                                            <button type="button"
+                                                                                                class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                <strong><?php echo $row_volunteer['name'] ?></strong>
+                                                                                            </button>
+                                                                                        <?php
+                                                                                        }
+                                                                                        ?>
+
+                                                                                        </div>
+
+                                                                                        <!-- Modal Add Volunteer -->
+                                                                                        <div class="modal modal-md fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                        <h5 class="modal-title" id="">Add Volunteer</h5>
+                                                                                                    </div>
+                                                                                                    <form action="./include/process.php" method="POST">
+                                                                                                        <div class="modal-body">
+                                                                                                            <table class="table" id="">
+                                                                                                                <thead>
+                                                                                                                    <tr>
+                                                                                                                        <th scope="col"></th>
+                                                                                                                        <th scope="col">Volunteers Name</th>
+                                                                                                                        <th scope="col">Email</th>
+                                                                                                                        <th scope="col">View</th>
+                                                                                                                    </tr>
+                                                                                                                </thead>
+                                                                                                                <tbody>
+                                                                                                                <?php 
+                                                                                                                    $idss = $row['ticket_volunteers_id'];
+                                                                                                                    $idsArrays = explode(',', $idss);
+
+                                                                                                                    $idsStrings = "'" . implode("', '", $idsArrays) . "'";
+
+                                                                                                                    $query_volunteers = "SELECT * FROM accounts WHERE id IN ($idsStrings)";
+                                                                                                                    $result_volunteers = mysqli_query($conn, $query_volunteers);
+
+                                                                                                                    $volunteerNames = [];
+                                                                                                                    while ($row_volunteers = mysqli_fetch_array($result_volunteers)) {
+                                                                                                                        $volunteerNames[] = $row_volunteers['name'];
+                                                                                                                    }
+
+                                                                                                                    $volunteerNamesString = "'" . implode("', '", $volunteerNames) . "'";
+                                                                                                                    $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer' AND name NOT IN ($volunteerNamesString)";
+
+                                                                                                                    $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                                    while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                                ?>
+                                                                                                                <tr>
+                                                                                                                    <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                                    <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                                    <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                                    <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                                </tr>
+
+                                                                                                                <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                                        <div class="modal-content">
+                                                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                                                <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h5>
+                                                                                                                            
+                                                                                                                            </div>
+                                                                                                                            <div class="modal-body">
+                                                                                                                                <h3>Volunteer Details:</h3>
+                                                                                                                                <ul>
+                                                                                                                                    <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                                    <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                                    <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                                    <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                                </ul>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                
+                                                                                                                <?php 
+                                                                                                                }
+                                                                                                                ?>
+                                                                                                                </tbody>
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                        <div class="modal-footer">
+                                                                                                            <input type="hidden" name="vl_id" value="<?php echo $row['id'] ?>">
+                                                                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                            <button type="submit" name="addVolunteers" class="btn btn-dark w-100">Add</button>
+                                                                                                        </div>
+                                                                                                    </form>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div id="progress-bar-container<?php echo $row['id'] ?>"
+                                                                                        style="position: relative;">
+                                                                                    </div>
+                                                                            
+                                                                                    <hr>
+                                                                                    <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                                                    <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="tab-pane fade p-3" id="comments<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                            <div class="row mt-12">
+                                                                                <!-- right side of the modal comment display -->
+                                                                                <div class="col-md-12">
+                                                                                    <div class="container">
+                                                                                        <div class="chat-container">
+                                                                                            <div class="message received">
+                                                                                                <div class="alert alert-primary" role="alert">
+                                                                                                    Hello! How can I help you?
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="message sent">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    Hi! I have a question about your services.
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="message received">
+                                                                                                <div class="alert alert-primary" role="alert">
+                                                                                                    Sure, feel free to ask.
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="message sent">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    Hi! I have a question about your services.
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="message sent">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    Hi! I have a question about your services.
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="message sent">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    Hi! I have a question about your services.
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                 </div>
                                             </div>
+
+                                            <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
+                                            <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <script>
+                                            var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
+                                                strokeWidth: 6,
+                                                easing: 'easeInOut',
+                                                duration: 1400,
+                                                color: '#4caf50',
+                                                trailColor: '#f3f3f3',
+                                                trailWidth: 6,
+                                                svgStyle: {
+                                                    // Center align the progress percentage text
+                                                    transform: 'translateX(-50%) translateY(00%)',
+                                                    width: '200px', //size of the circle
+                                                    height: '200px', //size of the circle
+                                                    position: 'relative',
+                                                    left: '50%',
+                                                    top: '50%'
+                                                },
+                                                text: {
+                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    className: 'progressbar-text', // CSS class for the progress text
+                                                    autoStyleContainer: false, // Disable automatic styling of the text container
+                                                    style: {
+                                                        position: 'absolute',
+                                                        left: '30%',
+                                                        right: '20%',
+                                                        top: '42%',
+                                                        padding: 0,
+                                                        margin: 0,
+                                                        fontSize: '1.0rem',
+                                                        fontWeight: 'bold',
+                                                        color: '#000'
+                                                    }
+                                                }
+                                            });
+
+                                            // Set the initial progress value
+                                            progressBar.animate(0.5); // Example: 50% progress
+                                            </script>
+
                                             <?php 
                                             }
                                             ?>
@@ -792,9 +1634,13 @@
 
     <?php include('./include/scripts.php') ?> 
     <script src="./include/plugins/tinymce/tinymce.min.js"></script>
-    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>
-
+    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>                                  
     <script>
+        $(document).ready(function() {
+            $("#select2insidemodal").select2({
+                dropdownParent: $("#addPart")
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('daycalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {

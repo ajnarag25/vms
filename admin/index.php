@@ -57,6 +57,11 @@
                             Templates
                         </a>
 
+                        <a class="nav-link" href="accounts.php">
+                            <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
+                            Accounts
+                        </a>
+                        
                         <a class="nav-link" href="my_account.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-id-card"></i></div>
                             My Account
@@ -84,10 +89,11 @@
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
                         </div>
                     </div>
-
+                    
                     <div class="row">
+                        
                         <div class="col-md-4">
-                            <div class="card mb-4">
+                            <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-clipboard"></i>
                                     Announcement
@@ -103,7 +109,7 @@
 
                         </div>
                         <div class="col-md-4">
-                            <div class="card mb-4">
+                            <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-comments"></i>
                                     Suggestion
@@ -118,101 +124,253 @@
 
                         </div>
                         <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="bg-warning text-white card-header text-center">
+                            <div class="card mb-4 h-100">
+                                <div class="bg-danger text-white card-header text-center">
                                     <i class="fa-solid fa-circle-exclamation"></i>
-                                    Urgent
+                                    Urgent Tickets
                                 </div>
                                 <br>
-                                <ul>
-                                    <li>Need it in gym at 8am sharp.</li>
-                                    <li>Please provide more information.</li>
-                                    <li>Sample urgent message.</li>
-                                </ul>
-                                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas>
+                                <div style="max-height: 200px; overflow-y: auto;">
+                                    <?php 
+                                        $query = "SELECT * FROM tickets WHERE ticket_priority = 'Urgent'";
+                                        $result = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                    <ul>
+                                        <li> <a href="" class="text-danger" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#urgent<?php echo $row['id'] ?>"><?php echo $row['ticket_title'] ?> -  Deadline: <?php echo $row['ticket_deadline'] ?></a></li>
+                                    </ul>
+
+                                    <div class="modal modal-md fade" id="urgent<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger text-white">
+                                                    <h5 class="modal-title">Ticket Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                    </button>
+                                                </div>  
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <h6>Ticket Title: <b><?php echo $row['ticket_title'] ?></b> </h6>
+                                                            <h6>Ticket Admin: <b><?php echo $row['ticket_admin'] ?></b> </h6>
+                                                            <hr>
+                                                            <h6>Ticket Description: </h6>
+                                                            <b><?php echo $row['ticket_desc'] ?></b>
+                                                            <hr>
+                                                            <h6 class="mt-3">Ticket Volunteers:</h6>
+                                                            <?php 
+                                                                $ids = $row['ticket_volunteers_id'];
+                                                                $idsArray = explode(',', $ids);
+                                                            
+                                                                $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                
+                                                                $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                
+                                                                while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+                                                                    ?>
+                                                                    <ul>
+                                                                        <li><b><?php echo $row_volunteer['name'] ?></b></li>
+                                                                    </ul>
+                                                                <?php
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <h6 class="mt-3">Priority:
+                                                            <?php 
+                                                            if($row['ticket_priority'] == 'Low'){
+                                                                ?>
+                                                                <b><label class="text-secondary">Low</label></b>
+                                                            <?php
+                                                            }elseif($row['ticket_priority'] == 'Mid'){
+                                                                ?>
+                                                                <b><label class="text-primary">Mid</label></b>
+                                                            <?php
+                                                            }elseif($row['ticket_priority'] == 'High'){
+                                                                ?>
+                                                                <b><label class="text-warning">High</label></b>
+                                                            <?php
+                                                            }else{
+                                                                ?>
+                                                                <b><label class="text-danger">Urgent</label></b>
+                                                            <?php
+                                                            }
+                                                            
+                                                            ?>
+                                                            </h6>
+                                                            <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                            <h6 class="mt-3">Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php 
+                                }
+                                ?>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="bg-dark text-white card-header text-center">
-                                    <i class="fa-solid fa-clock-rotate-left"></i>
-                                    History
-                                </div>
-                                <br>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Ticket</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>03/09/2024</th>
-                                            <td>Ticket 1</td>
-                                            <td class="text-success">Success</td>
-                                        </tr>
-                                        <tr>
-                                            <th>03/10/2024</th>
-                                            <td>Ticket 2</td>
-                                            <td class="text-warning">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <th>03/05/2024</th>
-                                            <td>Ticket 3</td>
-                                            <td class="text-danger">Fail</td>
-                                        </tr>
+                        <hr class="mt-3">
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
 
-                        <div class="col-md-4">
-                            <div class="card mb-4">
+                        <div class="col-md-9">
+                            <div class="card mb-4 h-100">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
-                                    <div id="bsb-calendar-1" class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
+                                    <?php 
+                                        // Fetch events from database
+                                        $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                        $result = $conn->query($sql);
+
+                                        $events = array();
+
+                                        if ($result->num_rows > 0) {
+                                            while($row = $result->fetch_assoc()) {
+                                                $event = array(
+                                                    'id' => $row['id'],
+                                                    'title' => $row['title'],
+                                                    'start' => $row['startdate'],
+                                                    'end' => $row['enddate'],
+                                                    'allDay' => $row['allday']
+                                                );
+                                                array_push($events, $event);
+                                            }
+                                        }
+                                    ?>
+                                    <div id="calendar"
+                                        class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="bg-danger text-white card-header text-center">
+                        <div class="col-md-3">
+                            <div class="card mb-4 h-100">
+                                <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-bookmark"></i>
                                     Tickets
                                 </div>
+                                <div style="max-height: 800px; overflow-y: auto;">
+                                <?php
+                                    $query = "SELECT * FROM tickets";
+                                    $result = mysqli_query($conn, $query);
+
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        $priority = $row['ticket_priority'];
+                                        $bgColor = '';
+                                        
+                                        switch ($priority) {
+                                            case 'Urgent':
+                                                $bgColor = 'bg-danger';
+                                                break;
+                                            case 'Low':
+                                                $bgColor = 'bg-secondary';
+                                                break;
+                                            case 'Mid':
+                                                $bgColor = 'bg-primary';
+                                                break;
+                                            case 'High':
+                                                $bgColor = 'bg-warning';
+                                                break;
+                                            default:
+                                            $bgColor = 'bg-success';
+                                            break;
+                                        }
+                                ?>
                                 <div class="p-3">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Ticket Sample 1</h5>
+                                    <div class="card <?php echo $bgColor ?>">
+                                        <div class="card-body text-white">
+                                            <h5><?php echo $row['ticket_title'] ?></h5>
                                             <hr>
-                                            <p>This is only a sample ticket. Details goes here</p>
+                                            <p><?php echo $row['ticket_desc'] ?></p>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="" class="text-white" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#ticket<?php echo $row['id'] ?>">View</a>
                                         </div>
 
-                                    </div>
-
-                                    <div class="card bg-warning text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Ticket Sample 2</h5>
-                                            <hr>
-                                            <p>This is only a sample ticket. Details goes here</p>
+                                        <div class="modal modal-md fade" id="ticket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-success text-white">
+                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                        </button>
+                                                    </div>  
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <h6>Ticket Title: <b><?php echo $row['ticket_title'] ?></b> </h6>
+                                                                <h6>Ticket Admin: <b><?php echo $row['ticket_admin'] ?></b> </h6>
+                                                                <hr>
+                                                                <h6>Ticket Description: </h6>
+                                                                <b><?php echo $row['ticket_desc'] ?></b>
+                                                                <hr>
+                                                                <h6 class="mt-3">Ticket Volunteers:</h6>
+                                                                <?php 
+                                                                    $ids = $row['ticket_volunteers_id'];
+                                                                    $idsArray = explode(',', $ids);
+                                                                
+                                                                    $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                    
+                                                                    $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                    $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                    
+                                                                    while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+                                                                        ?>
+                                                                        <ul>
+                                                                            <li><b><?php echo $row_volunteer['name'] ?></b></li>
+                                                                        </ul>
+                                                                    <?php
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h6 class="mt-3">Priority:
+                                                                <?php 
+                                                                if($row['ticket_priority'] == 'Low'){
+                                                                    ?>
+                                                                    <b><label class="text-secondary">Low</label></b>
+                                                                <?php
+                                                                }elseif($row['ticket_priority'] == 'Mid'){
+                                                                    ?>
+                                                                    <b><label class="text-primary">Mid</label></b>
+                                                                <?php
+                                                                }elseif($row['ticket_priority'] == 'High'){
+                                                                    ?>
+                                                                    <b><label class="text-warning">High</label></b>
+                                                                <?php
+                                                                }else{
+                                                                    ?>
+                                                                    <b><label class="text-danger">Urgent</label></b>
+                                                                <?php
+                                                                }
+                                                                
+                                                                ?>
+                                                                </h6>
+                                                                <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                                <h6 class="mt-3">Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <?php
+                                    }
+                                ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,6 +384,29 @@
 
     <?php include('./include/scripts.php') ?>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'today',
+                center: 'title',
+                right: 'prev,next'
+            },
+            initialView: 'dayGridMonth',
+            events: <?php echo json_encode($events); ?>,
+            navLinks: false,
+            selectable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
+            
+            });
+
+            calendar.render();
+
+        });
+    </script>
+    
 </body>
 
 </html>
