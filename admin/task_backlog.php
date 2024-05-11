@@ -94,24 +94,34 @@
                     <div class="mt-3">
                         <div class="card p-3">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="Taskbacklog">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Event</th>
-                                            <th scope="col">Ticket</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Notification</th>
+                                            <th scope="col">Event Title</th>
+                                            <th scope="col">Ticket Title</th>
+                                            <th scope="col">Date Created</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
+                                            <th scope="col">Ticket Type</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                            $query = "SELECT * FROM tickets";
+                                            $result = mysqli_query($conn, $query);
+                                            while ($row = mysqli_fetch_array($result)) {
+                                        ?>
                                         <tr>
-                                            <th>Event Sample</th>
-                                            <td>Ticket 1</td>
-                                            <td>03/19/2024</td>
-                                            <td>3:00pm</td>
-                                            <td>New</td>
+                                            <th><?php echo $row['ticket_event'] ?></th>
+                                            <td><?php echo $row['ticket_title'] ?></td>
+                                            <td><?php echo $row['date_added'] ?></td>
+                                            <td><?php echo date('h:i:s A', strtotime($row['start'])); ?></td>
+                                            <td><?php echo date('h:i:s A', strtotime($row['end'])); ?></td>
+                                            <td><?php echo $row['ticket_type'] ?></td>
                                         </tr>
+                                        <?php 
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
