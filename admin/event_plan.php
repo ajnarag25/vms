@@ -67,11 +67,11 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                             Task Backlog
                         </a>
-
+<!-- 
                         <a class="nav-link" href="templates.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                             Templates
-                        </a>
+                        </a> -->
 
                         <a class="nav-link" href="accounts.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>

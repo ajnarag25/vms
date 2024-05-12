@@ -36,8 +36,8 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
                             Team Dashboard
                         </a>
-
-                        <!-- <a class="nav-link" href="event_plan.php">
+<!-- 
+                        <a class="nav-link" href="event_plan.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-week"></i></div>
                             Event Plan
                         </a> -->
@@ -57,10 +57,10 @@
                             Task Backlog
                         </a>
 
-                        <a class="nav-link" href="templates.php">
+                        <!-- <a class="nav-link" href="templates.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                             Templates
-                        </a>
+                        </a> -->
 
                         <a class="nav-link" href="accounts.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
@@ -96,7 +96,7 @@
                         <div class="col-md-2">
                             <div class="card mb-4">
                                 <div class="text-success card-header text-center">
-                                    Your Tickets
+                                    From Volunteers
                                 </div>
                                 <div class="p-3">
                                     <div class="card bg-success text-white mb-4">
@@ -339,7 +339,7 @@
                         <div class="col-md-2">
                             <div class="card mb-4">
                                 <div class="text-primary card-header text-center">
-                                    To-Do
+                                    To-Review
                                 </div>
                                 <div class="p-3">
                                     <div class="card bg-success text-white mb-4">
@@ -368,7 +368,7 @@
                         <div class="col-md-2">
                             <div class="card mb-4">
                                 <div class="text-warning card-header text-center">
-                                    In-Review
+                                    Revisions
                                 </div>
                                 <div class="p-3">
                                     <div class="card bg-success text-white mb-4">
@@ -396,7 +396,7 @@
                         <div class="col-md-2">
                             <div class="card mb-4">
                                 <div class="text-danger card-header text-center">
-                                    Revisions
+                                    Urgent
                                 </div>
                                 <div class="p-3">
                                     <div class="card bg-success text-white mb-4">

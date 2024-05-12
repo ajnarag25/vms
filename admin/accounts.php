@@ -56,10 +56,10 @@
                             Task Backlog
                         </a>
 
-                        <a class="nav-link" href="templates.php">
+                        <!-- <a class="nav-link" href="templates.php">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard"></i></div>
                             Templates
-                        </a>
+                        </a> -->
 
                         <a class="nav-link active" href="accounts.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
