@@ -170,11 +170,11 @@
                                                 <form action="./include/process.php" method="POST">
                                                     <div class="modal-body">
                                                         <label for=""><b>Contact Number:</b> </label>
-                                                        <input type="text" class="form-control" placeholder="Enter your new contact number" required>
+                                                        <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter your new contact number" required>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <input type="hidden" name="update_id" value="<?php echo $row['id'] ?>">
-                                                        <button type="submit" name="update_number" class="btn btn-primary w-100">Update</button>
+                                                        <button type="submit" name="update_contact" class="btn btn-primary w-100">Update</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -251,6 +251,17 @@
     // Set the initial progress value
     progressBar.animate(0.7); // Example: 70% progress
     </script>
+
+    <script>
+        window.onload = function() {
+            var contactInput = document.getElementById("contact");
+
+            contactInput.addEventListener("input", function() {
+                // Remove any non-digit characters
+                this.value = this.value.replace(/\D/g, '');
+
+            });
+        };
     </script>
 </body>
 

@@ -1003,6 +1003,44 @@
 
     }
 
+    // UPDATE EMAIL
+    if (isset($_POST['update_contact'])) {
+        $update_id = $_POST['update_id'];
+        $contact = $_POST['contact'];
+
+        $result = $conn->query("SELECT * FROM accounts WHERE id = '$update_id'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentEmail = $row['contact'];
+            
+            if ($currentEmail == $contact) {
+                $_SESSION['status'] = 'No changes made';
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../my_account.php');
+                exit();
+            } else {
+                if (!empty($update_id)) {
+                    $conn->query("UPDATE accounts SET contact = '$contact' WHERE id = $update_id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully updated your contact number';
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../my_account.php');
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../my_account.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../my_account.php');
+            exit();
+        }
+
+    }
+
 
         
 ?>
