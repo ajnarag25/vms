@@ -96,8 +96,10 @@
                             error_reporting(0);
                             if ($_SESSION['admin']['id']){
                                 $sesId = $_SESSION['admin']['id'];
+                                $sesUser = $_SESSION['admin']['username'];
                             }else{
                                 $sesId = $_SESSION['superadmin']['id'];
+                                $sesUser = $_SESSION['superadmin']['username'];
                             }
                             $query = "SELECT * FROM accounts WHERE `id`='$sesId'";
                             $result = mysqli_query($conn, $query);
@@ -138,6 +140,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header bg-dark text-white">
                                                     <h5 class="modal-title" id="">Update Email</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <form action="./include/process.php" method="POST">
                                                     <div class="modal-body">
@@ -166,6 +169,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header bg-dark text-white">
                                                     <h5 class="modal-title" id="">Update Contact Number</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <form action="./include/process.php" method="POST">
                                                     <div class="modal-body">
@@ -212,12 +216,23 @@
                                                             <div class="card-body">
                                                                 <div class="row">
                                                                 <?php 
-                                                                    $sub_query = "SELECT * FROM skill_tag WHERE tag_name != '' AND category = '$main_cat'";
+                                                                    $check_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$sesId'";
+                                                                    $query_check = mysqli_query($conn, $check_skills);
+                                                                    $tag_names = array();
+                                                                    while ($check_tags = mysqli_fetch_array($query_check)) {
+                                                                        $tag_names[] = $check_tags['tag_name'];
+                                                                    }
+                                                                    $sub_query = "SELECT * FROM skill_tag WHERE tag_name != '' AND category = '$main_cat' AND tag_name NOT IN ('" . implode("','", $tag_names) . "')";
                                                                     $sub_result = mysqli_query($conn, $sub_query);
                                                                     while ($sub_row = mysqli_fetch_array($sub_result)) {
                                                                 ?>
                                                                     <div class="col-md-2">
-                                                                        <button type="button" class="btn btn-success"><?php echo $sub_row['tag_name'] ?></button>
+                                                                        <button type="button" class="btn btn-success skill-tag add-skills" value="<?php echo $sub_row['id'] ?>"><?php echo $sub_row['tag_name']; ?></button>
+                                                                        <input type="hidden" name="vl_id" value="<?php echo $sesId; ?>">
+                                                                        <input type="hidden" name="vl_user" value="<?php echo $sesUser; ?>">
+                                                                        <input type="hidden" name="skill_id" value="<?php echo $sub_row['id']; ?>">
+                                                                        <input type="hidden" id="skills-ids" name="skills_ids[]">
+                                                                        <input type="hidden" id="skills-values" name="skills_values[]">
                                                                     </div>
                                                                 <?php 
                                                                 }
@@ -230,19 +245,49 @@
                                                         ?>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="hidden" name="update_id" value="<?php echo $row['id'] ?>">
-                                                        <button type="submit" name="update_contact" class="btn btn-success w-100">Add Skills</button>
+                                                        <button type="submit" name="addSkills" class="btn btn-success w-100">Add Skills</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div style="max-height: 200px; overflow-y: auto;">
+                                    <div class="text-center" style="max-height: 200px; overflow-y: auto;">
+                                    <?php
+                                        $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$sesId'";
+                                        $query_retrieve = mysqli_query($conn, $retrieve_skills);
+                                        while ($rtags = mysqli_fetch_array($query_retrieve)) {
+                                    ?>
                                         <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
                                             role="alert">
-                                            Skill 1 Sample
+                                            <a href="" title="Remove Skill" class="text-secondary" style="margin-right:5px;" data-bs-toggle="modal" data-bs-target="#delSkills<?php echo $rtags['id'] ?>"><i class="fa-solid fa-x" style="font-size:13px;"></i> </a>  <?php echo $rtags['tag_name']; ?>
                                         </div>
+                                        
+
+                                        <!-- Remove Skills -->
+                                        <div class="modal fade" id="delSkills<?php echo $rtags['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-dark text-white">
+                                                        <h5 class="modal-title" id="">Remove Skill: <b class="text-danger"><?php echo $rtags['tag_name'] ?></b> </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="./include/process.php" method="POST">
+                                                        <div class="modal-body text-center">
+                                                            <h5> <b>Are you sure you want to remove this skill?</b></h5>
+                                                            <p class="text-danger">* This action is irreversible!</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="remId" value="<?php echo $rtags['id'] ?>">
+                                                            <button type="submit" class="btn btn-danger w-100" name="remSkills">Remove</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php } ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -260,6 +305,25 @@
     </div>
 
     <?php include('./include/scripts.php') ?>
+    <script>
+        // Initialize arrays to store clicked button IDs and values
+        var clickedSkillIds = [];
+        var clickedSkillValues = [];
+
+        $(".add-skills").click(function() {
+            var buttonId = $(this).val();
+            var buttonValue = $(this).text();
+        
+            clickedSkillIds.push(buttonId);
+            clickedSkillValues.push(buttonValue);
+            
+            $(this).prop('disabled', true);
+            
+            $("#skills-ids").val(clickedSkillIds);
+            $("#skills-values").val(clickedSkillValues);
+        });
+    </script>
+
     <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
     <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
     <script>

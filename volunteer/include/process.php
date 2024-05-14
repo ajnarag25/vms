@@ -58,3 +58,140 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Bad Request";
     }
 }
+
+
+// UPDATE EMAIL
+if (isset($_POST['update_email'])) {
+    $update_id = $_POST['update_id'];
+    $email = $_POST['updt_email'];
+
+
+    $result = $conn->query("SELECT * FROM accounts WHERE id = '$update_id'");
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $currentEmail = $row['email'];
+        
+        if ($currentEmail == $email) {
+            $_SESSION['status'] = 'No changes made';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../my_account.php');
+            exit();
+        } else {
+            if (!empty($update_id)) {
+                $conn->query("UPDATE accounts SET email = '$email' WHERE id = $update_id") or die($conn->error);
+                $_SESSION['status'] = 'Successfully updated your email';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../my_account.php');
+                exit();
+            } else {
+                $_SESSION['status'] = 'An Error Occurred!';
+                $_SESSION['status_icon'] = 'error';
+                header('Location: ../my_account.php');
+                exit();
+            }
+        }
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../my_account.php');
+        exit();
+    }
+
+}
+
+// UPDATE CONTACT
+if (isset($_POST['update_contact'])) {
+    $update_id = $_POST['update_id'];
+    $contact = $_POST['contact'];
+
+    $result = $conn->query("SELECT * FROM accounts WHERE id = '$update_id'");
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $currentContact = $row['contact'];
+        
+        if ($currentContact == $contact) {
+            $_SESSION['status'] = 'No changes made';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../my_account.php');
+            exit();
+        } else {
+            if (!empty($update_id)) {
+                $conn->query("UPDATE accounts SET contact = '$contact' WHERE id = $update_id") or die($conn->error);
+                $_SESSION['status'] = 'Successfully updated your contact number';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../my_account.php');
+                exit();
+            } else {
+                $_SESSION['status'] = 'An Error Occurred!';
+                $_SESSION['status_icon'] = 'error';
+                header('Location: ../my_account.php');
+                exit();
+            }
+        }
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../my_account.php');
+        exit();
+    }
+
+}
+
+// ADD SKILLS
+if (isset($_POST['addSkills'])) {
+    $vid = $_POST['vl_id'];
+    $vuser = $_POST['vl_user'];
+    $sid = $_POST['skill_id'];
+    $skill_ids = $_POST['skills_ids'];
+    $skill_tags = $_POST['skills_values'];
+    
+    $ids_string = $skill_ids[0];
+    $ids_array = explode(',', $ids_string);
+    
+    $tags_string = $skill_tags[0];
+    $tags_array = explode(',', $tags_string);
+    
+    if (empty($tags_string)) {
+        $_SESSION['status'] = 'No Skills Added';
+        $_SESSION['status_icon'] = 'info';
+        header('Location: ../my_account.php');
+        exit();
+    }elseif($vid != '' && $sid != ''){
+        foreach ($ids_array as $index => $id) {
+            $tag = $tags_array[$index];
+    
+            $conn->query("INSERT INTO volunteer_skills (category_id, tag_name, volunteer_id, username) 
+            VALUES('$sid', '$tag', '$vid', '$vuser')") or die($conn->error);
+        }
+    
+        $_SESSION['status'] = 'Successfully added your skills';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../my_account.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../my_account.php');
+        exit();
+    }
+}
+
+
+// REMOVE SKILLS
+if (isset($_POST['remSkills'])) {
+    $remId = $_POST['remId'];
+
+    if ($remId != '') {
+        $conn->query("DELETE FROM volunteer_skills WHERE id='$remId'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully deleted your skill';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../my_account.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../my_account.php');
+        exit();
+    }
+
+}
