@@ -181,15 +181,63 @@
                                         </div>
                                     </div>
 
-                                    <p>Average Online Time: <b>2 Hr/s per day</b></p>
+                                    <!-- <p>Average Online Time: <b>2 Hr/s per day</b></p> -->
                                 </div>
                                 <div class="col-md-3">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-sm btn-success w-50" data-toggle="modal" data-target="#addSkills">
+                                        <button type="button" class="btn btn-sm btn-success w-50"  data-bs-toggle="modal" data-bs-target="#addSkills<?php echo $row['id'] ?>">
                                             Add Skills <i class="fa-solid fa-plus"></i>
                                         </button>
                                         <h6 class="mt-3">Skills:</h6>
                                     </div>
+
+                                    <!-- Update Contact  -->
+                                    <div class="modal modal-lg fade" id="addSkills<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-dark text-white">
+                                                    <h5 class="modal-title" id="">Add Skills</h5>
+                                                    <p class="modal-title text-danger">* Select your skills</p>
+                                                </div>
+                                                <form action="./include/process.php" method="POST">
+                                                    <div class="modal-body">
+                                                        <?php
+                                                            $query = "SELECT * FROM skill_tag WHERE tag_name = ''";
+                                                            $result = mysqli_query($conn, $query);
+                                                            while ($row = mysqli_fetch_array($result)) {
+                                                            $main_cat = $row['category'];
+                                                        ?>
+                                                        <h5 class="mt-3"><b><?php echo $row['category'] ?>:</b></h5>
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                <?php 
+                                                                    $sub_query = "SELECT * FROM skill_tag WHERE tag_name != '' AND category = '$main_cat'";
+                                                                    $sub_result = mysqli_query($conn, $sub_query);
+                                                                    while ($sub_row = mysqli_fetch_array($sub_result)) {
+                                                                ?>
+                                                                    <div class="col-md-2">
+                                                                        <button type="button" class="btn btn-success"><?php echo $sub_row['tag_name'] ?></button>
+                                                                    </div>
+                                                                <?php 
+                                                                }
+                                                                ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <?php 
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="update_id" value="<?php echo $row['id'] ?>">
+                                                        <button type="submit" name="update_contact" class="btn btn-success w-100">Add Skills</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div style="max-height: 200px; overflow-y: auto;">
                                         <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
                                             role="alert">

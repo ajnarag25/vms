@@ -864,6 +864,60 @@
 
     }
 
+    // ADD VOLUNTEERS
+    if (isset($_POST['addVolunteers'])) {
+        $vl_id = $_POST['vl_id'];
+        $volunteer_ids = isset($_POST['volunteer_id']) ? $_POST['volunteer_id'] : [];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&event_id=' . urlencode($main_event_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+
+        if (!empty($volunteer_ids)) {
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        } else {
+            $_SESSION['status'] = 'No Volunteers Added';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../'. $url);
+            exit();
+        }
+
+        if ($vl_id) {
+            $existingVolunteersQuery = $conn->query("SELECT ticket_volunteers_id FROM tickets WHERE id = '$vl_id'");
+            $existingVolunteersRow = $existingVolunteersQuery->fetch_assoc();
+            $existingVolunteerStr = $existingVolunteersRow['ticket_volunteers_id'];
+
+            if (!empty($existingVolunteerStr)) {
+                $volunteerStr = $existingVolunteerStr . ', ' . $volunteer_ids_str;
+            } else {
+                $volunteerStr = $volunteer_ids_str;
+            }
+
+            $conn->query("UPDATE tickets SET ticket_volunteers_id = '$volunteerStr' WHERE id = '$vl_id'") or die($conn->error);
+            $_SESSION['status'] = 'Successfully Added Volunteer/s';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../'. $url);
+            exit();
+        } else {
+            $_SESSION['status'] = 'No Volunteers Added';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../'. $url);
+            exit();
+        }
+    }
+    
     // UPDATE STATUS
     if (isset($_POST['update_status'])) {
         $status_id = $_POST['status_id'];
@@ -1003,7 +1057,7 @@
 
     }
 
-    // UPDATE EMAIL
+    // UPDATE CONTACT
     if (isset($_POST['update_contact'])) {
         $update_id = $_POST['update_id'];
         $contact = $_POST['contact'];
@@ -1011,9 +1065,9 @@
         $result = $conn->query("SELECT * FROM accounts WHERE id = '$update_id'");
         if ($result) {
             $row = $result->fetch_assoc();
-            $currentEmail = $row['contact'];
+            $currentContact = $row['contact'];
             
-            if ($currentEmail == $contact) {
+            if ($currentContact == $contact) {
                 $_SESSION['status'] = 'No changes made';
                 $_SESSION['status_icon'] = 'info';
                 header('Location: ../my_account.php');
