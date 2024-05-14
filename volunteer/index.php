@@ -62,64 +62,74 @@
                             </ol>
                         </div>
                         <div class="col-md-6 text-end">
-                            <h4 class="mt-4"> <span id="currentDate"></span> </h4>
+                            <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
                         </div>
                     </div>
-
+                    
                     <div class="row">
+                        
                         <div class="col-md-4">
-                            <div class="card mb-4">
-                                <a href="" style="text-decoration: none;" data-bs-toggle="modal"
-                                    data-bs-target="#ann-modal">
-                                    <div class="bg-success text-white card-header text-center">
-                                        <i class="fa-solid fa-clipboard"></i>
-                                        Announcement
-                                    </div>
-                                </a>
-                                <!-- Announcement Whole Modal -->
-                                <div class="modal fade" id="ann-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                            <div class="card mb-4 h-100">
+                                <div class="bg-success text-white card-header text-center">
+
+                                    <a href="" class="text-white" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#announcementViewAll"> <i class="fa-solid fa-clipboard"></i> Announcements</a>
+                                </div>
+                                
+                                <!-- View All Announcements -->
+                                <div class="modal modal-lg fade" id="announcementViewAll" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Announcements</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                            <div class="modal-header bg-success text-white">
+                                                <h5 class="modal-title" id="">Announcements</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <table class="table">
-                                                    <thead>
+                                                <table class="table mb-0" id="Announcements">
+                                                    <thead class="text-center">
                                                         <tr>
                                                             <th scope="col">Title</th>
-                                                            <th scope="col">Details</th>
-                                                            <th scope="col">Time</th>
+                                                            <th scope="col">Date & Time</th>
                                                         </tr>
                                                     </thead>
                                                     <?php
-                                $sql = "SELECT * FROM announcements ORDER BY id DESC";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
-
-                                                    <tbody>
+                                                        $sql1 = "SELECT * FROM announcements ORDER BY id DESC";
+                                                        $result1 = $conn->query($sql1);                              
+                                                        while ($row1 = $result1->fetch_assoc()) {
+                                                    ?>
+                                                    <tbody class="text-center">
                                                         <tr>
                                                             <th><a href="#" style="color:black; text-decoration:none;"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['title'] ?></a>
+                                                                    data-bs-target="#announcements<?php echo $row1['id'] ?>"><?php echo $row1['title'] ?></a>
                                                             </th>
                                                             <td><a href="#" style="color:black; text-decoration:none;"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['details'] ?></a>
-                                                            </td>
-                                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['time'] ?></a>
+                                                                    data-bs-target="#announcements<?php echo $row1['id'] ?>"><?php echo $row1['time'] ?></a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
+
+                                                    <!-- Announements -->
+                                                    <div class="modal fade" id="announcements<?php echo $row1['id'] ?>" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-dark text-white">
+                                                                    <h5 class="modal-title" id="">Announement: <b><?php echo $row1['title'] ?></b> </h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul>
+                                                                        <li><h5>Subject: <b><?php echo $row1['subject']; ?></b> </h5></li>
+                                                                        <li><h5>Details: <br> <b><?php echo $row1['details']; ?></b> </h5></li>
+                                                                        <li><h5>Date & Time: <b><?php echo $row1['time']; ?></b></h5></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <?php
-                                }
-                                ?>
+                                                    }
+                                                    ?>
                                                 </table>
                                             </div>
                                             <div class="modal-footer">
@@ -129,215 +139,78 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Details</th>
-                                            <th scope="col">Time</th>
-                                        </tr>
-                                    </thead>
-                                    <?php
-                                $sql = "SELECT * FROM announcements ORDER BY id DESC LIMIT 4";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
+                              
+                                <br>
+                                <div style="max-height: 200px; overflow-y: auto;">
+                                    <table class="table mb-0">
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Date & Time</th>
+                                            </tr>
+                                        </thead>
+                                        <?php
+                                            $sql2 = "SELECT * FROM announcements ORDER BY id DESC";
+                                            $result2 = $conn->query($sql2);                              
+                                            while ($row2 = $result2->fetch_assoc()) {
+                                        ?>
+                                        <tbody class="text-center">
+                                            <tr>
+                                                <th><a href="#" style="color:black; text-decoration:none;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#announcementss<?php echo $row2['id'] ?>"><?php echo $row2['title'] ?></a>
+                                                </th>
+                                                <td><a href="#" style="color:black; text-decoration:none;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#announcementss<?php echo $row2['id'] ?>"><?php echo $row2['time'] ?></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
-                                    <tbody>
-                                        <tr>
-                                            <th><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['title'] ?></a>
-                                            </th>
-                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['details'] ?></a>
-                                            </td>
-                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#ann-sm-modal<?php echo $row['id'] ?>"><?php echo $row['time'] ?></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <?php
-                                }
-                                ?>
-                                </table>
-                                <!-- Small Modal -->
-                                <?php
-                                $sql = "SELECT * FROM announcements";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                    $id = $row['id'];
-                                $sql1 = "SELECT * FROM announcements WHERE id ='$id'";
-                                $result1 = $conn->query($sql1);                              
-                                while ($row1 = $result1->fetch_assoc()) {
-                                ?>
-                                <div class="modal fade" id="ann-sm-modal<?php echo $row['id'] ?>" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">
-                                                    <?php echo $row1['title']; ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <ul>
-                                                    <li><?php echo $row1['subject']; ?></li>
-                                                    <li><?php echo $row1['details']; ?></li>
-                                                    <li><?php echo $row1['links']; ?></li>
-                                                    <li><?php echo $row1['time']; ?></li>
-                                                </ul>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
+                                        <!-- Announements -->
+                                        <div class="modal fade" id="announcementss<?php echo $row2['id'] ?>" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-dark text-white">
+                                                        <h5 class="modal-title" id="">Announement: <b><?php echo $row2['title'] ?></b> </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <ul>
+                                                            <li><h5>Subject: <b><?php echo $row2['subject']; ?></b> </h5></li>
+                                                            <li><h5>Details: <br> <b><?php echo $row2['details']; ?></b> </h5></li>
+                                                            <li><h5>Date & Time: <b><?php echo $row2['time']; ?></b></h5></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                                <?php } ?>
-                                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas>
+                                        <?php
+                                        }
+                                        ?>
+                                    </table>
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-md-4">
-                            <div class="card mb-4">
+                            <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">
-                                    <a href="#" style="text-decoration:none; color:white;" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal"><i class="fa-solid fa-comments"></i>
-                                        Suggestion</a>
+                                    <i class="fa-solid fa-comments"></i>
+                                    Suggestion
                                 </div>
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Suggestion</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <table class="table mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Subject</th>
-                                                            <th scope="col">Message</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <?php
-                                $sql = "SELECT * FROM suggestion ORDER BY id DESC";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <th><a href="#" style="color:black; text-decoration:none;"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['title'] ?></a>
-                                                            </th>
-                                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['subject'] ?></a>
-                                                            </td>
-                                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['message'] ?></a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <?php
-                                }
-                                ?>
-                                                </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Subject</th>
-                                            <th scope="col">Message</th>
-                                        </tr>
-                                    </thead>
-                                    <?php
-                                $sql = "SELECT * FROM suggestion ORDER BY id DESC LIMIT 4";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
-
-                                    <tbody>
-                                        <tr>
-                                            <th><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['title'] ?></a>
-                                            </th>
-                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['subject'] ?></a>
-                                            </td>
-                                            <td><a href="#" style="color:black; text-decoration:none;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#sugg-sm-modal<?php echo $row['id'] ?>"><?php echo $row['message'] ?></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <?php
-                                }
-                                ?>
-                                </table>
-
+                                <br>
+                                <ul>
+                                    <li>Sample suggestion only.</li>
+                                </ul>
                                 <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas>
                                 </div>
                             </div>
-                            <?php
-                                $sql = "SELECT * FROM suggestion";
-                                $result = $conn->query($sql);                              
-                                while ($row = $result->fetch_assoc()) {
-                                    $id = $row['id'];
-                                $sql1 = "SELECT * FROM suggestion WHERE id ='$id'";
-                                $result1 = $conn->query($sql1);                              
-                                while ($row1 = $result1->fetch_assoc()) {
-                                ?>
-                            <div class="modal fade" id="sugg-sm-modal<?php echo $row['id'] ?>" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><?php echo $row1['title']; ?>
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <ul>
-                                                <li><?php echo $row1['title']; ?></li>
-                                                <li><?php echo $row1['subject']; ?></li>
-                                                <li><?php echo $row1['message']; ?></li>
-                                            </ul>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php } ?>
-                            <?php } ?>
+
                         </div>
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
@@ -348,20 +221,18 @@
                                 <br>
                                 <div style="max-height: 200px; overflow-y: auto;">
                                     <?php 
-                                        $ticket_volunteers_id = $_SESSION['id'];
-                                        $query = "SELECT * FROM tickets WHERE ticket_priority = 'Urgent' AND ticket_volunteers_id = '$ticket_volunteers_id'";
+                                        $volunteer_id = $_SESSION['volunteer']['id'];
+                                        $query = "SELECT * FROM tickets WHERE ticket_priority = 'Urgent'";
                                         $result = mysqli_query($conn, $query);
                                         while ($row = mysqli_fetch_array($result)) {
+                                        $ticket_volunteers_ids = explode(',', $row['ticket_volunteers_id']);
+                                        if (in_array($volunteer_id, $ticket_volunteers_ids)) {
                                     ?>
                                     <ul>
-                                        <li> <a href="" class="text-danger" style="text-decoration:none"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#urgent<?php echo $row['id'] ?>"><?php echo $row['ticket_title'] ?>
-                                                - Deadline: <?php echo $row['ticket_deadline'] ?></a></li>
+                                        <li> <a href="" class="text-danger" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#urgent<?php echo $row['id'] ?>"><?php echo $row['ticket_title'] ?> -  Deadline: <?php echo $row['ticket_deadline'] ?></a></li>
                                     </ul>
 
-                                    <div class="modal modal-md fade" id="urgent<?php echo $row['id'] ?>" tabindex="-1"
-                                        role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                    <div class="modal modal-md fade" id="urgent<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-danger text-white">
@@ -369,14 +240,12 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                     </button>
-                                                </div>
+                                                </div>  
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-8">
-                                                            <h6>Ticket Title: <b><?php echo $row['ticket_title'] ?></b>
-                                                            </h6>
-                                                            <h6>Ticket Admin: <b><?php echo $row['ticket_admin'] ?></b>
-                                                            </h6>
+                                                            <h6>Ticket Title: <b><?php echo $row['ticket_title'] ?></b> </h6>
+                                                            <h6>Ticket Admin: <b><?php echo $row['ticket_admin'] ?></b> </h6>
                                                             <hr>
                                                             <h6>Ticket Description: </h6>
                                                             <b><?php echo $row['ticket_desc'] ?></b>
@@ -393,62 +262,82 @@
                                                                 
                                                                 while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
                                                                     ?>
-                                                            <ul>
-                                                                <li><b><?php echo $row_volunteer['name'] ?></b></li>
-                                                            </ul>
-                                                            <?php
+                                                                    <ul>
+                                                                        <li><b><?php echo $row_volunteer['name'] ?></b></li>
+                                                                    </ul>
+                                                                <?php
                                                                 }
                                                             ?>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <h6 class="mt-3">Priority:
-                                                                <?php 
+                                                            <?php 
                                                             if($row['ticket_priority'] == 'Low'){
                                                                 ?>
                                                                 <b><label class="text-secondary">Low</label></b>
-                                                                <?php
+                                                            <?php
                                                             }elseif($row['ticket_priority'] == 'Mid'){
                                                                 ?>
                                                                 <b><label class="text-primary">Mid</label></b>
-                                                                <?php
+                                                            <?php
                                                             }elseif($row['ticket_priority'] == 'High'){
                                                                 ?>
                                                                 <b><label class="text-warning">High</label></b>
-                                                                <?php
+                                                            <?php
                                                             }else{
                                                                 ?>
                                                                 <b><label class="text-danger">Urgent</label></b>
-                                                                <?php
+                                                            <?php
                                                             }
                                                             
                                                             ?>
                                                             </h6>
-                                                            <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b>
-                                                            </h6>
-                                                            <h6 class="mt-3">Ticket Deadline:
-                                                                <b><?php echo $row['ticket_deadline'] ?></b>
-                                                            </h6>
+                                                            <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                            <h6 class="mt-3">Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php 
-                                }
+                                <?php 
+                                } }
                                 ?>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-8">
-                            <div class="card mb-4">
+                        <hr class="mt-3">
+
+
+                        <div class="col-md-9">
+                            <div class="card mb-4 h-100">
                                 <div class="bg-dark text-white card-header text-center">
                                     <i class="fa-solid fa-calendar-days"></i>
                                     Calendar
                                 </div>
                                 <div class="card-body p-4">
-                                    <div id="bsb-calendar-1"
+                                    <?php 
+                                        // Fetch events from database
+                                        $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                        $result = $conn->query($sql);
+
+                                        $events = array();
+
+                                        if ($result->num_rows > 0) {
+                                            while($row = $result->fetch_assoc()) {
+                                                $event = array(
+                                                    'id' => $row['id'],
+                                                    'title' => $row['title'],
+                                                    'start' => $row['startdate'],
+                                                    'end' => $row['enddate'],
+                                                    'allDay' => $row['allday']
+                                                );
+                                                array_push($events, $event);
+                                            }
+                                        }
+                                    ?>
+                                    <div id="calendar"
                                         class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
@@ -456,32 +345,125 @@
                         </div>
 
 
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="bg-danger text-white card-header text-center">
+                        <div class="col-md-3">
+                            <div class="card mb-4 h-100">
+                                <div class="bg-success text-white card-header text-center">
                                     <i class="fa-solid fa-bookmark"></i>
                                     Tickets
                                 </div>
+                                <div style="max-height: 800px; overflow-y: auto;">
+                                <?php
+                                    $query = "SELECT * FROM tickets";
+                                    $result = mysqli_query($conn, $query);
+
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        $priority = $row['ticket_priority'];
+                                        $bgColor = '';
+                                        
+                                        switch ($priority) {
+                                            case 'Urgent':
+                                                $bgColor = 'bg-danger';
+                                                break;
+                                            case 'Low':
+                                                $bgColor = 'bg-secondary';
+                                                break;
+                                            case 'Mid':
+                                                $bgColor = 'bg-primary';
+                                                break;
+                                            case 'High':
+                                                $bgColor = 'bg-warning';
+                                                break;
+                                            default:
+                                            $bgColor = 'bg-success';
+                                            break;
+                                        }
+                                        $ticket_volunteers_ids = explode(',', $row['ticket_volunteers_id']);
+                                        if (in_array($volunteer_id, $ticket_volunteers_ids)) {
+                                ?>
                                 <div class="p-3">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Ticket Sample 1</h5>
+                                    <div class="card <?php echo $bgColor ?>">
+                                        <div class="card-body text-white">
+                                            <h5><?php echo $row['ticket_title'] ?></h5>
                                             <hr>
-                                            <p>This is only a sample ticket. Details goes here</p>
+                                            <p><?php echo $row['ticket_desc'] ?></p>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="" class="text-white" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#ticket<?php echo $row['id'] ?>">View</a>
                                         </div>
 
-                                    </div>
-
-                                    <div class="card bg-warning text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Ticket Sample 2</h5>
-                                            <hr>
-                                            <p>This is only a sample ticket. Details goes here</p>
+                                        <div class="modal modal-md fade" id="ticket<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-success text-white">
+                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                        </button>
+                                                    </div>  
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <h6>Ticket Title: <b><?php echo $row['ticket_title'] ?></b> </h6>
+                                                                <h6>Ticket Admin: <b><?php echo $row['ticket_admin'] ?></b> </h6>
+                                                                <hr>
+                                                                <h6>Ticket Description: </h6>
+                                                                <b><?php echo $row['ticket_desc'] ?></b>
+                                                                <hr>
+                                                                <h6 class="mt-3">Ticket Volunteers:</h6>
+                                                                <?php 
+                                                                    $ids = $row['ticket_volunteers_id'];
+                                                                    $idsArray = explode(',', $ids);
+                                                                
+                                                                    $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                    
+                                                                    $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                    $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                    
+                                                                    while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+                                                                        ?>
+                                                                        <ul>
+                                                                            <li><b><?php echo $row_volunteer['name'] ?></b></li>
+                                                                        </ul>
+                                                                    <?php
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h6 class="mt-3">Priority:
+                                                                <?php 
+                                                                if($row['ticket_priority'] == 'Low'){
+                                                                    ?>
+                                                                    <b><label class="text-secondary">Low</label></b>
+                                                                <?php
+                                                                }elseif($row['ticket_priority'] == 'Mid'){
+                                                                    ?>
+                                                                    <b><label class="text-primary">Mid</label></b>
+                                                                <?php
+                                                                }elseif($row['ticket_priority'] == 'High'){
+                                                                    ?>
+                                                                    <b><label class="text-warning">High</label></b>
+                                                                <?php
+                                                                }else{
+                                                                    ?>
+                                                                    <b><label class="text-danger">Urgent</label></b>
+                                                                <?php
+                                                                }
+                                                                
+                                                                ?>
+                                                                </h6>
+                                                                <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                                <h6 class="mt-3">Ticket Deadline: <b><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
                                     </div>
+                                </div>
+                                <?php
+                                }   }
+                                ?>
                                 </div>
                             </div>
                         </div>
@@ -496,28 +478,26 @@
 
     <?php include('./include/scripts.php') ?>
     <script>
-    $(document).ready(function() {
-        // Function to fetch and update the current date
-        function updateDate() {
-            $.ajax({
-                url: "./include/currentdatetime.php",
-                type: "GET",
-                success: function(data) {
-                    $("#currentDate").text(data);
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'today',
+                center: 'title',
+                right: 'prev,next'
+            },
+            initialView: 'dayGridMonth',
+            events: <?php echo json_encode($events); ?>,
+            navLinks: false,
+            selectable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
+            
             });
-        }
 
-        // Initial update
-        updateDate();
-        var intervalId = setInterval(updateDate, 1000);
-    });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+            calendar.render();
+
+        });
     </script>
 </body>
 

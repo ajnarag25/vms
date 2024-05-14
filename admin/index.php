@@ -100,15 +100,153 @@
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">
-                                    <i class="fa-solid fa-clipboard"></i>
-                                    Announcement
+                                    <button class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#announcement"> <i class="fa-solid fa-plus"></i> </button>
+                                    <a href="" class="text-white" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#announcementViewAll">Announcements</a>
                                 </div>
+
+                                <!-- Create Announcement -->
+                                <div class="modal fade" id="announcement" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-dark text-white">
+                                                <h5 class="modal-title" id="">Create Announcement</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="./include/process.php" method="POST">
+                                                <div class="modal-body">
+                                                    <label for="">Announcement Title:</label>
+                                                    <input class="form-control" type="text" name="title" required>
+                                                    <label for="">Subject:</label>
+                                                    <input class="form-control" type="text" name="subject" required>
+                                                    <label for="">Details:</label>
+                                                    <textarea class="form-control" name="details" id="" rows="3" cols="3"required></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success w-100" name="createAnnouncement">Create</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- View All Announcements -->
+                                <div class="modal modal-lg fade" id="announcementViewAll" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-success text-white">
+                                                <h5 class="modal-title" id="">Announcements</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table mb-0" id="Announcements">
+                                                    <thead class="text-center">
+                                                        <tr>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Date & Time</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <?php
+                                                        $sql1 = "SELECT * FROM announcements ORDER BY id DESC";
+                                                        $result1 = $conn->query($sql1);                              
+                                                        while ($row1 = $result1->fetch_assoc()) {
+                                                    ?>
+                                                    <tbody class="text-center">
+                                                        <tr>
+                                                            <th><a href="#" style="color:black; text-decoration:none;"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#announcements<?php echo $row1['id'] ?>"><?php echo $row1['title'] ?></a>
+                                                            </th>
+                                                            <td><a href="#" style="color:black; text-decoration:none;"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#announcements<?php echo $row1['id'] ?>"><?php echo $row1['time'] ?></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                    <!-- Announements -->
+                                                    <div class="modal fade" id="announcements<?php echo $row1['id'] ?>" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-dark text-white">
+                                                                    <h5 class="modal-title" id="">Announement: <b><?php echo $row1['title'] ?></b> </h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul>
+                                                                        <li><h5>Subject: <b><?php echo $row1['subject']; ?></b> </h5></li>
+                                                                        <li><h5>Details: <br> <b><?php echo $row1['details']; ?></b> </h5></li>
+                                                                        <li><h5>Date & Time: <b><?php echo $row1['time']; ?></b></h5></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
                                 <br>
-                                <ul>
-                                    <li>Announcement 7pm at Gym Center, Bacoor, Cavite</li>
-                                    <li>Volunteer at bacoor coliseum</li>
-                                </ul>
-                                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas>
+                                <div style="max-height: 200px; overflow-y: auto;">
+                                    <table class="table mb-0">
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Date & Time</th>
+                                            </tr>
+                                        </thead>
+                                        <?php
+                                            $sql2 = "SELECT * FROM announcements ORDER BY id DESC";
+                                            $result2 = $conn->query($sql2);                              
+                                            while ($row2 = $result2->fetch_assoc()) {
+                                        ?>
+                                        <tbody class="text-center">
+                                            <tr>
+                                                <th><a href="#" style="color:black; text-decoration:none;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#announcementss<?php echo $row2['id'] ?>"><?php echo $row2['title'] ?></a>
+                                                </th>
+                                                <td><a href="#" style="color:black; text-decoration:none;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#announcementss<?php echo $row2['id'] ?>"><?php echo $row2['time'] ?></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <!-- Announements -->
+                                        <div class="modal fade" id="announcementss<?php echo $row2['id'] ?>" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-dark text-white">
+                                                        <h5 class="modal-title" id="">Announement: <b><?php echo $row2['title'] ?></b> </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <ul>
+                                                            <li><h5>Subject: <b><?php echo $row2['subject']; ?></b> </h5></li>
+                                                            <li><h5>Details: <br> <b><?php echo $row2['details']; ?></b> </h5></li>
+                                                            <li><h5>Date & Time: <b><?php echo $row2['time']; ?></b></h5></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                        }
+                                        ?>
+                                    </table>
                                 </div>
                             </div>
 

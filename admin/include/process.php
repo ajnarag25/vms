@@ -1154,5 +1154,37 @@
 
     }
 
+
+    // CREATE ANNOUNCEMENT
+    if (isset($_POST['createAnnouncement'])) {
+        $title = $_POST['title'];
+        $subject = $_POST['subject'];
+        $details = $_POST['details'];
+
+        $sql = "SELECT * FROM announcements WHERE title='$title' AND subject='$subject' AND details='$details'";
+        $result = mysqli_query($conn, $sql);
+
+        if ($title != '' && $subject != '' && $details !='') {
+            if(!$result->num_rows > 0){
+                $conn->query("INSERT INTO announcements (title, subject, links, details) 
+                VALUES('$title', '$subject', '', '$details')") or die($conn->error);
+                $_SESSION['status'] = 'Successfully Created the Announcement';
+                $_SESSION['status_icon'] = 'success';
+                header('Location: ../index.php');
+                exit();
+            }else{
+                $_SESSION['status'] = 'Announcement Already Exists';
+                $_SESSION['status_icon'] = 'warning';
+                header('location:../index.php');
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../index.php');
+            exit();
+        }
+
+    }
+    
         
 ?>
