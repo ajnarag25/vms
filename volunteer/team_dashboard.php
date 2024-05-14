@@ -284,7 +284,7 @@
                                                                             <button class="btn btn-secondary w-25 mt-2">Ask</button>
                                                                             <button class="btn btn-secondary w-25 mt-2">Upload</button>
                                                                             <br>
-                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                            <button class="btn btn-success w-50 mt-2">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -598,7 +598,7 @@
                                                                             <button class="btn btn-secondary w-25 mt-2">Ask</button>
                                                                             <button class="btn btn-secondary w-25 mt-2">Upload</button>
                                                                             <br>
-                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                            <button class="btn btn-success w-50 mt-2">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -911,7 +911,7 @@
                                                                             <button class="btn btn-secondary w-25 mt-2">Ask</button>
                                                                             <button class="btn btn-secondary w-25 mt-2">Upload</button>
                                                                             <br>
-                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                            <button class="btn btn-success w-50 mt-2">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1224,7 +1224,7 @@
                                                                             <button class="btn btn-secondary w-25 mt-2">Ask</button>
                                                                             <button class="btn btn-secondary w-25 mt-2">Upload</button>
                                                                             <br>
-                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                            <button class="btn btn-success w-50 mt-2">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
