@@ -273,10 +273,19 @@
                                                                         <div id="progress-bar-container<?php echo $row['id'] ?>"
                                                                             style="position: relative;">
                                                                         </div>
-                                                                
                                                                         <hr>
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                        <div class="text-center mt-3">
+                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-50 mt-2">View Plan</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <br>
+                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -581,6 +590,16 @@
                                                                         <hr>
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                        <div class="text-center mt-3">
+                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-50 mt-2">View Plan</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <br>
+                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -884,6 +903,16 @@
                                                                         <hr>
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                        <div class="text-center mt-3">
+                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-50 mt-2">View Plan</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <br>
+                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1187,6 +1216,16 @@
                                                                         <hr>
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                        <div class="text-center mt-3">
+                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-50 mt-2">View Plan</button>
+                                                                            <br>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <br>
+                                                                            <button class="btn btn-success mt-2">Submit</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
