@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2024 at 05:56 PM
+-- Generation Time: May 15, 2024 at 11:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,18 +36,20 @@ CREATE TABLE `accounts` (
   `password` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
   `otp` int(11) NOT NULL,
-  `type` varchar(20) NOT NULL
+  `type` varchar(20) NOT NULL,
+  `date_joined` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `name`, `username`, `email`, `contact`, `password`, `status`, `otp`, `type`) VALUES
-(1, 'VMS Superadmin', 'admin', 'lambatprivate@gmail.com', '09619483256', '$2y$10$s1rAEKmhI0w6q7uH4raz.OvjialSDDCt1abS40Ht7GRg/GtDyuNXK', 'Verified', 3497, 'superadmin'),
-(2, 'Aj Narag', 'ajnarag25', 'ajnarag25@gmail.com', '09089637505', '$2y$10$NjylAJir5Dv.SAITj157..KpnEIMbt1WVLz.01xXX3VWI77IWfmM2', 'Verified', 1363, 'admin'),
-(4, 'Mark Zelon Narag', 'mark25', 'markzelon25@gmail.com', '09555497136', '$2y$10$R6W5deo83iCUgnqHlmOeZefX9H1rb4iRgkFlRy0o7tdAFXdkYSrDG', 'Verified', 5466, 'volunteer'),
-(5, 'Juan Delacruz', 'juan25', 'juandelacruz@gmail.com', '08978785814', '$2y$10$/RKg2yBY3/rEi4y5Edp9pO.n94GRwOEIlmvMLatzneRvfYngN.j5i', 'Verified', 5913, 'volunteer');
+INSERT INTO `accounts` (`id`, `name`, `username`, `email`, `contact`, `password`, `status`, `otp`, `type`, `date_joined`) VALUES
+(1, 'VMS Superadmin', 'admin', 'lambatprivate@gmail.com', '09619483256', '$2y$10$s1rAEKmhI0w6q7uH4raz.OvjialSDDCt1abS40Ht7GRg/GtDyuNXK', 'Verified', 3497, 'superadmin', '2024-05-15'),
+(2, 'Aj Narag', 'ajnarag25', 'ajnarag25@gmail.com', '09089637505', '$2y$10$NjylAJir5Dv.SAITj157..KpnEIMbt1WVLz.01xXX3VWI77IWfmM2', 'Verified', 1363, 'admin', '2024-05-15'),
+(4, 'Mark Zelon Narag', 'mark25', 'marky25@gmail.com', '09123456789', '$2y$10$R6W5deo83iCUgnqHlmOeZefX9H1rb4iRgkFlRy0o7tdAFXdkYSrDG', 'Verified', 5466, 'volunteer', '2024-05-15'),
+(5, 'Juan Delacruz', 'juan25', 'juandelacruz@gmail.com', '08978785814', '$2y$10$/RKg2yBY3/rEi4y5Edp9pO.n94GRwOEIlmvMLatzneRvfYngN.j5i', 'Verified', 5913, 'volunteer', '2024-05-15'),
+(6, 'Leo Manuel', 'leo25', 'leomanuel@gmail.com', '09123456789', '$2y$10$p4RXet1GXfuFM.vvHP0F9exLvyuYSmrm9dKsgUj.A/lDmlc4QAQei', 'Unverified', 3881, 'volunteer', '2024-05-15');
 
 -- --------------------------------------------------------
 
@@ -72,7 +74,8 @@ INSERT INTO `announcements` (`id`, `title`, `subject`, `links`, `details`, `time
 (1, 'TEST1', 'TEST1', 'TEST1', 'TEST1', '2024-05-07 04:23:34'),
 (2, 'TEST2', 'TEST2', 'TEST2', 'TEST2', '2024-05-07 04:23:34'),
 (3, 'TEST3', 'TEST3', 'TEST3', 'TEST3', '2024-05-07 04:24:02'),
-(4, 'TEST4', 'TEST4', 'TEST4', 'TEST4', '2024-05-07 04:24:02');
+(4, 'TEST4', 'TEST4', 'TEST4', 'TEST4', '2024-05-07 04:24:02'),
+(5, 'New Tickets', 'Tickets', '', 'Kindly see all of your urgent tickets. Thank you. ', '2024-05-15 09:35:04');
 
 -- --------------------------------------------------------
 
@@ -192,7 +195,14 @@ CREATE TABLE `skill_tag` (
 
 INSERT INTO `skill_tag` (`id`, `category`, `category_id`, `tag_name`, `date_added`) VALUES
 (1, 'Category 1', 0, ' ', '2024-05-04'),
-(2, 'Category 1', 1, 'Tag 1', '2024-05-04');
+(2, 'Category 1', 1, 'Tag 1', '2024-05-04'),
+(5, 'Hobbies', 0, ' ', '2024-05-14'),
+(6, 'Hobbies', 5, 'Playing Guitar', '2024-05-14'),
+(7, 'Hobbies', 5, 'Swimming', '2024-05-14'),
+(8, 'Hobbies', 5, 'Boxing', '2024-05-14'),
+(9, 'Hobbies', 5, 'Basketball', '2024-05-14'),
+(10, 'Category 1', 1, 'Tag 2', '2024-05-14'),
+(11, 'Category 1', 1, 'Tag 3', '2024-05-14');
 
 -- --------------------------------------------------------
 
@@ -257,12 +267,12 @@ INSERT INTO `tickets` (`id`, `event_id`, `start`, `end`, `ticket_title`, `ticket
 (12, 0, '', '', 'Sample Account Ticket', 'Sample Account Ticket Description', 'Account Ticket', '', ' VMS Superadmin', '2024-05-24', 'High', '2, 4', '', '', '', '2024-05-11'),
 (13, 0, ' ', ' ', 'Sample na account ticket', 'Sample na description sa account ticket', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', '', '', '', '2024-05-11'),
 (15, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 1', 'Desc 1', 'Part Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-07', 'Urgent', '4, 2', 'Your-ticket', ' ', 'ewew, asdas, azxczx', '2024-05-11'),
-(16, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 2', 'Desc 2', 'Sponsor Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'High', ' ', 'In-Review', ' ', 'aaaaa, zzzzz', '2024-05-11'),
+(16, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 2', 'Desc 2', 'Sponsor Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'High', ' , 5', 'In-Review', ' ', 'aaaaa, zzzzz', '2024-05-11'),
 (17, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 3', 'Desc 3', 'Event Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'Mid', '4', 'Your-ticket', ' ', '', '2024-05-11'),
-(18, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'bago', 'bago desc', 'Part Ticket', 'Main Event 2024', ' VMS Superadmin', '2024-05-25', 'Mid', ' ', 'Your-ticket', '', '', '2024-05-11'),
+(18, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'bago', 'bago desc', 'Part Ticket', 'Main Event 2024', ' VMS Superadmin', '2024-05-25', 'Mid', ' , 4, 5', 'To-Do', '', '', '2024-05-11'),
 (21, 0, ' ', ' ', 'bago 4', 'bago 4', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-09', 'Urgent', ' ', 'Your-ticket', '', '', '2024-05-11'),
-(22, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Ticket 1', 'Samp', 'Event Ticket', 'Event for 8', 'Aj Narag ', '2024-05-16', 'Mid', '4', 'To-Do', '', 'Ayusin mo lang lods', '2024-05-11'),
-(23, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Yare ka lods', 'HAHAHAHA', 'Event Ticket', 'Event for 8', ' VMS Superadmin', '2024-05-16', 'Urgent', '2, 4', 'Revision', '', '', '2024-05-11');
+(22, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Ticket 1', 'Samp', 'Event Ticket', 'Event for 8', 'Aj Narag ', '2024-05-16', 'Low', '4', 'To-Do', '', 'Ayusin mo lang lods', '2024-05-11'),
+(23, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Yare ka lods', 'HAHAHAHA', 'Event Ticket', 'Event for 8', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', 'Revision', '', '', '2024-05-11');
 
 -- --------------------------------------------------------
 
@@ -312,7 +322,10 @@ INSERT INTO `volunteer_logtime` (`log_ID`, `volunteer_id`, `login_time`, `logout
 (5, 5, '2024-05-11 22:09:21', '2024-05-11 22:11:49', 'juan25'),
 (6, 2, '2024-05-11 22:11:53', '2024-05-11 22:17:43', 'ajnarag25'),
 (7, 2, '2024-05-11 23:08:53', '2024-05-11 23:09:03', 'ajnarag25'),
-(8, 2, '2024-05-11 23:11:46', '2024-05-11 23:12:41', 'ajnarag25');
+(8, 2, '2024-05-11 23:11:46', '2024-05-11 23:12:41', 'ajnarag25'),
+(9, 4, '2024-05-14 13:36:20', '2024-05-15 15:45:15', 'mark25'),
+(10, 4, '2024-05-15 09:33:39', '2024-05-15 15:45:15', 'mark25'),
+(11, 5, '2024-05-15 15:45:23', '0000-00-00 00:00:00', 'juan25');
 
 -- --------------------------------------------------------
 
@@ -327,6 +340,22 @@ CREATE TABLE `volunteer_skills` (
   `volunteer_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `volunteer_skills`
+--
+
+INSERT INTO `volunteer_skills` (`id`, `category_id`, `tag_name`, `volunteer_id`, `username`) VALUES
+(59, 8, 'Tag 3', 2, 'ajnarag25'),
+(61, 8, 'Playing Guitar', 2, 'ajnarag25'),
+(69, 8, 'Boxing', 4, 'mark25'),
+(71, 9, 'Basketball', 2, 'ajnarag25'),
+(72, 9, 'Basketball', 4, 'mark25'),
+(73, 9, 'Playing Guitar', 4, 'mark25'),
+(74, 9, 'Tag 1', 4, 'mark25'),
+(75, 9, 'Basketball', 1, 'admin'),
+(76, 9, 'Boxing', 1, 'admin'),
+(77, 9, 'Swimming', 1, 'admin');
 
 --
 -- Indexes for dumped tables
@@ -406,13 +435,13 @@ ALTER TABLE `volunteer_skills`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -436,7 +465,7 @@ ALTER TABLE `personal_agenda`
 -- AUTO_INCREMENT for table `skill_tag`
 --
 ALTER TABLE `skill_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `suggestion`
@@ -460,13 +489,13 @@ ALTER TABLE `timelogs`
 -- AUTO_INCREMENT for table `volunteer_logtime`
 --
 ALTER TABLE `volunteer_logtime`
-  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `volunteer_skills`
 --
 ALTER TABLE `volunteer_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
