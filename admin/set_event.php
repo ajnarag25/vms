@@ -161,53 +161,39 @@
                                     <i class="fa-solid fa-address-book"></i>
                                     Set Event
                                 </div>
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search Set Event"
-                                    aria-label="Search">
-
-                                <div class="p-3">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 1</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
+                                
+                                <div style="max-height: 750px; overflow-y: auto;">
+                                    <div class="p-3">
+                                        <?php 
+                                            $query = "SELECT * FROM events WHERE event_id = 0";
+                                            $result = mysqli_query($conn, $query);
+                                            while ($row = mysqli_fetch_array($result)) {
+                                            
+                                            $url = 'event_plan.php?id=' . urlencode($row['id']) .
+                                            '&event_id=' . urlencode($row['event_id']) .
+                                            '&allday=' . urlencode($row['allday']) .
+                                            '&title=' . urlencode($row['title']) .
+                                            '&start=' . urlencode($row['startdate']) .
+                                            '&end=' . urlencode($row['enddate']) .
+                                            '&desc=' . urlencode($row['description']);
+                                        ?>
+                                        <div class="card bg-dark text-white mb-4">
+                                            <div class="card-body">
+                                                <h5><?php echo $row['title'] ?></h5>
+                                                <hr>
+                                                <p><?php echo $row['description'] ?></p>
+                                                <hr>
+                                                <div class="text-center">
+                                                    <a class="text-white" style="text-decoration:none" href="<?php echo $url  ?>">View</a>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                    </div>
-
-                                    <div class="card bg-dark text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 2</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card bg-warning text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 3</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="card bg-danger text-white mb-4">
-                                        <div class="card-body">
-
-                                            <h5>Set Event Sample 4</h5>
-                                            <hr>
-                                            <p>This is only a sample Set Event. Details goes here</p>
-                                        </div>
-
+                                        <?php 
+                                        }
+                                        ?>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
