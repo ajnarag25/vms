@@ -195,3 +195,37 @@ if (isset($_POST['remSkills'])) {
     }
 
 }
+
+// ASK SUBMISSION
+if (isset($_POST['ask_submit'])) {
+    $ticket_title = $_POST['ask_title'];
+    $ticket_desc = $_POST['ask_details'];
+
+    $ticket_admin = $_POST['ticket_admin'];
+    $ticket_type = $_POST['ticket_type'];
+    $volunteer_ids = $_POST['volunteer_id'];
+    $partBtn = $_POST['partBtn'];
+    $ticket_deadline = $_POST['ticket_deadline'];
+
+    if($volunteer_ids){
+        $volunteer_ids_str = implode(', ', $volunteer_ids);
+    }else{
+        $volunteer_ids_str = ' ';
+    }
+    
+
+    if (!empty($ticket_title)) {
+
+        $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
+        VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
+
+        $_SESSION['status'] = 'Ticket Successfully Saved';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../accounts.php');
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../accounts.php');
+        exit();
+    }
+}

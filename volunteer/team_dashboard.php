@@ -89,7 +89,7 @@
                                         <div class="p-2">
                                             <div class="card bg-success text-white mb-4">
                                                 <div class="card-body">
-                                                    <h5><?php echo $row['ticket_title'] ?></h5>
+                                                    <h6><?php echo $row['ticket_title'] ?></h6>
                                                 </div>
                                                 <div class="card-footer text-center">
                                                     <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket<?php echo $row['id'] ?>">View</a></h6>
@@ -102,7 +102,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
-                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <h6 class="modal-title">Ticket Details</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                         </button>
@@ -124,21 +124,21 @@
                                                                     <div class="col-md-8">
                                                                         <div class="row">
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Title:</h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h5>
+                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h6>
                                                                             </div>
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Admin: </h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h5>
+                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h6>
                                                                             </div>
                                                                         </div>
-                                                                        <h5 class="mt-3">Ticket Description: </h5>
-                                                                        <h5 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h5>
+                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                        <h6 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h6>
                                                                         <br>
                                                                         <hr>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Priority Level:</h5>
+                                                                                <h6>Priority Level:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -179,7 +179,7 @@
                                                                         </div>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Status:</h5>
+                                                                                <h6>Status:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -243,7 +243,7 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h5>Ticket Volunteers: </h5>
+                                                                            <h6>Ticket Volunteers: </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -281,7 +281,37 @@
                                                                             <br>
                                                                             <button class="btn btn-secondary w-50 mt-2">View Plan</button>
                                                                             <br>
-                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask1<?php echo $row['id'] ?>">Ask</button>
+
+                                                                            <!--Ask-->
+                                                                            <div class="modal fade" id="ask1<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Ask about the ticket</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>Title:</b> </label>
+                                                                                                <input type="text" class="form-control" id="contact" name="ask_title" required>
+                                                                                                <label for=""><b>Details:</b> </label>
+                                                                                                <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="" value="<?php echo $row['id'] ?>">
+                                                                                                <input type="hidden" name="ticket_title" value="<?php echo $row['ticket_title'] ?>">
+                                                                                                <input type="hidden" name="ticket_admin" value="<?php echo $row['ticket_admin'] ?>">
+                                                                                                <input type="hidden" name="ticket_priority" value="<?php echo $row['ticket_priority'] ?>">
+                                                                                                <input type="hidden" name="ticket_instructions" value="<?php echo $row['ticket_instructions'] ?>">
+                                                                                                <input type="hidden" name="ticket_volunteers_id" value="<?php echo $row['ticket_volunteers_id'] ?>">
+                                                                                                <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
                                                                             <button class="btn btn-secondary w-25 mt-2">Upload</button>
                                                                             <br>
                                                                             <button class="btn btn-success w-50 mt-2">Submit</button>
@@ -403,7 +433,7 @@
                                         <div class="p-2">
                                             <div class="card bg-primary text-white mb-4">
                                                 <div class="card-body">
-                                                    <h5><?php echo $row['ticket_title'] ?></h5>
+                                                    <h6><?php echo $row['ticket_title'] ?></h6>
                                                 </div>
                                                 <div class="card-footer text-center">
                                                     <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket2<?php echo $row['id'] ?>">View</a></h6>
@@ -415,7 +445,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
-                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <h6 class="modal-title">Ticket Details</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                         </button>
@@ -437,21 +467,21 @@
                                                                     <div class="col-md-8">
                                                                         <div class="row">
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Title:</h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h5>
+                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h6>
                                                                             </div>
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Admin: </h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h5>
+                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h6>
                                                                             </div>
                                                                         </div>
-                                                                        <h5 class="mt-3">Ticket Description: </h5>
-                                                                        <h5 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h5>
+                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                        <h6 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h6>
                                                                         <br>
                                                                         <hr>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Priority Level:</h5>
+                                                                                <h6>Priority Level:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -492,7 +522,7 @@
                                                                         </div>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Status:</h5>
+                                                                                <h6>Status:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -556,7 +586,7 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h5>Ticket Volunteers: </h5>
+                                                                            <h6>Ticket Volunteers: </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -716,7 +746,7 @@
                                         <div class="p-2">
                                             <div class="card bg-warning text-white mb-4">
                                                 <div class="card-body">
-                                                    <h5><?php echo $row['ticket_title'] ?></h5>
+                                                    <h6><?php echo $row['ticket_title'] ?></h6>
                                                 </div>
                                                 <div class="card-footer text-center">
                                                     <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket3<?php echo $row['id'] ?>">View</a></h6>
@@ -728,7 +758,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
-                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <h6 class="modal-title">Ticket Details</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                         </button>
@@ -750,21 +780,21 @@
                                                                     <div class="col-md-8">
                                                                         <div class="row">
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Title:</h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h5>
+                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h6>
                                                                             </div>
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Admin: </h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h5>
+                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h6>
                                                                             </div>
                                                                         </div>
-                                                                        <h5 class="mt-3">Ticket Description: </h5>
-                                                                        <h5 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h5>
+                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                        <h6 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h6>
                                                                         <br>
                                                                         <hr>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Priority Level:</h5>
+                                                                                <h6>Priority Level:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -805,7 +835,7 @@
                                                                         </div>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Status:</h5>
+                                                                                <h6>Status:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -869,7 +899,7 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h5>Ticket Volunteers: </h5>
+                                                                            <h6>Ticket Volunteers: </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -1029,7 +1059,7 @@
                                         <div class="p-2">
                                             <div class="card bg-danger text-white mb-4">
                                                 <div class="card-body">
-                                                    <h5><?php echo $row['ticket_title'] ?></h5>
+                                                    <h6><?php echo $row['ticket_title'] ?></h6>
                                                 </div>
                                                 <div class="card-footer text-center">
                                                     <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket4<?php echo $row['id'] ?>">View</a></h6>
@@ -1041,7 +1071,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
-                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <h6 class="modal-title">Ticket Details</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                         </button>
@@ -1063,21 +1093,21 @@
                                                                     <div class="col-md-8">
                                                                         <div class="row">
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Title:</h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h5>
+                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_title'] ?></b> </h6>
                                                                             </div>
                                                                             <div class="col">
-                                                                                <h5 class="mt-3">Ticket Admin: </h5>
-                                                                                <h5 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h5>
+                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                <h6 class="mt-3"><b><?php echo $row['ticket_admin'] ?></b></h6>
                                                                             </div>
                                                                         </div>
-                                                                        <h5 class="mt-3">Ticket Description: </h5>
-                                                                        <h5 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h5>
+                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                        <h6 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h6>
                                                                         <br>
                                                                         <hr>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Priority Level:</h5>
+                                                                                <h6>Priority Level:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -1118,7 +1148,7 @@
                                                                         </div>
                                                                         <div class="row align-items-center">
                                                                             <div class="col-auto">
-                                                                                <h5>Status:</h5>
+                                                                                <h6>Status:</h6>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <?php 
@@ -1182,7 +1212,7 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h5>Ticket Volunteers: </h5>
+                                                                            <h6>Ticket Volunteers: </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -1345,7 +1375,7 @@
                                     <div class="card bg-success text-white mb-4">
                                         <div class="card-body">
 
-                                            <h5>All Tickets Sample 1</h5>
+                                            <h6>All Tickets Sample 1</h6>
                                             <hr>
                                             <p>This is only a sample ticket. Details goes here</p>
                                         </div>
@@ -1355,7 +1385,7 @@
                                     <div class="card bg-dark text-white mb-4">
                                         <div class="card-body">
 
-                                            <h5>All Tickets Sample 2</h5>
+                                            <h6>All Tickets Sample 2</h6>
                                             <hr>
                                             <p>This is only a sample ticket. Details goes here</p>
                                         </div>
@@ -1367,7 +1397,7 @@
                     <hr>
                     <div class="row">
 
-                        <h5 class=""><b>Urgent Tickets</b></h5>
+                        <h6 class=""><b>Urgent Tickets</b></h6>
                         <div class="row mt-3" style="max-height: 300px; overflow-y: auto;">
                             <?php 
                                 $volunteer_id = $_SESSION['volunteer']['id'];
@@ -1382,10 +1412,10 @@
                             <div class="col-md-2 mt-3">
                                 <div class="card mb-4 h-100">
                                     <div class="card-header bg-dark text-white">
-                                        <h5><?php echo $rowUrgent['ticket_title'] ?></h5>
+                                        <h6><?php echo $rowUrgent['ticket_title'] ?></h6>
                                     </div>
                                     <div class="card-body">
-                                        <h5><?php echo $rowUrgent['ticket_desc'] ?></h5>
+                                        <h6><?php echo $rowUrgent['ticket_desc'] ?></h6>
                                     </div>
                                     <div class="card-footer bg-danger text-white">
                                         <h6>Deadline: <?php echo $rowUrgent['ticket_deadline'] ?></h6>
