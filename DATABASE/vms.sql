@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2024 at 11:11 AM
+-- Generation Time: May 17, 2024 at 10:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -157,23 +157,26 @@ CREATE TABLE `personal_agenda` (
   `allday` varchar(20) NOT NULL,
   `description` text NOT NULL,
   `volunteer_id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL
+  `username` varchar(255) NOT NULL,
+  `date_created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `personal_agenda`
 --
 
-INSERT INTO `personal_agenda` (`id`, `event_id`, `title`, `startdate`, `enddate`, `allday`, `description`, `volunteer_id`, `username`) VALUES
-(42, 0, 'try', '2024-05-01T16:00:00.000Z', '2024-05-02T16:00:00.000Z', '1', '', 0, ''),
-(43, 0, 'sdf', '2024-04-30T16:00:00.000Z', '2024-05-01T16:00:00.000Z', '1', '', 0, ''),
-(44, 0, 'sdf', '2024-05-08T16:00:00.000Z', '2024-05-11T16:00:00.000Z', '1', '', 0, ''),
-(45, 0, 'dsfds', '2024-05-14T16:00:00.000Z', '2024-05-15T16:00:00.000Z', '1', '', 0, ''),
-(46, 0, 'try ', '2024-05-15T16:00:00.000Z', '2024-05-16T16:00:00.000Z', '1', 'trysave', 0, ''),
-(49, 0, '2 Days', '2024-05-06T16:00:00.000Z', '2024-05-08T16:00:00.000Z', '1', 'Outing', 4, 'Ymann'),
-(67, 0, 'sajlkasjdf', '2024-05-01T16:00:00.000Z', '2024-05-02T16:00:00.000Z', '1', 'adsufasjdfk', 4, 'Ymann'),
-(68, 0, 'asdsa', '2024-04-30T16:00:00.000Z', '2024-05-01T16:00:00.000Z', '1', 'asdasd', 4, 'Ymann'),
-(69, 0, 'sdjlksdf', '2024-05-08T16:00:00.000Z', '2024-05-11T16:00:00.000Z', '1', 'LKSJDFLKJASKDFJ', 4, 'Ymann');
+INSERT INTO `personal_agenda` (`id`, `event_id`, `title`, `startdate`, `enddate`, `allday`, `description`, `volunteer_id`, `username`, `date_created`) VALUES
+(42, 0, 'try', '2024-05-01T16:00:00.000Z', '2024-05-02T16:00:00.000Z', '1', '', 0, '', '2024-05-16'),
+(43, 0, 'sdf', '2024-04-30T16:00:00.000Z', '2024-05-01T16:00:00.000Z', '1', '', 0, '', '2024-05-16'),
+(44, 0, 'sdf', '2024-05-08T16:00:00.000Z', '2024-05-11T16:00:00.000Z', '1', '', 0, '', '2024-05-16'),
+(45, 0, 'dsfds', '2024-05-14T16:00:00.000Z', '2024-05-15T16:00:00.000Z', '1', '', 0, '', '2024-05-16'),
+(46, 0, 'try ', '2024-05-15T16:00:00.000Z', '2024-05-16T16:00:00.000Z', '1', 'trysave', 0, '', '2024-05-16'),
+(49, 0, '2 Days', '2024-05-06T16:00:00.000Z', '2024-05-08T16:00:00.000Z', '1', 'Outing', 5, 'juan25', '2024-05-15'),
+(67, 0, 'sajlkasjdf', '2024-05-01T16:00:00.000Z', '2024-05-02T16:00:00.000Z', '1', 'adsufasjdfk', 5, 'juan25', '2024-05-14'),
+(68, 0, 'asdsa', '2024-04-30T16:00:00.000Z', '2024-05-01T16:00:00.000Z', '1', 'asdasd', 5, 'juan25', '2024-05-13'),
+(69, 0, 'sdjlksdf', '2024-05-08T16:00:00.000Z', '2024-05-11T16:00:00.000Z', '1', 'LKSJDFLKJASKDFJ', 4, 'Ymann', '2024-05-16'),
+(70, 0, 'Hehe try lang', '2024-05-15T16:00:00.000Z', '2024-05-16T16:00:00.000Z', '1', 'asdasdasd', 4, 'mark25', '2024-05-16'),
+(71, 0, 'sasd', '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', '1', 'qweqwe', 4, 'mark25', '2024-05-16');
 
 -- --------------------------------------------------------
 
@@ -250,6 +253,8 @@ CREATE TABLE `tickets` (
   `ticket_status` text NOT NULL,
   `ticket_comments` text NOT NULL,
   `ticket_instructions` text NOT NULL,
+  `target_time` text NOT NULL,
+  `file_uploaded` text NOT NULL,
   `date_added` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -257,22 +262,27 @@ CREATE TABLE `tickets` (
 -- Dumping data for table `tickets`
 --
 
-INSERT INTO `tickets` (`id`, `event_id`, `start`, `end`, `ticket_title`, `ticket_desc`, `ticket_type`, `ticket_event`, `ticket_admin`, `ticket_deadline`, `ticket_priority`, `ticket_volunteers_id`, `ticket_status`, `ticket_comments`, `ticket_instructions`, `date_added`) VALUES
-(4, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na mid', 'Sample description lang den ng ticket na mid', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-17', 'Mid', '2', '', '', '', '2024-05-11'),
-(6, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na Urgent', 'Sample Desciption para sa ticket na urgent', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-22', 'Urgent', ' ', '', '', '', '2024-05-11'),
-(7, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na mid', 'Sample Description na ticket na mid', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-16', 'Mid', '2', '', '', '', '2024-05-11'),
-(9, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na low naman', 'low description', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-16', 'Low', '2, 4', '', '', '', '2024-05-11'),
-(10, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Sponsor title', 'sample sponsor na description', 'Sponsor Ticket', 'Event', ' VMS Superadmin', '2024-05-15', 'High', '2', '', '', '', '2024-05-11'),
-(11, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Part ticket to lods', 'Sample part ticket na description', 'Part Ticket', 'Event', ' VMS Superadmin', '2024-05-18', 'Urgent', '4', '', '', '', '2024-05-11'),
-(12, 0, '', '', 'Sample Account Ticket', 'Sample Account Ticket Description', 'Account Ticket', '', ' VMS Superadmin', '2024-05-24', 'High', '2, 4', '', '', '', '2024-05-11'),
-(13, 0, ' ', ' ', 'Sample na account ticket', 'Sample na description sa account ticket', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', '', '', '', '2024-05-11'),
-(15, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 1', 'Desc 1', 'Part Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-07', 'Urgent', '4, 2', 'Your-ticket', ' ', 'ewew, asdas, azxczx', '2024-05-11'),
-(16, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 2', 'Desc 2', 'Sponsor Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'High', ' , 5', 'In-Review', ' ', 'aaaaa, zzzzz', '2024-05-11'),
-(17, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 3', 'Desc 3', 'Event Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'Mid', '4', 'Your-ticket', ' ', '', '2024-05-11'),
-(18, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'bago', 'bago desc', 'Part Ticket', 'Main Event 2024', ' VMS Superadmin', '2024-05-25', 'Mid', ' , 4, 5', 'To-Do', '', '', '2024-05-11'),
-(21, 0, ' ', ' ', 'bago 4', 'bago 4', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-09', 'Urgent', ' ', 'Your-ticket', '', '', '2024-05-11'),
-(22, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Ticket 1', 'Samp', 'Event Ticket', 'Event for 8', 'Aj Narag ', '2024-05-16', 'Low', '4', 'To-Do', '', 'Ayusin mo lang lods', '2024-05-11'),
-(23, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Yare ka lods', 'HAHAHAHA', 'Event Ticket', 'Event for 8', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', 'Revision', '', '', '2024-05-11');
+INSERT INTO `tickets` (`id`, `event_id`, `start`, `end`, `ticket_title`, `ticket_desc`, `ticket_type`, `ticket_event`, `ticket_admin`, `ticket_deadline`, `ticket_priority`, `ticket_volunteers_id`, `ticket_status`, `ticket_comments`, `ticket_instructions`, `target_time`, `file_uploaded`, `date_added`) VALUES
+(4, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na mid', 'Sample description lang den ng ticket na mid', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-17', 'Mid', '2', '', '', '', '', '', '2024-05-11'),
+(6, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na Urgent', 'Sample Desciption para sa ticket na urgent', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-22', 'Urgent', ' ', '', '', '', '', '', '2024-05-11'),
+(7, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na mid', 'Sample Description na ticket na mid', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-16', 'Mid', '2', '', '', '', '', '', '2024-05-11'),
+(9, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Ticket na low naman', 'low description', 'Event Ticket', 'Event', ' VMS Superadmin', '2024-05-16', 'Low', '2, 4', '', '', '', '', '', '2024-05-11'),
+(10, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Sponsor title', 'sample sponsor na description', 'Sponsor Ticket', 'Event', ' VMS Superadmin', '2024-05-15', 'High', '2', '', '', '', '', '', '2024-05-11'),
+(11, 1, '2024-04-09T16:00:00.000Z', '2024-04-10T16:00:00.000Z', 'Part ticket to lods', 'Sample part ticket na description', 'Part Ticket', 'Event', ' VMS Superadmin', '2024-05-18', 'Urgent', '4', '', '', '', '', '', '2024-05-11'),
+(12, 0, '', '', 'Sample Account Ticket', 'Sample Account Ticket Description', 'Account Ticket', '', ' VMS Superadmin', '2024-05-24', 'High', '2, 4', '', '', '', '', '', '2024-05-11'),
+(13, 0, ' ', ' ', 'Sample na account ticket', 'Sample na description sa account ticket', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', '', '', '', '', '', '2024-05-11'),
+(15, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 1', 'Desc 1', 'Part Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-07', 'Urgent', '4, 2', 'Your-ticket', ' ', 'ewew, asdas, azxczx', '', '../Files/ss5.png', '2024-05-11'),
+(16, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 2', 'Desc 2', 'Sponsor Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'High', ' , 5', 'To-Do', ' ', 'aaaaa, zzzzz', '', '', '2024-05-11'),
+(17, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'Try lang to lods 3', 'Desc 3', 'Event Ticket', 'Main Event 2024', 'Aj Narag ', '2024-05-15', 'Mid', '4', 'Revision', ' ', '', '08:04', '../Files/Building-Permit.pdf', '2024-05-11'),
+(18, 2, '2024-04-10T16:00:00.000Z', '2024-04-11T16:00:00.000Z', 'bago', 'bago desc', 'Part Ticket', 'Main Event 2024', ' VMS Superadmin', '2024-05-25', 'Mid', ' , 4, 5', 'In-Review', '', '', '05:22', '../Files/Electrical-Permit.pdf', '2024-05-11'),
+(21, 0, ' ', ' ', 'bago 4', 'bago 4', 'Account Ticket', ' ', ' VMS Superadmin', '2024-05-09', 'Urgent', ' ', 'Your-ticket', '', '', '', '', '2024-05-11'),
+(22, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Ticket 1', 'Samp', 'Event Ticket', 'Event for 8', 'Aj Narag ', '2024-05-16', 'Low', '4', 'To-Do', '', 'Ayusin mo lang lods', '19:04', '../Files/Agri India.png', '2024-05-11'),
+(23, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Yare ka lods', 'HAHAHAHA', 'Event Ticket', 'Event for 8', ' VMS Superadmin', '2024-05-16', 'High', '2, 4', 'In-Review', '', '', '', '', '2024-05-11'),
+(25, 0, '', '', 'About sa try lang lods 1 na ticket', 'Pano po yun gawin?', 'Ask Ticket', '', 'Volunteer', '0000-00-00', '', '15', '', '', '', '', '', '2024-05-17'),
+(26, 0, '', '', 'Another ask ticket', 'Pano po yun gawin?', 'Ask Ticket', '', 'Volunteer', '0000-00-00', '', '4', '', '', '', '', '', '2024-05-17'),
+(27, 0, '', '', 'qwe', 'ewqeqwe', 'Ask Ticket', '', 'Volunteer', '0000-00-00', '', '4', '', '', '', '', '', '2024-05-17'),
+(28, 0, '', '', 'iyuiyuiyu', 'asdasd', 'Ask Ticket', '', 'Volunteer', '0000-00-00', '', '4', '', '', '', '', '', '2024-05-17'),
+(29, 7, '2024-05-07T16:00:00.000Z', '2024-05-08T16:00:00.000Z', 'Event Ticket mid ulet', 'qweqweqwe', 'Sponsor Ticket', 'Event for 8', 'Aj Narag ', '2024-05-18', 'Mid', '4, 5', 'Your-ticket', '', '', '11:53', '../Files/ss5.png', '2024-05-17');
 
 -- --------------------------------------------------------
 
@@ -325,7 +335,10 @@ INSERT INTO `volunteer_logtime` (`log_ID`, `volunteer_id`, `login_time`, `logout
 (8, 2, '2024-05-11 23:11:46', '2024-05-11 23:12:41', 'ajnarag25'),
 (9, 4, '2024-05-14 13:36:20', '2024-05-15 15:45:15', 'mark25'),
 (10, 4, '2024-05-15 09:33:39', '2024-05-15 15:45:15', 'mark25'),
-(11, 5, '2024-05-15 15:45:23', '0000-00-00 00:00:00', 'juan25');
+(11, 5, '2024-05-15 15:45:23', '0000-00-00 00:00:00', 'juan25'),
+(12, 4, '2024-05-16 15:30:03', '2024-05-16 17:32:25', 'mark25'),
+(13, 5, '2024-05-16 17:32:34', '0000-00-00 00:00:00', 'juan25'),
+(14, 4, '2024-05-17 09:31:29', '0000-00-00 00:00:00', 'mark25');
 
 -- --------------------------------------------------------
 
@@ -459,7 +472,7 @@ ALTER TABLE `guest_sponsors`
 -- AUTO_INCREMENT for table `personal_agenda`
 --
 ALTER TABLE `personal_agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `skill_tag`
@@ -477,7 +490,7 @@ ALTER TABLE `suggestion`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `timelogs`
@@ -489,7 +502,7 @@ ALTER TABLE `timelogs`
 -- AUTO_INCREMENT for table `volunteer_logtime`
 --
 ALTER TABLE `volunteer_logtime`
-  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `volunteer_skills`
