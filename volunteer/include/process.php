@@ -229,3 +229,23 @@ if (isset($_POST['ask_submit'])) {
         exit();
     }
 }
+
+
+// SUBMIT TICKET
+if (isset($_POST['submit_ticket'])) {
+    $submit_id = $_POST['submit_id'];
+
+    if (!empty($submit_id)) {
+        $conn->query("UPDATE tickets SET ticket_status = 'In-Review' WHERE id = $submit_id") or die($conn->error);
+        $_SESSION['status'] = 'Successfully submitted your ticket';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }   
+
+}
