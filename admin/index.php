@@ -109,7 +109,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header bg-dark text-white">
-                                                <h5 class="modal-title" id="">Create Announcement</h5>
+                                                <h6 class="modal-title" id="">Create Announcement</h6>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <form action="./include/process.php" method="POST">
@@ -134,7 +134,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header bg-success text-white">
-                                                <h5 class="modal-title" id="">Announcements</h5>
+                                                <h6 class="modal-title" id="">Announcements</h6>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -168,14 +168,14 @@
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-dark text-white">
-                                                                    <h5 class="modal-title" id="">Announement: <b><?php echo $row1['title'] ?></b> </h5>
+                                                                    <h6 class="modal-title" id="">Announement: <b><?php echo $row1['title'] ?></b> </h6>
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <ul>
-                                                                        <li><h5>Subject: <b><?php echo $row1['subject']; ?></b> </h5></li>
-                                                                        <li><h5>Details: <br> <b><?php echo $row1['details']; ?></b> </h5></li>
-                                                                        <li><h5>Date & Time: <b><?php echo $row1['time']; ?></b></h5></li>
+                                                                        <li><h6>Subject: <b><?php echo $row1['subject']; ?></b> </h6></li>
+                                                                        <li><h6>Details: <br> <b><?php echo $row1['details']; ?></b> </h6></li>
+                                                                        <li><h6>Date & Time: <b><?php echo $row1['time']; ?></b></h6></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -226,14 +226,14 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-dark text-white">
-                                                        <h5 class="modal-title" id="">Announement: <b><?php echo $row2['title'] ?></b> </h5>
+                                                        <h6 class="modal-title" id="">Announement: <b><?php echo $row2['title'] ?></b> </h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <ul>
-                                                            <li><h5>Subject: <b><?php echo $row2['subject']; ?></b> </h5></li>
-                                                            <li><h5>Details: <br> <b><?php echo $row2['details']; ?></b> </h5></li>
-                                                            <li><h5>Date & Time: <b><?php echo $row2['time']; ?></b></h5></li>
+                                                            <li><h6>Subject: <b><?php echo $row2['subject']; ?></b> </h6></li>
+                                                            <li><h6>Details: <br> <b><?php echo $row2['details']; ?></b> </h6></li>
+                                                            <li><h6>Date & Time: <b><?php echo $row2['time']; ?></b></h6></li>
                                                         </ul>
                                                     </div>
                                                     <div class="modal-footer">
@@ -287,7 +287,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-danger text-white">
-                                                    <h5 class="modal-title">Ticket Details</h5>
+                                                    <h6 class="modal-title">Ticket Details</h6>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                     </button>
@@ -432,7 +432,7 @@
                                 <div class="p-3">
                                     <div class="card <?php echo $bgColor ?>">
                                         <div class="card-body text-white">
-                                            <h5><?php echo $row['ticket_title'] ?></h5>
+                                            <h6><?php echo $row['ticket_title'] ?></h6>
                                             <hr>
                                             <p><?php echo $row['ticket_desc'] ?></p>
                                         </div>
@@ -444,7 +444,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
-                                                        <h5 class="modal-title">Ticket Details</h5>
+                                                        <h6 class="modal-title">Ticket Details</h6>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                         </button>
