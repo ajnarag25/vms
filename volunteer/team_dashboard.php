@@ -277,14 +277,37 @@
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                         <div class="text-center mt-3">
-                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>">Add Target (Time)</button>
+
+                                                                            <!--Add Target-->
+                                                                            <div class="modal fade" id="target<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Add Target Time</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>Target Time:</b> </label>
+                                                                                                <input type="time" class="form-control" name="target_time" required>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="target_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="target_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
                                                                             <br>
                                                                             <button class="btn btn-secondary w-50 mt-2">View Plan</button>
                                                                             <br>
-                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask1<?php echo $row['id'] ?>">Ask</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>">Ask</button>
 
                                                                             <!--Ask-->
-                                                                            <div class="modal fade" id="ask1<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                            <div class="modal fade" id="ask<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
                                                                                 <div class="modal-dialog">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header bg-dark text-white">
@@ -299,12 +322,7 @@
                                                                                                 <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
                                                                                             </div>
                                                                                             <div class="modal-footer">
-                                                                                                <input type="hidden" name="" value="<?php echo $row['id'] ?>">
-                                                                                                <input type="hidden" name="ticket_title" value="<?php echo $row['ticket_title'] ?>">
-                                                                                                <input type="hidden" name="ticket_admin" value="<?php echo $row['ticket_admin'] ?>">
-                                                                                                <input type="hidden" name="ticket_priority" value="<?php echo $row['ticket_priority'] ?>">
-                                                                                                <input type="hidden" name="ticket_instructions" value="<?php echo $row['ticket_instructions'] ?>">
-                                                                                                <input type="hidden" name="ticket_volunteers_id" value="<?php echo $row['ticket_volunteers_id'] ?>">
+                                                                                                <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
                                                                                                 <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
                                                                                             </div>
                                                                                         </form>
@@ -312,7 +330,32 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>">Upload</button>
+
+                                                                            <!--File Upload-->
+                                                                            <div class="modal fade" id="upload<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Upload File</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST" enctype="multipart/form-data">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>File:</b> </label>
+                                                                                                <input type="file" class="form-control" name="file_upload" accept="image/png, image/jpeg, application/pdf" required>
+
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="file_id" value="<?php echo $row['id'] ?>">
+                                                                                                <input type="hidden" name="file_name" value="<?php echo $row['ticket_title'] ?>">
+                                                                                                <button type="submit" name="file_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            
                                                                             <br>
                                                                             <button class="btn btn-success w-50 mt-2" data-bs-toggle="modal" data-bs-target="#submit1<?php echo $row['id'] ?>">Submit</button>
 
@@ -644,12 +687,83 @@
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                         <div class="text-center mt-3">
-                                                                            <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                            <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>">Add Target (Time)</button>
+
+                                                                            <!--Add Target-->
+                                                                            <div class="modal fade" id="target<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Add Target Time</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>Target Time:</b> </label>
+                                                                                                <input type="time" class="form-control" name="target_time" required>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="target_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="target_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                             <br>
                                                                             <button class="btn btn-secondary w-50 mt-2">View Plan</button>
                                                                             <br>
-                                                                            <button class="btn btn-secondary w-25 mt-2">Ask</button>
-                                                                            <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>">Ask</button>
+
+                                                                            <!--Ask-->
+                                                                            <div class="modal fade" id="ask<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Ask about the ticket</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>Title:</b> </label>
+                                                                                                <input type="text" class="form-control" id="contact" name="ask_title" required>
+                                                                                                <label for=""><b>Details:</b> </label>
+                                                                                                <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>">Upload</button>
+
+                                                                            <!--File Upload-->
+                                                                            <div class="modal fade" id="upload<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h5 class="modal-title" id="">Upload File</h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST" enctype="multipart/form-data">
+                                                                                            <div class="modal-body">
+                                                                                                <label for=""><b>File:</b> </label>
+                                                                                                <input type="file" class="form-control" name="file_upload" accept="image/png, image/jpeg, application/pdf" required>
+
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="file_id" value="<?php echo $row['id'] ?>">
+                                                                                                <input type="hidden" name="file_name" value="<?php echo $row['ticket_title'] ?>">
+                                                                                                <button type="submit" name="file_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                             <br>
                                                                             <button class="btn btn-success w-50 mt-2" data-bs-toggle="modal" data-bs-target="#submit1<?php echo $row['id'] ?>">Submit</button>
 
@@ -980,12 +1094,84 @@
                                                                             <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                             <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                             <div class="text-center mt-3">
-                                                                                <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                                <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>">Add Target (Time)</button>
+
+                                                                                <!--Add Target-->
+                                                                                <div class="modal fade" id="target<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Add Target Time</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>Target Time:</b> </label>
+                                                                                                    <input type="time" class="form-control" name="target_time" required>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="target_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="target_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <br>
                                                                                 <button class="btn btn-secondary w-50 mt-2">View Plan</button>
                                                                                 <br>
-                                                                                <button class="btn btn-secondary w-25 mt-2">Ask</button>
-                                                                                <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                                <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>">Ask</button>
+
+                                                                                <!--Ask-->
+                                                                                <div class="modal fade" id="ask<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Ask about the ticket</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>Title:</b> </label>
+                                                                                                    <input type="text" class="form-control" id="contact" name="ask_title" required>
+                                                                                                    <label for=""><b>Details:</b> </label>
+                                                                                                    <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                    <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>">Upload</button>
+
+                                                                                <!--File Upload-->
+                                                                                <div class="modal fade" id="upload<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Upload File</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST" enctype="multipart/form-data">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>File:</b> </label>
+                                                                                                    <input type="file" class="form-control" name="file_upload" accept="image/png, image/jpeg, application/pdf" required>
+
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="file_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <input type="hidden" name="file_name" value="<?php echo $row['ticket_title'] ?>">
+                                                                                                    <button type="submit" name="file_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1294,12 +1480,83 @@
                                                                             <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                             <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                             <div class="text-center mt-3">
-                                                                                <button class="btn btn-secondary w-50">Add Target (Time)</button>
+                                                                                <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>">Add Target (Time)</button>
+
+                                                                                <!--Add Target-->
+                                                                                <div class="modal fade" id="target<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Add Target Time</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>Target Time:</b> </label>
+                                                                                                    <input type="time" class="form-control" name="target_time" required>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="target_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="target_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <br>
                                                                                 <button class="btn btn-secondary w-50 mt-2">View Plan</button>
                                                                                 <br>
-                                                                                <button class="btn btn-secondary w-25 mt-2">Ask</button>
-                                                                                <button class="btn btn-secondary w-25 mt-2">Upload</button>
+                                                                                <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>">Ask</button>
+
+                                                                                <!--Ask-->
+                                                                                <div class="modal fade" id="ask<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Ask about the ticket</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>Title:</b> </label>
+                                                                                                    <input type="text" class="form-control" id="contact" name="ask_title" required>
+                                                                                                    <label for=""><b>Details:</b> </label>
+                                                                                                    <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                    <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>">Upload</button>
+
+                                                                                <!--File Upload-->
+                                                                                <div class="modal fade" id="upload<?php echo $row['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h5 class="modal-title" id="">Upload File</h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST" enctype="multipart/form-data">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for=""><b>File:</b> </label>
+                                                                                                    <input type="file" class="form-control" name="file_upload" accept="image/png, image/jpeg, application/pdf" required>
+
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="file_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <input type="hidden" name="file_name" value="<?php echo $row['ticket_title'] ?>">
+                                                                                                    <button type="submit" name="file_submit" class="btn btn-primary w-100">Submit</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                
                                                                                 <br>
                                                                                 <button class="btn btn-success w-50 mt-2" data-bs-toggle="modal" data-bs-target="#submit1<?php echo $row['id'] ?>">Submit</button>
 
@@ -1740,13 +1997,14 @@
                                     <?php 
                                         $volunteer_id = $_SESSION['volunteer']['id'];
 
+           
                                         $query = "SELECT * FROM tickets WHERE ticket_type = 'Ask Ticket' AND ticket_volunteers_id = '$volunteer_id'";
                                         
                                         $result = mysqli_query($conn, $query);
                                         while ($row = mysqli_fetch_array($result)) {
                                             ?>
                                             <div class="p-2">
-                                                <div class="card bg-success text-white mb-4">
+                                                <div class="card bg-secondary text-white mb-4">
                                                     <div class="card-body">
                                                         <h6><?php echo $row['ticket_title'] ?></h6>
                                                     </div>
@@ -1793,112 +2051,6 @@
                                                                             <h6 class="mt-3">Ticket Description: </h6>
                                                                             <h6 class="mt-3"><b><?php echo $row['ticket_desc'] ?></b></h6>
                                                                             <br>
-                                                                            <hr>
-                                                                            <div class="row align-items-center">
-                                                                                <div class="col-auto">
-                                                                                    <h6>Priority Level:</h6>
-                                                                                </div>
-                                                                                <div class="col">
-                                                                                    <?php 
-                                                                                    if($row['ticket_priority'] == 'Low'){
-                                                                                        ?>
-                                                                                        <div class="alert alert-secondary d-inline-flex align-items-center py-1"
-                                                                                            role="alert">
-                                                                                            <strong>Low</strong>
-                                                                                        </div>
-                                                                                    <?php
-                                                                                    }elseif($row['ticket_priority'] == 'Mid'){
-                                                                                        ?>
-                                                                                        <div class="alert alert-primary d-inline-flex align-items-center py-1"
-                                                                                            role="alert">
-                                                                                            <strong>Mid</strong>
-                                                                                        </div>
-                                                                                    <?php
-                                                                                    }elseif($row['ticket_priority'] == 'High'){
-                                                                                        ?>
-                                                                                        <div class="alert alert-warning d-inline-flex align-items-center py-1"
-                                                                                            role="alert">
-                                                                                            <strong>High</strong>
-                                                                                        </div>
-                                                                                    <?php
-                                                                                    }else{
-                                                                                        ?>
-                                                                                        <div class="alert alert-danger d-inline-flex align-items-center py-1"
-                                                                                            role="alert">
-                                                                                            <strong>Urgent</strong>
-                                                                                        </div>
-                                                                                    <?php
-                                                                                    }
-                                                                                    
-                                                                                    ?>
-                                                                    
-
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row align-items-center">
-                                                                                <div class="col-auto">
-                                                                                    <h6>Status:</h6>
-                                                                                </div>
-                                                                                <div class="col">
-                                                                                    <?php 
-                                                                                        if($row['ticket_status'] == 'Your-ticket'){
-                                                                                        ?>
-                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
-                                                                                                <strong>Your-ticket</strong>
-                                                                                            </div>
-                                                                                        <?php
-                                                                                        }
-                                                                                        elseif($row['ticket_status'] == 'To-Do'){
-                                                                                        ?>
-                                                                                            <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
-                                                                                                <strong>To-Do</strong>
-                                                                                            </div>
-                                                                                        <?php
-                                                                                        }
-                                                                                        elseif($row['ticket_status'] == 'In-Review'){ 
-                                                                                        ?>
-                                                                                            <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
-                                                                                                <strong>In-Review</strong>
-                                                                                            </div>
-                                                                                        <?php
-                                                                                        }
-                                                                                        else{
-                                                                                        ?>
-                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
-                                                                                                <strong>Revision</strong>
-                                                                                            </div>
-                                                                                        <?php
-                                                                                        }
-                                                                                    ?>
-                                                                                    
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div style="max-height: 200px; overflow-y: auto;">
-                                                                            <h6><b>Additional Instructions:</b></h6>
-                                                                            <?php 
-                                                                                $ticket_id = $row['id'];
-                                                                                $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
-                                                                                $resultInstruction = mysqli_query($conn, $queryInstruction);
-
-                                                                                while ($instructionRow = mysqli_fetch_assoc($resultInstruction)) {
-                                                                                    // Get the instructions from the row
-                                                                                    $instructionStr = $instructionRow['ticket_instructions'];
-                                                                                    
-                                                                                    // Explode the instructions into an array
-                                                                                    $instructionsArray = explode(', ', $instructionStr);
-
-                                                                                    // Output each instruction in a list item
-                                                                                    echo '<ul>';
-                                                                                    foreach ($instructionsArray as $instruction) {
-                                                                                        echo '<li>' . $instruction . '</li>';
-                                                                                    }
-                                                                                    echo '</ul>';
-                                                                                }
-                                                                            ?>
-
-                                                                            </div>
-                                                                            
                                                                             <hr>
                                                                             <div>
                                                                                 <h6>Ticket Volunteers: </h6>

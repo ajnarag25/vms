@@ -198,34 +198,22 @@ if (isset($_POST['remSkills'])) {
 
 // ASK SUBMISSION
 if (isset($_POST['ask_submit'])) {
+    $volunteer_id = $_POST['ask_id'];
     $ticket_title = $_POST['ask_title'];
     $ticket_desc = $_POST['ask_details'];
 
-    $ticket_admin = $_POST['ticket_admin'];
-    $ticket_type = $_POST['ticket_type'];
-    $volunteer_ids = $_POST['volunteer_id'];
-    $partBtn = $_POST['partBtn'];
-    $ticket_deadline = $_POST['ticket_deadline'];
-
-    if($volunteer_ids){
-        $volunteer_ids_str = implode(', ', $volunteer_ids);
-    }else{
-        $volunteer_ids_str = ' ';
-    }
-    
-
     if (!empty($ticket_title)) {
 
-        $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions) 
-        VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '')") or die($conn->error);
+        $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
+        VALUES('' ,'', '', '$ticket_title', '$ticket_desc', 'Ask Ticket', '', 'Volunteer', '', '', '$volunteer_id', '', '', '', '', '')") or die($conn->error);
 
-        $_SESSION['status'] = 'Ticket Successfully Saved';
+        $_SESSION['status'] = 'Your ticket successfully sent';
         $_SESSION['status_icon'] = 'success';
-        header('Location: ../accounts.php');
+        header('Location: ../team_dashboard.php');
     } else {
         $_SESSION['status'] = 'An Error Occurred!';
         $_SESSION['status_icon'] = 'error';
-        header('Location: ../accounts.php');
+        header('Location: ../team_dashboard.php');
         exit();
     }
 }
@@ -238,6 +226,51 @@ if (isset($_POST['submit_ticket'])) {
     if (!empty($submit_id)) {
         $conn->query("UPDATE tickets SET ticket_status = 'In-Review' WHERE id = $submit_id") or die($conn->error);
         $_SESSION['status'] = 'Successfully submitted your ticket';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }   
+
+}
+
+// ADD TARGET TIME
+if (isset($_POST['target_submit'])) {
+    $target_id = $_POST['target_id'];
+    $target_time = $_POST['target_time'];
+
+    if (!empty($target_id)) {
+        $conn->query("UPDATE tickets SET target_time = '$target_time' WHERE id = '$target_id'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully saved your target time';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }   
+
+}
+
+// UPLOAD FILE
+if (isset($_POST['file_submit'])) {
+    $file_id = $_POST['file_id'];
+    $file_name = $_POST['file_name'];
+
+    $target_dir = "../Files/";
+    $file_upload = $_FILES["file_upload"]["name"];
+
+    if (!empty($file_id)) {
+        $target_file_name = $target_dir.  basename($_FILES["file_upload"]["name"]);
+        move_uploaded_file($_FILES["file_upload"]["tmp_name"], $target_file_name);
+        $conn->query("UPDATE tickets SET file_uploaded = '$target_file_name' WHERE id = '$file_id'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully uploaded your file';
         $_SESSION['status_icon'] = 'success';
         header('Location: ../team_dashboard.php');
         exit();
