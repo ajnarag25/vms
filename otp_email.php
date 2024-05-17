@@ -17,7 +17,7 @@
     $mail->Host = "smtp.gmail.com";
     $mail->SMTPAuth = true;
     $mail->Username = "lambatprivate@gmail.com";
-    $mail->Password = "ngkx nulo nvah yhsm";
+    $mail->Password = "eqxe yiil ljvy ffcp";
     $mail->Port = 587; //465 for ssl and 587 for tls
     $mail->SMTPSecure = "tls";
 
@@ -25,14 +25,14 @@
     $mail->isHTML(true);
     $mail->setFrom($email, $names);
     $mail->addAddress($emails);
-    $mail->Subject = "Verify your Account.";
-    $mail->Body = 'Good day, Kindly verify your account in this link: <a href="http://localhost/vms/otp.php?id=' . $get_id . '">Click Here to Verify</a> and use this OTP Number to verify your account: <b?>' . $setOTP .'</b> <br> <br> '. 
+    $mail->Subject = "Activate your Account.";
+    $mail->Body = 'Good day, Kindly activate your account in this link: <a href="http://localhost/vms/otp.php?id=' . $get_id . '">Click Here to Activate</a> and use this OTP Number to activate your account (The admin will verify your account): <b>' . $setOTP .'</b> <br> <br> '. 
         ' Thank you and have a nice day.' . '<br> <br>' . '<b> Volunteer Management Strageties of 1-Lambat Ministries Foundation International INC. </b>';
 
     if ($mail->send())
         echo "Mail Sent";
 
     else
-        // echo('Error sending the email');
+        echo('Error sending the email');
 
 ?>

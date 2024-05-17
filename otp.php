@@ -3,7 +3,7 @@
 
 <head>
     <?php include('./include/header.php') ?>
-    <title>Verify Account - Volunteer Management Strageties</title>
+    <title>Activate Account - Volunteer Management Strageties</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 
                                 </div>
                                 <form action="./functions/process.php" method="POST">
-                                    <h4 class="mt-3"> <b>Verify Account | Volunteer</b></h4>
+                                    <h4 class="mt-3"> <b>Activate Account | Volunteer</b></h4>
                                     <hr>
                                     <p class="mb-3">Web based Volunteer Management Strageties of 1-Lambat Ministries
                                         Foundation International INC.</p>
@@ -31,7 +31,7 @@
                                     </div>
 
                                     <button class="btn btn-custom btn-sm btn-block w-50" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Login" type="submit" name="verify">Verify Account</button>
+                                        data-bs-placement="top" title="Login" type="submit" name="verify">Activate Account</button>
 
                                 </form>
                             </div>
