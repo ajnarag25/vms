@@ -1186,5 +1186,146 @@
 
     }
     
+    // UPDATE PRIORITY LEVEL - TEAM DASHBOARD
+    if (isset($_POST['update_priority_team'])) {
+        $priority_id = $_POST['priority_id'];
+        $updtLevel = $_POST['updtBtn'];
+
+        $result = $conn->query("SELECT * FROM tickets WHERE id = '$priority_id'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentLevel = $row['ticket_priority'];
+            
+            if ($currentLevel == $updtLevel) {
+                $_SESSION['status'] = 'No changes made. Priority level is already set to ' . $updtLevel;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../team_dashboard.php');
+                exit();
+            } else {
+                if (!empty($priority_id)) {
+                    $conn->query("UPDATE tickets SET ticket_priority = '$updtLevel' WHERE id = $priority_id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully updated the priority level to ' . $updtLevel;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../team_dashboard.php');
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../team_dashboard.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../team_dashboard.php');
+            exit();
+        }
+    }
+
+    // UPDATE STATUS - TEAM DASHBOARD
+    if (isset($_POST['update_status_team'])) {
+        $status_id = $_POST['status_id'];
+        $stat = $_POST['stat'];
         
+        $result = $conn->query("SELECT * FROM tickets WHERE id = '$status_id'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentStat = $row['ticket_status'];
+            
+            if ($currentStat == $stat) {
+                $_SESSION['status'] = 'No changes made. Ticket Status is already set to ' . $stat;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../team_dashboard.php');
+                exit();
+            } else {
+                if (!empty($status_id)) {
+                    $conn->query("UPDATE tickets SET ticket_status = '$stat' WHERE id = $status_id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully updated the ticket status to ' . $stat;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../team_dashboard.php');
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../team_dashboard.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../team_dashboard.php');
+            exit();
+        }
+
+    }
+
+    // ADD INSTRUCTIONS - TEAM DASHBOARD
+    if (isset($_POST['addInstructions_team'])) {
+        $instructions_id = $_POST['instructions_id'];
+
+        $instructions = array();
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, 'instruction_') === 0) {
+                $instructions[] = $value;
+            }
+        }
+
+        $newInstructionStr = implode(', ', $instructions);
+
+        $existingInstructionsQuery = $conn->query("SELECT ticket_instructions FROM tickets WHERE id = '$instructions_id'");
+        $existingInstructionsRow = $existingInstructionsQuery->fetch_assoc();
+        $existingInstructionStr = $existingInstructionsRow['ticket_instructions'];
+
+        if (!empty($existingInstructionStr)) {
+            $instructionStr = $existingInstructionStr . ', ' . $newInstructionStr;
+        } else {
+            $instructionStr = $newInstructionStr;
+        }
+
+        $conn->query("UPDATE tickets SET ticket_instructions = '$instructionStr' WHERE id = '$instructions_id'") or die($conn->error);
+        $_SESSION['status'] = 'Successfully Added the Instruction/s';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }
+
+    // ADD VOLUNTEERS - TEAM DASHBOARD
+    if (isset($_POST['addVolunteers_team'])) {
+        $vl_id = $_POST['vl_id'];
+        $volunteer_ids = isset($_POST['volunteer_id']) ? $_POST['volunteer_id'] : [];
+
+        if (!empty($volunteer_ids)) {
+            $volunteer_ids_str = implode(', ', $volunteer_ids);
+        } else {
+            $_SESSION['status'] = 'No Volunteers Added';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../team_dashboard.php');
+            exit();
+        }
+
+        if ($vl_id) {
+            $existingVolunteersQuery = $conn->query("SELECT ticket_volunteers_id FROM tickets WHERE id = '$vl_id'");
+            $existingVolunteersRow = $existingVolunteersQuery->fetch_assoc();
+            $existingVolunteerStr = $existingVolunteersRow['ticket_volunteers_id'];
+
+            if (!empty($existingVolunteerStr)) {
+                $volunteerStr = $existingVolunteerStr . ', ' . $volunteer_ids_str;
+            } else {
+                $volunteerStr = $volunteer_ids_str;
+            }
+
+            $conn->query("UPDATE tickets SET ticket_volunteers_id = '$volunteerStr' WHERE id = '$vl_id'") or die($conn->error);
+            $_SESSION['status'] = 'Successfully Added Volunteer/s';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../team_dashboard.php');
+            exit();
+        } else {
+            $_SESSION['status'] = 'No Volunteers Added';
+            $_SESSION['status_icon'] = 'info';
+            header('Location: ../team_dashboard.php');
+            exit();
+        }
+    }
 ?>

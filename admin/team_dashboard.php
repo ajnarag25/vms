@@ -192,7 +192,42 @@
                                                                                 }
                                                                                 
                                                                                 ?>
-                                                                  
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Priority -->
+                                                                                <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Priority Level</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body text-center">
+                                                                                                    <label for="">Select Priority Level:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" class="btn btn-dark w-100" name="update_priority_team">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
                                                                         </div>
@@ -223,6 +258,13 @@
                                                                                         </div>
                                                                                     <?php
                                                                                     }
+                                                                                    elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                        ?>
+                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                <strong>Completed</strong>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }
                                                                                     else{
                                                                                     ?>
                                                                                         <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -232,11 +274,87 @@
                                                                                     }
                                                                                 ?>
                                                                                 
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Status -->
+                                                                                <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Status</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for="">Select Status:</label>
+                                                                                                    <select class="form-select" name="stat" id="" required>
+                                                                                                        <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                        <option value="Your-ticket">Your-Ticket</option>
+                                                                                                        <option value="To-Do">To-Do</option>
+                                                                                                        <option value="In-Review">In-Review</option>
+                                                                                                        <option value="Revision">Revision</option>
+                                                                                                        <option value="Completed">Completed</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="update_status_team" class="btn btn-dark w-100">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
 
+                                                                            <button
+                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                            <i class="bi bi-plus-square-fill">
+                                                                            </i></button> <label for="">Additional Instructions</label>
+
+                                                                            <!-- Modal Additional Instructions -->
+                                                                            <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Additional Instructions</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                    <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary w-100"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addInstructions_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!--Add Instruction Input-->
+                                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                            <script>
+                                                                                $(document).ready(function(){
+                                                                                    var count = 1;
+                                                                                    $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                        var input = $("<input>")
+                                                                                            .addClass("form-control mt-3")
+                                                                                            .attr("type", "text")
+                                                                                            .attr("name", "instruction_" + count)
+                                                                                            .prop("required", true)
+                                                                                            .attr("placeholder", "Instruction " + count);
+                                                                                        $(".instructions").append(input);
+                                                                                        count++;
+                                                                                    });
+
+                                                                                });
+                                                                            </script>
+                                                                        
                                                                         <div style="max-height: 200px; overflow-y: auto;">
-                                                                        <h6><b>Additional Instructions:</b></h6>
                                                                         <?php 
                                                                             $ticket_id = $row['id'];
                                                                             $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
@@ -262,7 +380,12 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h6>Ticket Volunteers: </h6>
+                                                                            <h6>Ticket Volunteers: 
+                                                                                <button
+                                                                                style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
+                                                                                <i class="bi bi-plus-square-fill">
+                                                                                </i></button>
+                                                                            </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -286,12 +409,94 @@
                                                                             ?>
 
                                                                             </div>
+
+                                                                            <!-- Modal Add Volunteer -->
+                                                                            <div class="modal modal-md fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Volunteer</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <table class="table" id="">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col"></th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Email</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <?php 
+                                                                                                        $idss = $row['ticket_volunteers_id'];
+                                                                                                        $idsArrays = explode(',', $idss);
+
+                                                                                                        $idsStrings = "'" . implode("', '", $idsArrays) . "'";
+
+                                                                                                        $query_volunteers = "SELECT * FROM accounts WHERE id IN ($idsStrings)";
+                                                                                                        $result_volunteers = mysqli_query($conn, $query_volunteers);
+
+                                                                                                        $volunteerNames = [];
+                                                                                                        while ($row_volunteers = mysqli_fetch_array($result_volunteers)) {
+                                                                                                            $volunteerNames[] = $row_volunteers['name'];
+                                                                                                        }
+
+                                                                                                        $volunteerNamesString = "'" . implode("', '", $volunteerNames) . "'";
+                                                                                                        $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer' AND name NOT IN ($volunteerNamesString)";
+
+                                                                                                        $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                        while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                    ?>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                        <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                        <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                    </tr>
+
+                                                                                                    <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header bg-dark text-white">
+                                                                                                                    <h6 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h6>
+                                                                                                                
+                                                                                                                </div>
+                                                                                                                <div class="modal-body">
+                                                                                                                    <h3>Volunteer Details:</h3>
+                                                                                                                    <ul>
+                                                                                                                        <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                        <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                        <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                        <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                    </ul>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                    
+                                                                                                    <?php 
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="vl_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addVolunteers_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div id="progress-bar-container<?php echo $row['id'] ?>"
                                                                             style="position: relative;">
                                                                         </div>
+                                                                
                                                                         <hr>
                                                                         <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
@@ -491,7 +696,42 @@
                                                                                 }
                                                                                 
                                                                                 ?>
-                                                                  
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Priority -->
+                                                                                <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Priority Level</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body text-center">
+                                                                                                    <label for="">Select Priority Level:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" class="btn btn-dark w-100" name="update_priority_team">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
                                                                         </div>
@@ -522,6 +762,13 @@
                                                                                         </div>
                                                                                     <?php
                                                                                     }
+                                                                                    elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                        ?>
+                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                <strong>Completed</strong>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }
                                                                                     else{
                                                                                     ?>
                                                                                         <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -531,11 +778,87 @@
                                                                                     }
                                                                                 ?>
                                                                                 
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Status -->
+                                                                                <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Status</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for="">Select Status:</label>
+                                                                                                    <select class="form-select" name="stat" id="" required>
+                                                                                                        <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                        <option value="Your-ticket">Your-Ticket</option>
+                                                                                                        <option value="To-Do">To-Do</option>
+                                                                                                        <option value="In-Review">In-Review</option>
+                                                                                                        <option value="Revision">Revision</option>
+                                                                                                        <option value="Completed">Completed</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="update_status_team" class="btn btn-dark w-100">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
 
+                                                                            <button
+                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                            <i class="bi bi-plus-square-fill">
+                                                                            </i></button> <label for="">Additional Instructions</label>
+
+                                                                            <!-- Modal Additional Instructions -->
+                                                                            <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Additional Instructions</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                    <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary w-100"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addInstructions_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!--Add Instruction Input-->
+                                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                            <script>
+                                                                                $(document).ready(function(){
+                                                                                    var count = 1;
+                                                                                    $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                        var input = $("<input>")
+                                                                                            .addClass("form-control mt-3")
+                                                                                            .attr("type", "text")
+                                                                                            .attr("name", "instruction_" + count)
+                                                                                            .prop("required", true)
+                                                                                            .attr("placeholder", "Instruction " + count);
+                                                                                        $(".instructions").append(input);
+                                                                                        count++;
+                                                                                    });
+
+                                                                                });
+                                                                            </script>
+                                                                        
                                                                         <div style="max-height: 200px; overflow-y: auto;">
-                                                                        <h6><b>Additional Instructions:</b></h6>
                                                                         <?php 
                                                                             $ticket_id = $row['id'];
                                                                             $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
@@ -561,7 +884,12 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h6>Ticket Volunteers: </h6>
+                                                                            <h6>Ticket Volunteers: 
+                                                                                <button
+                                                                                style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
+                                                                                <i class="bi bi-plus-square-fill">
+                                                                                </i></button>
+                                                                            </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -584,6 +912,87 @@
                                                                             }
                                                                             ?>
 
+                                                                            </div>
+
+                                                                            <!-- Modal Add Volunteer -->
+                                                                            <div class="modal modal-md fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Volunteer</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <table class="table" id="">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col"></th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Email</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <?php 
+                                                                                                        $idss = $row['ticket_volunteers_id'];
+                                                                                                        $idsArrays = explode(',', $idss);
+
+                                                                                                        $idsStrings = "'" . implode("', '", $idsArrays) . "'";
+
+                                                                                                        $query_volunteers = "SELECT * FROM accounts WHERE id IN ($idsStrings)";
+                                                                                                        $result_volunteers = mysqli_query($conn, $query_volunteers);
+
+                                                                                                        $volunteerNames = [];
+                                                                                                        while ($row_volunteers = mysqli_fetch_array($result_volunteers)) {
+                                                                                                            $volunteerNames[] = $row_volunteers['name'];
+                                                                                                        }
+
+                                                                                                        $volunteerNamesString = "'" . implode("', '", $volunteerNames) . "'";
+                                                                                                        $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer' AND name NOT IN ($volunteerNamesString)";
+
+                                                                                                        $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                        while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                    ?>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                        <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                        <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                    </tr>
+
+                                                                                                    <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header bg-dark text-white">
+                                                                                                                    <h6 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h6>
+                                                                                                                
+                                                                                                                </div>
+                                                                                                                <div class="modal-body">
+                                                                                                                    <h3>Volunteer Details:</h3>
+                                                                                                                    <ul>
+                                                                                                                        <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                        <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                        <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                        <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                    </ul>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                    
+                                                                                                    <?php 
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="vl_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addVolunteers_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -789,7 +1198,42 @@
                                                                                 }
                                                                                 
                                                                                 ?>
-                                                                  
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Priority -->
+                                                                                <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Priority Level</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body text-center">
+                                                                                                    <label for="">Select Priority Level:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" class="btn btn-dark w-100" name="update_priority_team">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
                                                                         </div>
@@ -820,6 +1264,13 @@
                                                                                         </div>
                                                                                     <?php
                                                                                     }
+                                                                                    elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                        ?>
+                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                <strong>Completed</strong>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                    }
                                                                                     else{
                                                                                     ?>
                                                                                         <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -829,11 +1280,87 @@
                                                                                     }
                                                                                 ?>
                                                                                 
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Status -->
+                                                                                <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Status</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for="">Select Status:</label>
+                                                                                                    <select class="form-select" name="stat" id="" required>
+                                                                                                        <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                        <option value="Your-ticket">Your-Ticket</option>
+                                                                                                        <option value="To-Do">To-Do</option>
+                                                                                                        <option value="In-Review">In-Review</option>
+                                                                                                        <option value="Revision">Revision</option>
+                                                                                                        <option value="Completed">Completed</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="update_status_team" class="btn btn-dark w-100">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
 
+                                                                            <button
+                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                            <i class="bi bi-plus-square-fill">
+                                                                            </i></button> <label for="">Additional Instructions</label>
+
+                                                                            <!-- Modal Additional Instructions -->
+                                                                            <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Additional Instructions</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                    <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary w-100"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addInstructions_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!--Add Instruction Input-->
+                                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                            <script>
+                                                                                $(document).ready(function(){
+                                                                                    var count = 1;
+                                                                                    $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                        var input = $("<input>")
+                                                                                            .addClass("form-control mt-3")
+                                                                                            .attr("type", "text")
+                                                                                            .attr("name", "instruction_" + count)
+                                                                                            .prop("required", true)
+                                                                                            .attr("placeholder", "Instruction " + count);
+                                                                                        $(".instructions").append(input);
+                                                                                        count++;
+                                                                                    });
+
+                                                                                });
+                                                                            </script>
+                                                                        
                                                                         <div style="max-height: 200px; overflow-y: auto;">
-                                                                        <h6><b>Additional Instructions:</b></h6>
                                                                         <?php 
                                                                             $ticket_id = $row['id'];
                                                                             $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
@@ -859,7 +1386,12 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h6>Ticket Volunteers: </h6>
+                                                                            <h6>Ticket Volunteers: 
+                                                                                <button
+                                                                                style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
+                                                                                <i class="bi bi-plus-square-fill">
+                                                                                </i></button>
+                                                                            </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -882,6 +1414,87 @@
                                                                             }
                                                                             ?>
 
+                                                                            </div>
+
+                                                                            <!-- Modal Add Volunteer -->
+                                                                            <div class="modal modal-md fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Volunteer</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <table class="table" id="">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col"></th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Email</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <?php 
+                                                                                                        $idss = $row['ticket_volunteers_id'];
+                                                                                                        $idsArrays = explode(',', $idss);
+
+                                                                                                        $idsStrings = "'" . implode("', '", $idsArrays) . "'";
+
+                                                                                                        $query_volunteers = "SELECT * FROM accounts WHERE id IN ($idsStrings)";
+                                                                                                        $result_volunteers = mysqli_query($conn, $query_volunteers);
+
+                                                                                                        $volunteerNames = [];
+                                                                                                        while ($row_volunteers = mysqli_fetch_array($result_volunteers)) {
+                                                                                                            $volunteerNames[] = $row_volunteers['name'];
+                                                                                                        }
+
+                                                                                                        $volunteerNamesString = "'" . implode("', '", $volunteerNames) . "'";
+                                                                                                        $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer' AND name NOT IN ($volunteerNamesString)";
+
+                                                                                                        $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                        while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                    ?>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                        <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                        <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                    </tr>
+
+                                                                                                    <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header bg-dark text-white">
+                                                                                                                    <h6 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h6>
+                                                                                                                
+                                                                                                                </div>
+                                                                                                                <div class="modal-body">
+                                                                                                                    <h3>Volunteer Details:</h3>
+                                                                                                                    <ul>
+                                                                                                                        <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                        <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                        <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                        <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                    </ul>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                    
+                                                                                                    <?php 
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="vl_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addVolunteers_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1087,7 +1700,42 @@
                                                                                 }
                                                                                 
                                                                                 ?>
-                                                                  
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#priority<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Priority -->
+                                                                                <div class="modal fade" id="priority<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Priority Level</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body text-center">
+                                                                                                    <label for="">Select Priority Level:</label>
+                                                                                                    <br>
+                                                                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Urgent" id="updtUrgent<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-danger" for="updtUrgent<?php echo $row['id'] ?>">Urgent</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="High" id="updtHigh<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-warning" for="updtHigh<?php echo $row['id'] ?>">High</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Mid" id="updtMid<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-primary" for="updtMid<?php echo $row['id'] ?>">Mid</label>
+
+                                                                                                        <input type="radio" class="btn-check" name="updtBtn" value="Low" id="updtLow<?php echo $row['id'] ?>" autocomplete="off" required>
+                                                                                                        <label class="btn btn-outline-secondary" for="updtLow<?php echo $row['id'] ?>">Low</label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="priority_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" class="btn btn-dark w-100" name="update_priority_team">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
                                                                         </div>
@@ -1118,6 +1766,13 @@
                                                                                         </div>
                                                                                     <?php
                                                                                     }
+                                                                                    elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                        ?>
+                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                <strong>Completed</strong>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                    }
                                                                                     else{
                                                                                     ?>
                                                                                         <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -1127,11 +1782,87 @@
                                                                                     }
                                                                                 ?>
                                                                                 
+                                                                                <button class="btn btn-sm btn-dark text-white" title="Update" style="font-size:8px" data-bs-toggle="modal" data-bs-target="#status<?php echo $row['id'] ?>">
+                                                                                <i class="fa-solid fa-pencil"></i></button>
+
+                                                                                <!-- Modal Status -->
+                                                                                <div class="modal fade" id="status<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-dark text-white">
+                                                                                                <h6 class="modal-title" id="">Update Status</h6>
+                                                                                            </div>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <div class="modal-body">
+                                                                                                    <label for="">Select Status:</label>
+                                                                                                    <select class="form-select" name="stat" id="" required>
+                                                                                                        <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
+                                                                                                        <option value="Your-ticket">Your-Ticket</option>
+                                                                                                        <option value="To-Do">To-Do</option>
+                                                                                                        <option value="In-Review">In-Review</option>
+                                                                                                        <option value="Revision">Revision</option>
+                                                                                                        <option value="Completed">Completed</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <input type="hidden" name="status_id" value="<?php echo $row['id'] ?>">
+                                                                                                    <button type="submit" name="update_status_team" class="btn btn-dark w-100">Update</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
 
+                                                                            <button
+                                                                            style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#instructions<?php echo $row['id'] ?>">
+                                                                            <i class="bi bi-plus-square-fill">
+                                                                            </i></button> <label for="">Additional Instructions</label>
+
+                                                                            <!-- Modal Additional Instructions -->
+                                                                            <div class="modal fade" id="instructions<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Additional Instructions</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <div class="instructions" style="max-height: 200px; overflow-y: auto;">
+                                                                                                    <button id="addBtn<?php echo $row['id'] ?>" type="button" class="btn btn-sm btn-secondary w-100"><i class="bi bi-plus-square-fill"></i> Add Instructions</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="instructions_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addInstructions_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!--Add Instruction Input-->
+                                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                            <script>
+                                                                                $(document).ready(function(){
+                                                                                    var count = 1;
+                                                                                    $("#addBtn<?php echo $row['id'] ?>").click(function(){
+                                                                                        var input = $("<input>")
+                                                                                            .addClass("form-control mt-3")
+                                                                                            .attr("type", "text")
+                                                                                            .attr("name", "instruction_" + count)
+                                                                                            .prop("required", true)
+                                                                                            .attr("placeholder", "Instruction " + count);
+                                                                                        $(".instructions").append(input);
+                                                                                        count++;
+                                                                                    });
+
+                                                                                });
+                                                                            </script>
+                                                                        
                                                                         <div style="max-height: 200px; overflow-y: auto;">
-                                                                        <h6><b>Additional Instructions:</b></h6>
                                                                         <?php 
                                                                             $ticket_id = $row['id'];
                                                                             $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
@@ -1157,7 +1888,12 @@
                                                                         
                                                                         <hr>
                                                                         <div>
-                                                                            <h6>Ticket Volunteers: </h6>
+                                                                            <h6>Ticket Volunteers: 
+                                                                                <button
+                                                                                style="border: none; background-color: transparent; padding: 0;" title="Add" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $row['id'] ?>">
+                                                                                <i class="bi bi-plus-square-fill">
+                                                                                </i></button>
+                                                                            </h6>
 
                                                                             <div class="col">
                                                                             <?php 
@@ -1180,6 +1916,87 @@
                                                                             }
                                                                             ?>
 
+                                                                            </div>
+
+                                                                            <!-- Modal Add Volunteer -->
+                                                                            <div class="modal modal-md fade" id="addVolunteer<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="instructions" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header bg-dark text-white">
+                                                                                            <h6 class="modal-title" id="">Add Volunteer</h6>
+                                                                                        </div>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <div class="modal-body">
+                                                                                                <table class="table" id="">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col"></th>
+                                                                                                            <th scope="col">Volunteers Name</th>
+                                                                                                            <th scope="col">Email</th>
+                                                                                                            <th scope="col">View</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <?php 
+                                                                                                        $idss = $row['ticket_volunteers_id'];
+                                                                                                        $idsArrays = explode(',', $idss);
+
+                                                                                                        $idsStrings = "'" . implode("', '", $idsArrays) . "'";
+
+                                                                                                        $query_volunteers = "SELECT * FROM accounts WHERE id IN ($idsStrings)";
+                                                                                                        $result_volunteers = mysqli_query($conn, $query_volunteers);
+
+                                                                                                        $volunteerNames = [];
+                                                                                                        while ($row_volunteers = mysqli_fetch_array($result_volunteers)) {
+                                                                                                            $volunteerNames[] = $row_volunteers['name'];
+                                                                                                        }
+
+                                                                                                        $volunteerNamesString = "'" . implode("', '", $volunteerNames) . "'";
+                                                                                                        $queryVolunteer = "SELECT * FROM accounts WHERE type = 'volunteer' AND name NOT IN ($volunteerNamesString)";
+
+                                                                                                        $resultVolunteer = mysqli_query($conn, $queryVolunteer);
+                                                                                                        while ($addVolunteer = mysqli_fetch_array($resultVolunteer)) {
+                                                                                                    ?>
+                                                                                                    <tr>
+                                                                                                        <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $addVolunteer['id'] ?>"></td>
+                                                                                                        <td><?php echo $addVolunteer['name'] ?></td>
+                                                                                                        <td><?php echo $addVolunteer['email'] ?></td>
+                                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                                    </tr>
+
+                                                                                                    <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
+                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                            <div class="modal-content">
+                                                                                                                <div class="modal-header bg-dark text-white">
+                                                                                                                    <h6 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h6>
+                                                                                                                
+                                                                                                                </div>
+                                                                                                                <div class="modal-body">
+                                                                                                                    <h3>Volunteer Details:</h3>
+                                                                                                                    <ul>
+                                                                                                                        <li>Name: <?php echo $addVolunteer['name'] ?></li>
+                                                                                                                        <li>Username: <?php echo $addVolunteer['username'] ?></li>
+                                                                                                                        <li>Email: <?php echo $addVolunteer['email'] ?></li>
+                                                                                                                        <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                    </ul>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                    
+                                                                                                    <?php 
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="vl_id" value="<?php echo $row['id'] ?>">
+                                                                                                <button type="submit" name="addVolunteers_team" class="btn btn-dark w-100">Add</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
