@@ -87,95 +87,37 @@
                         <!-- Calendar -->
                         <div class="tab-pane fade show active" id="calendar_box" role="tabpanel"
                             aria-labelledby="calendar-tab">
+                            <h5 class="mt-3">Recommendation -> <span class="text-success">Sample</span> </h5>
+                            <div class="card mb-4 ">
+                                <div class="bg-dark text-white card-header text-center">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    Calendar
+                                </div>
+                                <div class="card-body p-5">
+                                    <?php
+                                    // Fetch events from database
+                                    $sql = "SELECT id, title, startdate, enddate, allday FROM events";
+                                    $result = $conn->query($sql);
 
-                            <div class="row mt-3">
-                                <div class="col-md-9">
-                                    <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
-                                    <div class="card mb-4 ">
-                                        <div class="bg-dark text-white card-header text-center">
-                                            <i class="fa-solid fa-calendar-days"></i>
-                                            Calendar
-                                        </div>
-                                        <div class="card-body p-4">
-                                            <?php
-                                            // Fetch events from database
-                                            $sql = "SELECT id, title, startdate, enddate, allday FROM events";
-                                            $result = $conn->query($sql);
+                                    $events = array();
 
-                                            $events = array();
-
-                                            if ($result->num_rows > 0) {
-                                                while ($row = $result->fetch_assoc()) {
-                                                    $event = array(
-                                                        'id' => $row['id'],
-                                                        'title' => $row['title'],
-                                                        'start' => $row['startdate'],
-                                                        'end' => $row['enddate'],
-                                                        'allDay' => $row['allday']
-                                                    );
-                                                    array_push($events, $event);
-                                                }
-                                            }
-                                            ?>
-                                            <div id="calendar"
-                                                class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
-                                            </div>
-                                        </div>
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $event = array(
+                                                'id' => $row['id'],
+                                                'title' => $row['title'],
+                                                'start' => $row['startdate'],
+                                                'end' => $row['enddate'],
+                                                'allDay' => $row['allday']
+                                            );
+                                            array_push($events, $event);
+                                        }
+                                    }
+                                    ?>
+                                    <div id="calendar"
+                                        class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="card mb-4">
-                                        <div class="bg-success text-white card-header text-center">
-                                            <i class="fa-solid fa-address-book"></i>
-                                            Plan List
-                                        </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
-
-                                        <div class="p-3">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 1</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-dark text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 2</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-warning text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 3</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-danger text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 4</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 
@@ -239,88 +181,34 @@
                        
                         <!-- Time Log -->
                         <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
-                            <div class="row mt-3">
-                                <div class="col-md-8">
-                                    <div class="card mb-4 p-3">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Volunteer</th>
-                                                    <th scope="col">Time</th>
-                                                    <th scope="col">Ticket Name</th>
-                                                    <th scope="col">Information Report</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php 
-                                        $query = "SELECT * FROM timelogs";
-                                        $result = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                                <tr>
-                                                    <th><?php echo $row['volunteer'] ?></th>
-                                                    <td><?php echo $row['time'] ?></td>
-                                                    <td><?php echo $row['ticket_name'] ?></td>
-                                                    <td><?php echo $row['information_report'] ?></td>
-                                                </tr>
-                                                <?php
-                                        }
-                                                 ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="bg-success text-white card-header text-center">
-                                            <i class="fa-solid fa-address-book"></i>
-                                            Plan List
-                                        </div>
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search Plan"
-                                            aria-label="Search">
 
-                                        <div class="p-3">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 1</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-dark text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 2</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-warning text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 3</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="card bg-danger text-white mb-4">
-                                                <div class="card-body">
-
-                                                    <h5>Plan Sample 4</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="card mb-4 p-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Volunteer</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Ticket Name</th>
+                                            <th scope="col">Information Report</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php 
+                                $query = "SELECT * FROM timelogs";
+                                $result = mysqli_query($conn, $query);
+                                while ($row = mysqli_fetch_array($result)) {
+                            ?>
+                                        <tr>
+                                            <th><?php echo $row['volunteer'] ?></th>
+                                            <td><?php echo $row['time'] ?></td>
+                                            <td><?php echo $row['ticket_name'] ?></td>
+                                            <td><?php echo $row['information_report'] ?></td>
+                                        </tr>
+                                        <?php
+                                }
+                                            ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
