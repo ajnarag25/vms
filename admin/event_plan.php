@@ -488,7 +488,14 @@
                                                 <td><?php echo $duration; ?></td>
                                                 <!-- <td><?php echo $row['sponsors'] ?></td> -->
                                                 <td>
-                                                    <button class="btn btn-sm btn-warning text-white" title="Add Duration" data-bs-toggle="modal" data-bs-target="#addDuration<?php echo $row['id'] ?>"><i class="fa-solid fa-clock"></i></button>
+
+                                                <div class="row">
+                                                    <div class="col d-flex gap-2">
+                                                        <button class="btn btn-sm btn-warning text-white" title="Add Duration" data-bs-toggle="modal" data-bs-target="#addDuration<?php echo $row['id'] ?>"><i class="fa-solid fa-clock"></i></button>
+                                                        <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketPart<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
+                                                        <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
+                                                    </div>
+                                                </div>
 
                                                     <!-- Modal Add Duration-->
                                                     <div class="modal fade" id="addDuration<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addDuration" aria-hidden="true">
@@ -521,8 +528,6 @@
                                                         </div>
                                                     </div>
                                                     
-                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketPart<?php echo $row['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
-
                                                     <!--Modal Add Ticket Part-->
                                                     <div class="modal modal-xl fade" id="addTicketPart<?php echo $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -649,8 +654,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deletePart<?php echo $row['id'] ?>"><i class="fa-solid fa-trash"></i></button>
-
                                                     <!-- Modal Delete Part-->
                                                     <div class="modal fade" id="deletePart<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addPart" aria-hidden="true">
                                                         <div class="modal-dialog">
@@ -728,7 +731,24 @@
                                                                 <td><?php echo $sponsors['company'] ?></td>
                                                                 <td><?php echo $sponsors['status'] ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
+                                                                    
+                                                                    <div class="row">
+                                                                        <div class="col d-flex gap-2">
+                                                                            <button class="btn btn-sm btn-success" title="Add Ticket" data-bs-toggle="modal" data-bs-target="#addTicketSponsor<?php echo $sponsors['id'] ?>"><i class="fa-solid fa-ticket"></i></button>
+
+                                                                            <form action="./include/process.php" method="POST">
+                                                                                <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
+                                                                                <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
+                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
+                                                                                <button type="submit" name="delSponsor" title="Delete" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
 
                                                                     <!--Modal Add Ticket Sponsor-->
                                                                     <div class="modal modal-xl fade" id="addTicketSponsor<?php echo $sponsors['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="addTicket" aria-hidden="true">
@@ -855,17 +875,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <form action="./include/process.php" method="POST">
-                                                                        <input type="hidden" name='sponsor_id' value="<?php echo $sponsors['id'] ?>">
-                                                                        <input type="hidden" name='sponsor' value="<?php echo $sponsors['name'] ?>">
-                                                                        <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
-                                                                        <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
-                                                                        <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
-                                                                        <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
-                                                                        <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
-                                                                        <input type="hidden" name='main_desc' value="<?php echo $desc; ?>">
-                                                                        <button type="submit" name="delSponsor" title="Delete" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
-                                                                    </form>
+                                                          
                                                                 </td>
                                                             </tr>
                                                             <?php
@@ -882,6 +892,7 @@
                         <div class="tab-pane fade" id="ticket" role="tabpanel" aria-labelledby="ticket-tab">
                             <div class="row mt-3">
                                 <div class="col-md-9">
+                                    
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTicket">Add Ticket <i class="fa-solid fa-plus"></i></button>
 
                                     <!--Add Ticket Event-->

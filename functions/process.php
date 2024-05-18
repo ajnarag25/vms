@@ -72,7 +72,17 @@ if (isset($_POST['login'])) {
                                 VALUES ('$volunteer_id ', '$login_time' , '$username')";
             $conn->query($getlogin) or die($conn->error);
             header('location:../volunteer/index.php');
-        } elseif (password_verify($pass, $getData['password']) and $getData['status'] == 'Verified' and $getData['type'] == 'admin') {
+        } elseif (password_verify($pass, $getData['password']) and $getData['status'] == 'On Process' and $getData['type'] == 'volunteer') {
+            $_SESSION['status'] = 'Please wait for the verification of your account.';
+            $_SESSION['status_icon'] = 'info';
+            header('location:../index.php');
+        } 
+        elseif (password_verify($pass, $getData['password']) and $getData['status'] == 'Declined' and $getData['type'] == 'volunteer') {
+            $_SESSION['status'] = 'Your account has been declined.';
+            $_SESSION['status_icon'] = 'error';
+            header('location:../index.php');
+        } 
+         elseif (password_verify($pass, $getData['password']) and $getData['status'] == 'Verified' and $getData['type'] == 'admin') {
             $_SESSION['admin'] = $getData;
             unset($_SESSION['status']);
             header('location:../admin/index.php');
@@ -102,8 +112,8 @@ if (isset($_POST['verify'])) {
     $check = mysqli_num_rows($result);
 
     if ($check != 0 and $id != '') {
-        $conn->query("UPDATE accounts SET status = 'Verified' WHERE id = $id") or die($conn->error);
-        $_SESSION['status'] = 'Successfully Verified your Account';
+        $conn->query("UPDATE accounts SET status = 'On Process' WHERE id = $id") or die($conn->error);
+        $_SESSION['status'] = 'Successfully Activated your Account and please wait for the verification of your account.';
         $_SESSION['status_icon'] = 'success';
         header('location:../index.php');
     } else {

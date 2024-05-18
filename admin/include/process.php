@@ -700,6 +700,43 @@
         }
     }
 
+    // CHANGE ACCOUNT STATUS
+    if (isset($_POST['accStat'])) {
+        $id = $_POST['acc_id'];
+        $stat = $_POST['acc_stats'];
+
+        $result = $conn->query("SELECT status FROM accounts WHERE id = $id");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $currentStat = $row['status'];
+
+            if ($currentStat == $stat) {
+                $_SESSION['status'] = 'No changes made. Account status is already set to ' . $stat;
+                $_SESSION['status_icon'] = 'info';
+                header('Location: ../accounts.php');
+                exit();
+            } else {
+                if (!empty($id)) {
+                    $conn->query("UPDATE accounts SET status = '$stat' WHERE id = $id") or die($conn->error);
+                    $_SESSION['status'] = 'Successfully changed account status to ' . $stat;
+                    $_SESSION['status_icon'] = 'success';
+                    header('Location: ../accounts.php');
+                    exit();
+                } else {
+                    $_SESSION['status'] = 'An Error Occurred!';
+                    $_SESSION['status_icon'] = 'error';
+                    header('Location: ../accounts.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['status'] = 'An Error Occurred while fetching account details!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../accounts.php');
+            exit();
+        }
+    }
+
     // REMOVE ACCOUNT
     if (isset($_POST['removeAcc'])) {
         $id = $_POST['id'];
