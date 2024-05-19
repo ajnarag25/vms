@@ -231,7 +231,7 @@
                                                                         </div>
 
                                                                         <div style="max-height: 200px; overflow-y: auto;">
-                                                                        <h6><b>Additional Instructions:</b></h6>
+                                                                        <!-- <h6><b>Additional Instructions:</b></h6>
                                                                         <?php 
                                                                             $ticket_id = $row['id'];
                                                                             $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
@@ -251,7 +251,7 @@
                                                                                 }
                                                                                 echo '</ul>';
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
 
                                                                         </div>
                                                                         
@@ -295,7 +295,7 @@
                                                                             <?php 
                                                                                 if($row['ticket_type'] == 'Ask Ticket'){
                                                                                     ?>
-                                                                                    <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>" disabled>Add Target (Time)</button>
+                                                                                    <button class="btn btn-secondary w-50" data-bs-toggle="modal" data-bs-target="#target<?php echo $row['id'] ?>" hidden>Add Target (Time)</button>
                                                                                     <?php
                                                                                 }else{
                                                                                     ?>
@@ -331,7 +331,7 @@
                                                                             <?php 
                                                                                 if($row['ticket_type'] == 'Ask Ticket'){
                                                                                     ?>
-                                                                                    <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>" disabled>Ask</button>
+                                                                                    <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $row['id'] ?>" hidden>Ask</button>
                                                                                     <?php
                                                                                 }else{
                                                                                     ?>
@@ -357,6 +357,7 @@
                                                                                             </div>
                                                                                             <div class="modal-footer">
                                                                                                 <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                <input type="hidden" name="ask_event_id" value="<?php echo $row['event_id'] ?>">
                                                                                                 <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
                                                                                             </div>
                                                                                         </form>
@@ -367,7 +368,7 @@
                                                                             <?php 
                                                                                 if($row['ticket_type'] == 'Ask Ticket'){
                                                                                     ?>
-                                                                                    <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>" disabled>Upload</button>
+                                                                                    <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#upload<?php echo $row['id'] ?>" hidden>Upload</button>
                                                                                     <?php
                                                                                 }else{
                                                                                     ?>
@@ -404,7 +405,7 @@
                                                                             <?php 
                                                                                 if($row['ticket_type'] == 'Ask Ticket'){
                                                                                     ?>
-                                                                                    <button class="btn btn-success w-50 mt-2" data-bs-toggle="modal" data-bs-target="#submit1<?php echo $row['id'] ?>" disabled>Submit</button>
+                                                                                    <button class="btn btn-success w-50 mt-2" data-bs-toggle="modal" data-bs-target="#submit1<?php echo $row['id'] ?>" hidden>Submit</button>
                                                                                     <?php
                                                                                 }else{
                                                                                     ?>
@@ -785,6 +786,7 @@
                                                                                             </div>
                                                                                             <div class="modal-footer">
                                                                                                 <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                <input type="hidden" name="ask_event_id" value="<?php echo $row['event_id'] ?>">
                                                                                                 <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
                                                                                             </div>
                                                                                         </form>
@@ -841,6 +843,22 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                         
+                                                                            <?php 
+                                                                                $file_path = $row['file_uploaded'];
+                                                                                
+                                                                                if($file_path == ''){
+                                                                                    $display_file_path = 'team_dashboard.php';
+                                                                                }else{
+                                                                                    // Remove any leading '../' from the file path
+                                                                                    $file_path = preg_replace('#^(\.\./)+#', '', $file_path);
+                                                                                                                                    
+                                                                                    $display_file_path = "../volunteer/" . $file_path;
+                                                                                }
+
+                                                                            ?>
+                                                                            <a href="<?php echo $display_file_path ?>" class="btn btn-secondary mt-2" target="_blank">View Submitted File</a>
+                                                                      
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1191,6 +1209,7 @@
                                                                                                 </div>
                                                                                                 <div class="modal-footer">
                                                                                                     <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                    <input type="hidden" name="ask_event_id" value="<?php echo $row['event_id'] ?>">
                                                                                                     <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
                                                                                                 </div>
                                                                                             </form>
@@ -1223,6 +1242,21 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                
+                                                                                <?php 
+                                                                                    $file_path = $row['file_uploaded'];
+                                                                                    
+                                                                                    if($file_path == ''){
+                                                                                        $display_file_path = 'team_dashboard.php';
+                                                                                    }else{
+                                                                                        // Remove any leading '../' from the file path
+                                                                                        $file_path = preg_replace('#^(\.\./)+#', '', $file_path);
+                                                                                                                                        
+                                                                                        $display_file_path = "../volunteer/" . $file_path;
+                                                                                    }
+
+                                                                                ?>
+                                                                                <a href="<?php echo $display_file_path ?>" class="btn btn-secondary mt-2" target="_blank">View Submitted File</a>
 
                                                                             </div>
                                                                         </div>
@@ -1576,6 +1610,7 @@
                                                                                                 </div>
                                                                                                 <div class="modal-footer">
                                                                                                     <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                    <input type="hidden" name="ask_event_id" value="<?php echo $row['event_id'] ?>">
                                                                                                     <button type="submit" name="ask_submit" class="btn btn-primary w-100">Submit</button>
                                                                                                 </div>
                                                                                             </form>
@@ -1632,6 +1667,20 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                <?php 
+                                                                                    $file_path = $row['file_uploaded'];
+                                                                                    
+                                                                                    if($file_path == ''){
+                                                                                        $display_file_path = 'team_dashboard.php';
+                                                                                    }else{
+                                                                                        // Remove any leading '../' from the file path
+                                                                                        $file_path = preg_replace('#^(\.\./)+#', '', $file_path);
+                                                                                                                                        
+                                                                                        $display_file_path = "../volunteer/" . $file_path;
+                                                                                    }
+
+                                                                                ?>
+                                                                                <a href="<?php echo $display_file_path ?>" class="btn btn-secondary mt-2" target="_blank">View Submitted File</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1946,6 +1995,23 @@
                                                                             <hr>
                                                                             <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                             <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
+                                                                            <div class="text-center mt-3">
+                                                                            <?php 
+                                                                                    $file_path = $row['file_uploaded'];
+                                                                                    
+                                                                                    if($file_path == ''){
+                                                                                        $display_file_path = 'team_dashboard.php';
+                                                                                    }else{
+                                                                                        // Remove any leading '../' from the file path
+                                                                                        $file_path = preg_replace('#^(\.\./)+#', '', $file_path);
+                                                                                                                                        
+                                                                                        $display_file_path = "../volunteer/" . $file_path;
+                                                                                    }
+
+                                                                                ?>
+                                                                                <a href="<?php echo $display_file_path ?>" class="btn btn-secondary mt-2" target="_blank">View Submitted File</a>
+                                                                            </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>

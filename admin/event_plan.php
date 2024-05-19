@@ -1251,6 +1251,13 @@
                                                                                                     </div>
                                                                                                 <?php
                                                                                                 }
+                                                                                                elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>Completed</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                }
                                                                                                 else{
                                                                                                 ?>
                                                                                                     <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -1624,13 +1631,243 @@
                                         </div>  
                                         
                                         <div class="p-3">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
+                                            <div class="card mb-4" style="max-height: 500px; overflow-y: auto;">
+                                                <?php 
+                                                    $queryAsk = "SELECT * FROM tickets WHERE ticket_type = 'Ask Ticket' AND event_id = '$id'";
+                                                    
+                                                    $resultAsk = mysqli_query($conn, $queryAsk);
+                                                    while ($rowAsk = mysqli_fetch_array($resultAsk)) {
+                                                        ?>
+                                                        <div class="p-2">
+                                                            <div class="card bg-secondary text-white mb-4">
+                                                                <div class="card-body">
+                                                                    <h6><?php echo $rowAsk['ticket_title'] ?></h6>
+                                                                </div>
+                                                                <div class="card-footer text-center">
+                                                                    <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket5<?php echo $rowAsk['id'] ?>">View</a></h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                    <h5>Plan Requests</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
+                                                        <!--Ticket Details-->
+                                                        <div class="modal modal-xl fade" id="detTicket5<?php echo $rowAsk['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-success text-white">
+                                                                        <h6 class="modal-title">Ticket Details</h6>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                        </button>
+                                                                    </div>  
+                                                                    <div class="card-body">
+                                                                        <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main<?php echo $rowAsk['id'] ?>" type="button" role="tab" aria-controls="main" aria-selected="true">Main</button>
+                                                                            </li>
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments<?php echo $rowAsk['id'] ?>" type="button" role="tab" aria-controls="comments" aria-selected="false">Comments</button>
+                                                                            </li>
+                                                                        
+                                                                        </ul>
+                                                                
+                                                                        <div class="tab-content" id="myTabContent">
+                                                                            <div class="tab-pane fade show active p-3" id="main<?php echo $rowAsk['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <div class="row">
+                                                                                            <div class="col">
+                                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                                <h6 class="mt-3"><b><?php echo $rowAsk['ticket_title'] ?></b> </h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                                <h6 class="mt-3"><b><?php echo $rowAsk['ticket_admin'] ?></b></h6>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                                        <h6 class="mt-3"><b><?php echo $rowAsk['ticket_desc'] ?></b></h6>
+                                                                                        <br>
+                                                                                        <hr>
+                                                                                        <div class="row align-items-center">
+                                                                                            <div class="col-auto">
+                                                                                                <h6>Priority Level:</h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <?php 
+                                                                                                if($rowAsk['ticket_priority'] == 'Low'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Low</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'Mid'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-primary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Mid</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'High'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-warning d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>High</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'Urgent'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-danger d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Urgent</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }else{
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>N/A</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                
+                                                                                                ?>
+                                                                                
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row align-items-center">
+                                                                                            <div class="col-auto">
+                                                                                                <h6>Status:</h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <?php 
+                                                                                                    if($rowAsk['ticket_status'] == 'Your-ticket'){
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>Your-ticket</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'To-Do'){
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>To-Do</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'In-Review'){ 
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>In-Review</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'Revision'){ 
+                                                                                                        ?>
+                                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                <strong>Revision</strong>
+                                                                                                            </div>
+                                                                                                        <?php
+                                                                                                    }
+                                                                                                    else{
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-secondary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>N/A</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                ?>
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                        <div>
+                                                                                            <h6>Ticket Volunteers: </h6>
+
+                                                                                            <div class="col">
+                                                                                            <?php 
+                                                                                                $ids = $rowAsk['ticket_volunteers_id'];
+                                                                                                $idsArray = explode(',', $ids);
+                                                                                            
+                                                                                                $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                                                
+                                                                                                $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                                                $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                                            
+                                                                                                while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+
+                                                                                            ?>
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                    <strong><?php echo $row_volunteer['name'] ?></strong>
+                                                                                                </button>
+                                                                                            <?php
+                                                                                            }
+                                                                                            ?>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4 mt-3">
+                                                                                        <h6>Ticket Type: <b><?php echo $rowAsk['ticket_type'] ?></b> </h6>
+                                                                                        <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $rowAsk['ticket_deadline'] ?></b> </h6>
+                                                                                     
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="tab-pane fade p-3" id="comments<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                <div class="row mt-12">
+                                                                                    <!-- right side of the modal comment display -->
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="container">
+                                                                                            <div class="chat-container">
+                                                                                                <div class="message received">
+                                                                                                    <div class="alert alert-primary" role="alert">
+                                                                                                        Hello! How can I help you?
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message sent">
+                                                                                                    <div class="alert alert-secondary" role="alert">
+                                                                                                        Hi! I have a question about your services.
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message received">
+                                                                                                    <div class="alert alert-primary" role="alert">
+                                                                                                        Sure, feel free to ask.
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message sent">
+                                                                                                    <div class="alert alert-secondary" role="alert">
+                                                                                                        Hi! I have a question about your services.
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message sent">
+                                                                                                    <div class="alert alert-secondary" role="alert">
+                                                                                                        Hi! I have a question about your services.
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="message sent">
+                                                                                                    <div class="alert alert-secondary" role="alert">
+                                                                                                        Hi! I have a question about your services.
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php
+                                                    }
+                                                ?>
+                                    
                                             </div>
                                         </div>
                                     </div>
