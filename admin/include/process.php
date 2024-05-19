@@ -253,7 +253,7 @@
         if (!empty($ticket_title)) {
 
             $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '', '', '')") or die($conn->error);
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'To-Do', '', '', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -302,7 +302,7 @@
         if (!empty($ticket_title)) {
 
             $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$sponsorBtn', '$volunteer_ids_str', 'Your-ticket', '', '', '', '')") or die($conn->error);
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$sponsorBtn', '$volunteer_ids_str', 'To-Do', '', '', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -351,7 +351,7 @@
         if (!empty($ticket_title)) {
 
             $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
-            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$eventBtn', '$volunteer_ids_str', 'Your-ticket', '', '', '', '')") or die($conn->error);
+            VALUES('$main_id' ,'$main_start', '$main_end', '$ticket_title', '$ticket_desc', '$ticket_type', '$main_title', '$ticket_admin', '$ticket_deadline', '$eventBtn', '$volunteer_ids_str', 'To-Do', '', '', '', '')") or die($conn->error);
 
             $url = 'event_plan.php?id=' . urlencode($main_id) .
             '&event_id=' . urlencode($main_event_id) .
@@ -393,7 +393,7 @@
         if (!empty($ticket_title)) {
 
             $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
-            VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'Your-ticket', '', '', '', '')") or die($conn->error);
+            VALUES(' ' ,' ', ' ', '$ticket_title', '$ticket_desc', '$ticket_type', ' ', '$ticket_admin', '$ticket_deadline', '$partBtn', '$volunteer_ids_str', 'To-Do', '', '', '', '')") or die($conn->error);
 
             $_SESSION['status'] = 'Ticket Successfully Saved';
             $_SESSION['status_icon'] = 'success';
@@ -1412,6 +1412,64 @@
         if (!empty($mark_revision_id)) {
             $conn->query("UPDATE tickets SET ticket_status = 'Revision' WHERE id = '$mark_revision_id'") or die($conn->error);
             $_SESSION['status'] = 'Successfully Mark as For Revision';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../team_dashboard.php');
+            exit();
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../team_dashboard.php');
+            exit();
+        }   
+
+    }
+
+    // ADD COMMENT - EVENT PLAN
+    if (isset($_POST['add_comment'])) {
+        $ticket_id = $_POST['ticket_id'];
+        $comment = $_POST['comment'];
+
+        $main_id = $_POST['main_id'];
+        $main_event_id = $_POST['main_event_id'];
+        $main_title = $_POST['main_title'];
+        $main_start = $_POST['main_start'];
+        $main_end = $_POST['main_end'];
+        $main_allday = $_POST['main_allday'];
+        $main_desc = $_POST['main_desc'];
+
+        $url = 'event_plan.php?id=' . urlencode($main_id) .
+        '&event_id=' . urlencode($part_id) .
+        '&allday=' . urlencode($main_allday) .
+        '&title=' . urlencode($main_title) .
+        '&start=' . urlencode($main_start) .
+        '&end=' . urlencode($main_end) .
+        '&desc=' . urlencode($main_desc);
+
+        if (!empty($ticket_id)) {
+            $conn->query("INSERT INTO comments (ticket_id, comment, account_type) 
+            VALUES('$ticket_id', '$comment', 'Admin')") or die($conn->error);
+            $_SESSION['status'] = 'Your Comment Successfully Sent';
+            $_SESSION['status_icon'] = 'success';
+            header('Location: ../' . $url);
+            exit();
+        } else {
+            $_SESSION['status'] = 'An Error Occurred!';
+            $_SESSION['status_icon'] = 'error';
+            header('Location: ../' . $url);
+            exit();
+        }   
+
+    }
+
+    // ADD COMMENT - TEAM DASHBOARD
+    if (isset($_POST['add_comment_team'])) {
+        $ticket_id = $_POST['ticket_id'];
+        $comment = $_POST['comment'];
+
+        if (!empty($ticket_id)) {
+            $conn->query("INSERT INTO comments (ticket_id, comment, account_type) 
+            VALUES('$ticket_id', '$comment', 'Admin')") or die($conn->error);
+            $_SESSION['status'] = 'Your Comment Successfully Sent';
             $_SESSION['status_icon'] = 'success';
             header('Location: ../team_dashboard.php');
             exit();

@@ -445,38 +445,44 @@
                                                                     <!-- right side of the modal comment display -->
                                                                     <div class="col-md-12">
                                                                         <div class="container">
-                                                                            <div class="chat-container">
-                                                                                <div class="message received">
-                                                                                    <div class="alert alert-primary" role="alert">
-                                                                                        Hello! How can I help you?
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message received">
-                                                                                    <div class="alert alert-primary" role="alert">
-                                                                                        Sure, feel free to ask.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
+                                                                            <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                <?php 
+                                                                                    $comment_id = $row['id'];
+                                                                                    $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                    $resultComment = mysqli_query($conn, $queryComment);
+                                                                                    while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                ?>
+                                                                                <?php 
+                                                                                    if($rowComment['account_type'] == 'Admin'){
+                                                                                        ?>
+                                                                                        <div class="">
+                                                                                            <div class="alert alert-secondary" role="alert">
+                                                                                                <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    <?php
+                                                                                    }else{
+                                                                                        ?>
+                                                                                        <div class="">
+                                                                                            <div class="alert alert-primary" role="alert">
+                                                                                                <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    <?php
+                                                                                    }
+                                                                                ?>
+                                                                                <?php } ?>
+                                                                            
                                                                             </div>
+                                                                            <hr>
+                                                                            <form action="./include/process.php" method="POST">
+                                                                                <h6>Comment:</h6>
+                                                                                <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                <div class="d-flex">
+                                                                                    <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                    <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -868,38 +874,44 @@
                                                                     <!-- right side of the modal comment display -->
                                                                     <div class="col-md-12">
                                                                         <div class="container">
-                                                                            <div class="chat-container">
-                                                                                <div class="message received">
-                                                                                    <div class="alert alert-primary" role="alert">
-                                                                                        Hello! How can I help you?
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message received">
-                                                                                    <div class="alert alert-primary" role="alert">
-                                                                                        Sure, feel free to ask.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="message sent">
-                                                                                    <div class="alert alert-secondary" role="alert">
-                                                                                        Hi! I have a question about your services.
-                                                                                    </div>
-                                                                                </div>
+                                                                            <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                <?php 
+                                                                                    $comment_id = $row['id'];
+                                                                                    $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                    $resultComment = mysqli_query($conn, $queryComment);
+                                                                                    while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                ?>
+                                                                                <?php 
+                                                                                    if($rowComment['account_type'] == 'Admin'){
+                                                                                        ?>
+                                                                                        <div class="">
+                                                                                            <div class="alert alert-secondary" role="alert">
+                                                                                                <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    <?php
+                                                                                    }else{
+                                                                                        ?>
+                                                                                        <div class="">
+                                                                                            <div class="alert alert-primary" role="alert">
+                                                                                                <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    <?php
+                                                                                    }
+                                                                                ?>
+                                                                                <?php } ?>
+                                                                            
                                                                             </div>
+                                                                            <hr>
+                                                                            <form action="./include/process.php" method="POST">
+                                                                                <h6>Comment:</h6>
+                                                                                <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                <div class="d-flex">
+                                                                                    <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                    <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1267,38 +1279,44 @@
                                                                         <!-- right side of the modal comment display -->
                                                                         <div class="col-md-12">
                                                                             <div class="container">
-                                                                                <div class="chat-container">
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Hello! How can I help you?
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Sure, feel free to ask.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
+                                                                                <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                    <?php 
+                                                                                        $comment_id = $row['id'];
+                                                                                        $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                        $resultComment = mysqli_query($conn, $queryComment);
+                                                                                        while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                    ?>
+                                                                                    <?php 
+                                                                                        if($rowComment['account_type'] == 'Admin'){
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }else{
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-primary" role="alert">
+                                                                                                    <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }
+                                                                                    ?>
+                                                                                    <?php } ?>
+                                                                                
                                                                                 </div>
+                                                                                <hr>
+                                                                                <form action="./include/process.php" method="POST">
+                                                                                    <h6>Comment:</h6>
+                                                                                    <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                    <div class="d-flex">
+                                                                                        <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                        <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1690,38 +1708,44 @@
                                                                         <!-- right side of the modal comment display -->
                                                                         <div class="col-md-12">
                                                                             <div class="container">
-                                                                                <div class="chat-container">
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Hello! How can I help you?
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Sure, feel free to ask.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
+                                                                                <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                    <?php 
+                                                                                        $comment_id = $row['id'];
+                                                                                        $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                        $resultComment = mysqli_query($conn, $queryComment);
+                                                                                        while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                    ?>
+                                                                                    <?php 
+                                                                                        if($rowComment['account_type'] == 'Admin'){
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }else{
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-primary" role="alert">
+                                                                                                    <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }
+                                                                                    ?>
+                                                                                    <?php } ?>
+                                                                                
                                                                                 </div>
+                                                                                <hr>
+                                                                                <form action="./include/process.php" method="POST">
+                                                                                    <h6>Comment:</h6>
+                                                                                    <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                    <div class="d-flex">
+                                                                                        <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                        <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2020,38 +2044,44 @@
                                                                         <!-- right side of the modal comment display -->
                                                                         <div class="col-md-12">
                                                                             <div class="container">
-                                                                                <div class="chat-container">
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Hello! How can I help you?
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message received">
-                                                                                        <div class="alert alert-primary" role="alert">
-                                                                                            Sure, feel free to ask.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="message sent">
-                                                                                        <div class="alert alert-secondary" role="alert">
-                                                                                            Hi! I have a question about your services.
-                                                                                        </div>
-                                                                                    </div>
+                                                                                <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                    <?php 
+                                                                                        $comment_id = $row['id'];
+                                                                                        $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                        $resultComment = mysqli_query($conn, $queryComment);
+                                                                                        while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                    ?>
+                                                                                    <?php 
+                                                                                        if($rowComment['account_type'] == 'Admin'){
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-secondary" role="alert">
+                                                                                                    <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }else{
+                                                                                            ?>
+                                                                                            <div class="">
+                                                                                                <div class="alert alert-primary" role="alert">
+                                                                                                    <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+                                                                                        }
+                                                                                    ?>
+                                                                                    <?php } ?>
+                                                                                
                                                                                 </div>
+                                                                                <hr>
+                                                                                <form action="./include/process.php" method="POST">
+                                                                                    <h6>Comment:</h6>
+                                                                                    <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                    <div class="d-flex">
+                                                                                        <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                        <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>

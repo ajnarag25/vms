@@ -283,3 +283,24 @@ if (isset($_POST['file_submit'])) {
     }   
 
 }
+
+// ADD COMMENT
+if (isset($_POST['add_comment'])) {
+    $ticket_id = $_POST['ticket_id'];
+    $comment = $_POST['comment'];
+
+    if (!empty($ticket_id)) {
+        $conn->query("INSERT INTO comments (ticket_id, comment, account_type) 
+        VALUES('$ticket_id', '$comment', 'Volunteer')") or die($conn->error);
+        $_SESSION['status'] = 'Your Comment Successfully Sent';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }   
+
+}
