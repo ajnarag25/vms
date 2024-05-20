@@ -135,14 +135,6 @@
                                                         <input class="form-control w-50" type="text" name="title" value="<?php echo $title; ?>">
                                                         <h5 class="mt-4"><b>Event Description:</b></h5>
                                                     </div>
-                                                    <div class="col-md-4 text-center">
-                                                        <div class="progress mt-2">
-                                                            <div class="progress-bar bg-success " role="progressbar"
-                                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <label for="">Completed 0%</label>
-                                                    </div>
                                                 </div>
                                                 <textarea class="tinymce form-control" value="<?php echo $desc ?>"  name="desc" rows="10" cols="30"><?php echo $desc ?></textarea>
                                                 <input class="form-control w-50" type="hidden" name="id" value="<?php echo $id; ?>">
@@ -1562,7 +1554,7 @@
                                                                                             <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
                                                                                             <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
                                                                                             <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
-
+                                                                                                
                                                                                             <div class="d-flex">
                                                                                                 <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
                                                                                                 <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
@@ -1584,6 +1576,22 @@
 
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $queryPercent1 = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent1 = mysqli_query($conn, $queryPercent1);
+
+                                                $completedCount1 = 0;
+                                                while ($completed1 = mysqli_fetch_array($resultPercent1)) {
+                                                    if ($completed1['ticket_status'] == 'Completed') {
+                                                        $completedCount1++;
+                                                    }
+                                                }
+                                                $count1 = mysqli_num_rows($resultPercent1);
+
+                                                $result1 = ($count1 > 0) ? ($completedCount1 / $count1) * 100 : 0; // Avoid division by zero
+                                                $formattedResult1 = number_format($result1, 2);
+                                            ?>
+
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -1602,7 +1610,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult1 ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -1623,6 +1631,7 @@
                                             progressBar.animate(0.5); // Example: 50% progress
                                             </script>
 
+
                                             <?php 
                                             }
                                             ?>
@@ -1633,9 +1642,23 @@
                                 <div class="col-md-3">
                                     <div class="text-center">
                                         <label for="">Completion Percent:</label>
-                                        <div class="progress mt-2">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress">
+                                            <?php
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket' ";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $result = ( $completedCount / $count) * 100;
+                                                $formattedResult = number_format($result, 2);
+                                            ?>
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result; ?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><?php echo $formattedResult; ?>%</div>
                                         </div>
                                     </div>
                                     <hr>
