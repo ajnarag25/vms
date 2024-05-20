@@ -594,22 +594,7 @@
                                         </div>
 
                                         <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
-                                        <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
-                                        <?php
-                                            $queryPercent = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket'";
-                                            $resultPercent = mysqli_query($conn, $queryPercent1);
-
-                                            $completedCount1 = 0;
-                                            while ($completed1 = mysqli_fetch_array($resultPercent1)) {
-                                                if ($completed1['ticket_status'] == 'Completed') {
-                                                    $completedCount1++;
-                                                }
-                                            }
-                                            $count1 = mysqli_num_rows($resultPercent1);
-
-                                            $result1 = ($count1 > 0) ? ($completedCount1 / $count1) * 100 : 0; // Avoid division by zero
-                                            $formattedResult1 = number_format($result1, 2);
-                                        ?>
+                              
                                         <script>
                                         var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                             strokeWidth: 6,
@@ -628,7 +613,7 @@
                                                 top: '50%'
                                             },
                                             text: {
-                                                value: 'Event Progress: <?php echo $formattedResult1 ?>%', // Initial value of the progress text
+                                                value: 'Event Progress: 70%', // Initial value of the progress text
                                                 className: 'progressbar-text', // CSS class for the progress text
                                                 autoStyleContainer: false, // Disable automatic styling of the text container
                                                 style: {
