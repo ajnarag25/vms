@@ -502,12 +502,12 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <div id="progress-bar-container<?php echo $row['id'] ?>"
+                                                                        <!-- <div id="progress-bar-container<?php echo $row['id'] ?>"
                                                                             style="position: relative;">
-                                                                        </div>
+                                                                        </div> -->
                                                                 
-                                                                        <hr>
-                                                                        <h6>Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
+                                                                        <!-- <hr> -->
+                                                                        <h6 class="mt-3">Ticket Type: <b><?php echo $row['ticket_type'] ?></b> </h6>
                                                                         <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $row['ticket_deadline'] ?></b> </h6>
                                                                         <div class="text-center mt-5">
                                                                             <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#markAsViewed<?php echo $row['id'] ?>">Mark as Viewed</button>
@@ -593,46 +593,6 @@
                                             </div>
                                         </div>
 
-                                        <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
-                              
-                                        <script>
-                                        var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
-                                            strokeWidth: 6,
-                                            easing: 'easeInOut',
-                                            duration: 1400,
-                                            color: '#4caf50',
-                                            trailColor: '#f3f3f3',
-                                            trailWidth: 6,
-                                            svgStyle: {
-                                                // Center align the progress percentage text
-                                                transform: 'translateX(-50%) translateY(00%)',
-                                                width: '200px', //size of the circle
-                                                height: '200px', //size of the circle
-                                                position: 'relative',
-                                                left: '50%',
-                                                top: '50%'
-                                            },
-                                            text: {
-                                                value: 'Event Progress: 70%', // Initial value of the progress text
-                                                className: 'progressbar-text', // CSS class for the progress text
-                                                autoStyleContainer: false, // Disable automatic styling of the text container
-                                                style: {
-                                                    position: 'absolute',
-                                                    left: '30%',
-                                                    right: '20%',
-                                                    top: '42%',
-                                                    padding: 0,
-                                                    margin: 0,
-                                                    fontSize: '1.0rem',
-                                                    fontWeight: 'bold',
-                                                    color: '#000'
-                                                }
-                                            }
-                                        });
-
-                                        // Set the initial progress value
-                                        progressBar.animate(0.5); // Example: 50% progress
-                                        </script>
                                         <?php
                                         
                                     }
@@ -1131,6 +1091,22 @@
                                             </div>
                                         </div>
 
+                                        <?php
+                                            $ticket_event_id = $row['event_id'];
+                                            $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                            $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                            $completedCount = 0;
+                                            while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                if ($completed['ticket_status'] == 'Completed') {
+                                                    $completedCount++;
+                                                }
+                                            }
+                                            $count = mysqli_num_rows($resultPercent);
+
+                                            $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                            $formattedResult = number_format($results, 2);
+                                        ?>
                                         <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                         <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
                                         <script>
@@ -1151,7 +1127,7 @@
                                                 top: '50%'
                                             },
                                             text: {
-                                                value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
                                                 className: 'progressbar-text', // CSS class for the progress text
                                                 autoStyleContainer: false, // Disable automatic styling of the text container
                                                 style: {
@@ -1169,7 +1145,7 @@
                                         });
 
                                         // Set the initial progress value
-                                        progressBar.animate(0.5); // Example: 50% progress
+                                        progressBar.animate(<?php echo $formattedResult / 100 ?>);
                                         </script>
                                         <?php
                                         
@@ -1706,9 +1682,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $ticket_event_id = $row['event_id'];
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                                $formattedResult = number_format($results, 2);
+                                            ?>
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -1727,7 +1719,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -1745,7 +1737,7 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult / 100 ?>);
                                             </script>
                                             <?php
                                         }
@@ -2238,6 +2230,22 @@
 
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $ticket_event_id = $row['event_id'];
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                                $formattedResult = number_format($results, 2);
+                                            ?>
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -2256,7 +2264,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -2274,7 +2282,7 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult / 100 ?>);
                                             </script>
                                             <?php 
                                         }
@@ -2781,6 +2789,22 @@
 
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $ticket_event_id = $row['event_id'];
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                                $formattedResult = number_format($results, 2);
+                                            ?>
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -2799,7 +2823,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -2817,7 +2841,7 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult / 100 ?>); 
                                             </script>
                                             <?php
                                         }
@@ -3309,6 +3333,22 @@
 
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $ticket_event_id = $row['event_id'];
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                                $formattedResult = number_format($results, 2);
+                                            ?>
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -3327,7 +3367,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -3345,7 +3385,7 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult / 100 ?>);
                                             </script>
                                             <?php
                                         }

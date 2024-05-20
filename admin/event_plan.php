@@ -1628,7 +1628,7 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult1 / 100 ?>);
                                             </script>
 
 
