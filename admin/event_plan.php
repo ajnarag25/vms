@@ -2920,22 +2920,41 @@
                                         <label for="">Completion Percent:</label>
                                         <div class="progress">
                                             <?php
-                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket' ";
+                                            if(isset($main_id) && !empty($main_id)){
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket'";
                                                 $resultPercent = mysqli_query($conn, $queryPercent);
 
-                                                $completedCount = 0;
-                                                while ($completed = mysqli_fetch_array($resultPercent)) {
-                                                    if ($completed['ticket_status'] == 'Completed') {
-                                                        $completedCount++;
+                                                if ($resultPercent) {
+                                                    $completedCount = 0;
+                                                    while ($completed = mysqli_fetch_assoc($resultPercent)) {
+                                                        if ($completed['ticket_status'] == 'Completed') {
+                                                            $completedCount++;
+                                                        }
                                                     }
-                                                }
-                                                $count = mysqli_num_rows($resultPercent);
+                                                    $count = mysqli_num_rows($resultPercent);
 
-                                                $result = ( $completedCount / $count) * 100;
-                                                $formattedResult = number_format($result, 2);
+                                                    if ($count > 0) {
+                                                        $result = ($completedCount / $count) * 100;
+                                                        $formattedResult = number_format($result, 2);
+                                                    } else {
+                                                        $formattedResult = '0.00';
+                                                        $result = 0;
+                                                    }
+                                                } else {
+                                                    $formattedResult = '0.00';
+                                                    $result = 0;
+                                                }
                                             ?>
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result; ?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><?php echo $formattedResult; ?>%</div>
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result; ?>%" aria-valuenow="<?php echo $result; ?>" aria-valuemin="0" aria-valuemax="100">
+                                                    <?php echo $formattedResult; ?>%
+                                                </div>
+                                            <?php
+                                            } else {
+                                                echo '<div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0.00%</div>';
+                                            }
+                                            ?>
                                         </div>
+
                                     </div>
                                     <hr>
                                     <div class="card mb-4">

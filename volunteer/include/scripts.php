@@ -13,6 +13,7 @@
 <script>
     $('#Announcements').DataTable()
     $('#TicketPanel').DataTable()
+    $('#Timelog').DataTable()
 </script>
 
 <?php
