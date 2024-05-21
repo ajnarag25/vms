@@ -85,8 +85,8 @@
         <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="navbarDropdown">
             <p>No Available Notification</p>
         </ul>
-        <a href="my_account.php" class="btn text-white" title="Profile" href="#!"><i class="fa fa-user"></i></a>
-        <a class="btn text-white" title="Settings" href="#!"><i class="fa fa-cog"></i></a>
+        <a href="personal_page.php" class="btn text-white" title="Personal Page" href="#!"><i class="fa fa-user"></i></a>
+        <a class="btn text-white" title="My Account" href="my_account.php"><i class="fa-regular fa-id-card"></i></a>
         <a href="include/process.php?logout" class="btn text-white" title="Log out"><i class="fa fa-power-off"></i></a>
         <script src="../js/jquery.js"></script>
         <script>

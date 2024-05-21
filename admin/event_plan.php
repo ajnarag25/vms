@@ -135,14 +135,6 @@
                                                         <input class="form-control w-50" type="text" name="title" value="<?php echo $title; ?>">
                                                         <h5 class="mt-4"><b>Event Description:</b></h5>
                                                     </div>
-                                                    <div class="col-md-4 text-center">
-                                                        <div class="progress mt-2">
-                                                            <div class="progress-bar bg-success " role="progressbar"
-                                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <label for="">Completed 0%</label>
-                                                    </div>
                                                 </div>
                                                 <textarea class="tinymce form-control" value="<?php echo $desc ?>"  name="desc" rows="10" cols="30"><?php echo $desc ?></textarea>
                                                 <input class="form-control w-50" type="hidden" name="id" value="<?php echo $id; ?>">
@@ -581,22 +573,341 @@
                                                                                         <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                     </tr>
 
-                                                                                    <div class="modal modal-lg fade" id="volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                    <div class="modal modal-xl fade" id="volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addcategory"
+                                                                                        aria-hidden="true">
+                                                                                        <div class="modal-dialog">
                                                                                             <div class="modal-content">
-                                                                                                    <div class="modal-header bg-dark text-white">
-                                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $vl['name'] ?></h5>
+                                                                                                <div class="modal-header bg-dark">
+                                                                                                    <h6 class=" modal-title text-white">Volunteer Details</h6>
+                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                                        aria-label="Close"></button>
+                                                                                                </div>
+                                                                                                <div class="card-body p-3">
+                                                                                                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                                                        <li class="nav-item" role="report">
+                                                                                                            <button class="nav-link active" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports<?php echo $vl['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="reports" aria-selected="true">Reports</button>
+                                                                                                        </li>
+                                                                                                        <li class="nav-item" role="report">
+                                                                                                            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets<?php echo $vl['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="tickets" aria-selected="false">Tickets</button>
+                                                                                                        </li>
+                                                                                                        <li class="nav-item" role="report">
+                                                                                                            <button class="nav-link" id="agenda-tab" data-bs-toggle="tab" data-bs-target="#agenda<?php echo $vl['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                                                                                                        </li>
                                                                                                     
+                                                                                                    </ul>
+                                                                                                    <div class="tab-content" id="myTabContent">
+                                                                                                        <div class="tab-pane fade show active p-3" id="reports<?php echo $vl['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                                            <div class="row">
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <h6>Name: <b><?php echo $vl['name'] ?></b></h6>
+                                                                                                                    <h6 class="mt-3">Username: <b><?php echo $vl['username'] ?></b></h6>
+                                                                                                                    <h6 class="mt-3">Email: <b><?php echo $vl['email'] ?></b></h6>
+                                                                                                                </div>
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <h6 class="">Contact: <b><?php echo $vl['contact'] ?></b></h6>
+                                                                                                                    <h6 class="mt-3">Date Joined:  <b><?php echo $vl['date_joined'] ?></b></h6>
+                                                                                                                    <h6 class="mt-3">Status:
+                                                                                                                    <?php 
+                                                                                                                        if($vl['status'] == 'Verified'){
+                                                                                                                            ?>
+                                                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                role="alert">
+                                                                                                                                <?php echo $vl['status']; ?>
+                                                                                                                            </div>
+                                                                                                                        <?php
+                                                                                                                        }else{
+                                                                                                                            ?>
+                                                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                role="alert">
+                                                                                                                                <?php echo $vl['status']; ?>
+                                                                                                                            </div>
+                                                                                                                        <?php
+                                                                                                                        }
+                                                                                                                    ?>
+                                                                                                                    </h6>
+                                                                                                            
+                                                                                                                </div>
+                                                                                                                <!-- <div class="col-md-4">
+                                                                                                                    <h6 class="text-center">Availability:</h6>
+                                                                                                                    <div id="progress-bar-container<?php echo $vl['id'] ?>"
+                                                                                                                        style="position: relative;">
+                                                                                                                    </div>
+                                                                                                                </div> -->
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <h6 class="text-center">Intensity Points:</h6>
+                                                                                                                    <div class="progress mt-3">
+                                                                                                                        <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                            <hr>
+                                                                                                            <div class="row">
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <?php 
+                                                                                                                        $volunteer_id = $vl['id'];
+
+                                                                                                                        $yourTicketCount = 0;
+                                                                                                                        $assignedTaskCount = 0;
+                                                                                                                        $inReviewCount = 0;
+                                                                                                                        $urgentCount = 0;
+                                                                                                                        $toDoCount = 0;
+                                                                                                                        $revisionsCount = 0;
+                                                                                                                        $completedCount = 0;
+
+                                                                                                                        $queryCheck1 = "SELECT * FROM tickets";
+                                                                                                                        $resultCheck1 = mysqli_query($conn, $queryCheck1);
+                                                                                                                        while ($rowCheck1 = mysqli_fetch_array($resultCheck1)) {
+                                                                                                                            $ticket_volunteers_ids1 = explode(',', $rowCheck1['ticket_volunteers_id']);
+                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids1)) {
+                                                                                                                                $assignedTaskCount++;
+
+                                                                                                                                // Check for each status
+                                                                                                                                switch ($rowCheck1['ticket_status']) {
+                                                                                                                                    case 'Your-ticket':
+                                                                                                                                        $yourTicketCount++;
+                                                                                                                                        break;
+                                                                                                                                    case 'In-Review':
+                                                                                                                                        $inReviewCount++;
+                                                                                                                                        break;
+                                                                                                                                    case 'Urgent':
+                                                                                                                                        $urgentCount++;
+                                                                                                                                        break;
+                                                                                                                                    case 'To-Do':
+                                                                                                                                        $toDoCount++;
+                                                                                                                                        break;
+                                                                                                                                    case 'Revision':
+                                                                                                                                        $revisionsCount++;
+                                                                                                                                        break;
+                                                                                                                                    case 'Completed':
+                                                                                                                                        $completedCount++;
+                                                                                                                                        break;
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+
+                                                                                                                        echo '<h6>Your-tickets: ' . $yourTicketCount . '</h6>';
+                                                                                                                        echo '<h6>In-Review: ' . $inReviewCount . '</h6>';
+                                                                                                                        echo '<h6>Urgent: ' . $urgentCount . '</h6>';
+                                                                                                                    ?>
+                                                                                                                </div>
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <?php 
+                                                                                                                        echo '<h6>To-Do: ' . $toDoCount . '</h6>';
+                                                                                                                        echo '<h6>Revisions: ' . $revisionsCount . '</h6>';
+                                                                                                                        echo '<h6>Completed: ' . $completedCount . '</h6>';
+                                                                                                                    ?>
+                                                                                                                </div>
+
+                                                                                                            </div>
+                                                                                                            <hr>
+                                                                                                            <div class="row">
+                                                                                                                <div class="col">
+                                                                                                                    <h6>Skill Tags:</h6>
+                                                                                                                    <?php
+                                                                                                                        $vl_id = $vl['id'];
+                                                                                                                        $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$vl_id'";
+                                                                                                                        $query_retrieve = mysqli_query($conn, $retrieve_skills);
+                                                                                                                        while ($rtags = mysqli_fetch_array($query_retrieve)) {
+                                                                                                                    ?>
+                                                                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                        role="alert">
+                                                                                                                        <?php echo $rtags['tag_name']; ?>
+                                                                                                                    </div>
+                                                                                                                    <?php 
+                                                                                                                        }
+                                                                                                                    ?>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="tab-pane fade p-3" id="tickets<?php echo $vl['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                                <div class="row">
+                                                                                                                    <div class="col-sm-3">
+                                                                                                                        <h6 class="text-success text-center">Your-tickets</h6>
+                                                                                                                        <?php 
+                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
+                                                                                        
+                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                        ?>
+                                                                                                                        <div class="card bg-success text-white mb-4">
+                                                                                                                            <div class="card-body">
+                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                <hr>
+                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <?php 
+                                                                                                                            }
+                                                                                                                        } 
+                                                                                                                        ?>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-sm-2">
+                                                                                                                        <h6 class="text-primary text-center">To-Do</h6>
+                                                                                                                        <?php 
+                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
+                                                                                        
+                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                        ?>
+                                                                                                                        <div class="card bg-primary text-white mb-4">
+                                                                                                                            <div class="card-body">
+                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                <hr>
+                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <?php 
+                                                                                                                            }
+                                                                                                                        } 
+                                                                                                                        ?>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-sm-2">
+                                                                                                                        <h6 class="text-secondary text-center">Revisions</h6>
+                                                                                                                        <?php 
+                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
+                                                                                        
+                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                        ?>
+                                                                                                                        <div class="card bg-secondary text-white mb-4">
+                                                                                                                            <div class="card-body">
+                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                <hr>
+                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <?php 
+                                                                                                                            }
+                                                                                                                        } 
+                                                                                                                        ?>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-sm-2">
+                                                                                                                        <h6 class="text-warning text-center">In-Review</h6>
+                                                                                                                        <?php 
+                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
+                                                                                        
+                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                        ?>
+                                                                                                                        <div class="card bg-warning text-white mb-4">
+                                                                                                                            <div class="card-body">
+                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                <hr>
+                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <?php 
+                                                                                                                            }
+                                                                                                                        } 
+                                                                                                                        ?>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-sm-2">
+                                                                                                                        <h6 class="text-danger text-center">Urgent</h6>
+                                                                                                                        <?php 
+                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
+                                                                                        
+                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                        ?>
+                                                                                                                        <div class="card bg-danger text-white mb-4">
+                                                                                                                            <div class="card-body">
+                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                <hr>
+                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <?php 
+                                                                                                                            }
+                                                                                                                        } 
+                                                                                                                        ?>
+                                                                                                                    </div>
+
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            
+                                                                                                        </div>
+                                                                                                        <div class="tab-pane fade p-3" id="agenda<?php echo $vl['id'] ?><?php echo $row['id'] ?>">
+                                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                            <button class="btn btn-secondary" onclick="sortCards()">Sort <i class="fa-solid fa-sort"></i></button>
+
+                                                                                                                <?php 
+                                                                                                                    $queryTicket = "SELECT * FROM personal_agenda WHERE volunteer_id = '$volunteer_id'";
+                                                                                                                    $resulTicket = mysqli_query($conn, $queryTicket);
+                                                                                                                    while ($rows = mysqli_fetch_array($resulTicket)) {
+                                                                                                                ?>
+                                                                                                                <div id="cards-container">
+                                                                                                                <div class="card bg-dark text-white mb-4 mt-3" data-date-created="<?php echo $rows['date_created']; ?>">
+                                                                                                                    <div class="card-body">
+                                                                                                                        <div class="row">
+                                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                                <h6>Title: <b><?php echo $rows['title'] ?></b></h6>
+                                                                                                                            </div>
+                                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                                <h6>Startdate: <?php echo date('h:i:s A', strtotime($rows['startdate'])); ?></h6>
+                                                                                                                                <h6>Enddate: <?php echo date('h:i:s A', strtotime($rows['enddate'])); ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+
+                                                                                                                        <hr>
+                                                                                                                        <div class="row">
+                                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                                <h6>Description: <br> <b><?php echo $rows['description'] ?></b></h6>
+                                                                                                                            </div>
+                                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                                <h6>Date Created: <?php echo $rows['date_created'] ?></h6>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+
+                                                                                                                <script>
+                                                                                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                                                                                        let ascending = true;
+
+                                                                                                                        function sortCards() {
+                                                                                                                            const container = document.getElementById('cards-container');
+                                                                                                                            const cards = Array.from(container.querySelectorAll('.card[data-date-created]'));
+                                                                                                                            
+                                                                                                                            cards.sort((a, b) => {
+                                                                                                                                const dateA = new Date(a.getAttribute('data-date-created'));
+                                                                                                                                const dateB = new Date(b.getAttribute('data-date-created'));
+                                                                                                                                return ascending ? dateA - dateB : dateB - dateA;
+                                                                                                                            });
+
+                                                                                                                            // Toggle the sorting order for next click
+                                                                                                                            ascending = !ascending;
+
+                                                                                                                            // Re-append sorted cards to the container
+                                                                                                                            cards.forEach(card => container.appendChild(card));
+                                                                                                                        }
+
+                                                                                                                        window.sortCards = sortCards; // Expose sortCards to the global scope so the button can access it
+                                                                                                                    });
+                                                                                                                </script>
+                                                                                                                <?php } ?>
+                                                                                                                </div>
+
+
+                                                                                                            </div>
+                                                                                                            
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                    <div class="modal-body">
-                                                                                                        <h3>Volunteer Details:</h3>
-                                                                                                        <ul>
-                                                                                                            <li>Name: <?php echo $vl['name'] ?></li>
-                                                                                                            <li>Username: <?php echo $vl['username'] ?></li>
-                                                                                                            <li>Email: <?php echo $vl['email'] ?></li>
-                                                                                                            <li>Contact: <?php echo $vl['contact'] ?></li>
-                                                                                                        </ul>
-                                                                                                    </div>
+                                                                                                </div>
+
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -803,22 +1114,341 @@
                                                                                                         <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                                     </tr>
 
-                                                                                                    <div class="modal modal-lg fade" id="volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
-                                                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                    <div class="modal modal-xl fade" id="volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" tabindex="-1" aria-labelledby="addcategory"
+                                                                                                        aria-hidden="true">
+                                                                                                        <div class="modal-dialog">
                                                                                                             <div class="modal-content">
-                                                                                                                    <div class="modal-header bg-dark text-white">
-                                                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $vls['name'] ?></h5>
+                                                                                                                <div class="modal-header bg-dark">
+                                                                                                                    <h6 class=" modal-title text-white">Volunteer Details</h6>
+                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                                                        aria-label="Close"></button>
+                                                                                                                </div>
+                                                                                                                <div class="card-body p-3">
+                                                                                                                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                                                                        <li class="nav-item" role="report">
+                                                                                                                            <button class="nav-link active" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" type="button" role="tab" aria-controls="reports" aria-selected="true">Reports</button>
+                                                                                                                        </li>
+                                                                                                                        <li class="nav-item" role="report">
+                                                                                                                            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" type="button" role="tab" aria-controls="tickets" aria-selected="false">Tickets</button>
+                                                                                                                        </li>
+                                                                                                                        <li class="nav-item" role="report">
+                                                                                                                            <button class="nav-link" id="agenda-tab" data-bs-toggle="tab" data-bs-target="#agenda<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" type="button" role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                                                                                                                        </li>
                                                                                                                     
+                                                                                                                    </ul>
+                                                                                                                    <div class="tab-content" id="myTabContent">
+                                                                                                                        <div class="tab-pane fade show active p-3" id="reports<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                                                            <div class="row">
+                                                                                                                                <div class="col-md-4">
+                                                                                                                                    <h6>Name: <b><?php echo $vls['name'] ?></b></h6>
+                                                                                                                                    <h6 class="mt-3">Username: <b><?php echo $vls['username'] ?></b></h6>
+                                                                                                                                    <h6 class="mt-3">Email: <b><?php echo $vls['email'] ?></b></h6>
+                                                                                                                                </div>
+                                                                                                                                <div class="col-md-4">
+                                                                                                                                    <h6 class="">Contact: <b><?php echo $vls['contact'] ?></b></h6>
+                                                                                                                                    <h6 class="mt-3">Date Joined:  <b><?php echo $vls['date_joined'] ?></b></h6>
+                                                                                                                                    <h6 class="mt-3">Status:
+                                                                                                                                    <?php 
+                                                                                                                                        if($vls['status'] == 'Verified'){
+                                                                                                                                            ?>
+                                                                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                                role="alert">
+                                                                                                                                                <?php echo $vls['status']; ?>
+                                                                                                                                            </div>
+                                                                                                                                        <?php
+                                                                                                                                        }else{
+                                                                                                                                            ?>
+                                                                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                                role="alert">
+                                                                                                                                                <?php echo $vls['status']; ?>
+                                                                                                                                            </div>
+                                                                                                                                        <?php
+                                                                                                                                        }
+                                                                                                                                    ?>
+                                                                                                                                    </h6>
+                                                                                                                            
+                                                                                                                                </div>
+                                                                                                                                <!-- <div class="col-md-4">
+                                                                                                                                    <h6 class="text-center">Availability:</h6>
+                                                                                                                                    <div id="progress-bar-container<?php echo $vls['id'] ?>"
+                                                                                                                                        style="position: relative;">
+                                                                                                                                    </div>
+                                                                                                                                </div> -->
+                                                                                                                                <div class="col-md-4">
+                                                                                                                                    <h6 class="text-center">Intensity Points:</h6>
+                                                                                                                                    <div class="progress mt-3">
+                                                                                                                                        <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+
+                                                                                                                            <hr>
+                                                                                                                            <div class="row">
+                                                                                                                                <div class="col-md-4">
+                                                                                                                                    <?php 
+                                                                                                                                        $volunteer_id = $vls['id'];
+
+                                                                                                                                        $yourTicketCount = 0;
+                                                                                                                                        $assignedTaskCount = 0;
+                                                                                                                                        $inReviewCount = 0;
+                                                                                                                                        $urgentCount = 0;
+                                                                                                                                        $toDoCount = 0;
+                                                                                                                                        $revisionsCount = 0;
+                                                                                                                                        $completedCount = 0;
+
+                                                                                                                                        $queryCheck1 = "SELECT * FROM tickets";
+                                                                                                                                        $resultCheck1 = mysqli_query($conn, $queryCheck1);
+                                                                                                                                        while ($rowCheck1 = mysqli_fetch_array($resultCheck1)) {
+                                                                                                                                            $ticket_volunteers_ids1 = explode(',', $rowCheck1['ticket_volunteers_id']);
+                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids1)) {
+                                                                                                                                                $assignedTaskCount++;
+
+                                                                                                                                                // Check for each status
+                                                                                                                                                switch ($rowCheck1['ticket_status']) {
+                                                                                                                                                    case 'Your-ticket':
+                                                                                                                                                        $yourTicketCount++;
+                                                                                                                                                        break;
+                                                                                                                                                    case 'In-Review':
+                                                                                                                                                        $inReviewCount++;
+                                                                                                                                                        break;
+                                                                                                                                                    case 'Urgent':
+                                                                                                                                                        $urgentCount++;
+                                                                                                                                                        break;
+                                                                                                                                                    case 'To-Do':
+                                                                                                                                                        $toDoCount++;
+                                                                                                                                                        break;
+                                                                                                                                                    case 'Revision':
+                                                                                                                                                        $revisionsCount++;
+                                                                                                                                                        break;
+                                                                                                                                                    case 'Completed':
+                                                                                                                                                        $completedCount++;
+                                                                                                                                                        break;
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+
+                                                                                                                                        echo '<h6>Your-tickets: ' . $yourTicketCount . '</h6>';
+                                                                                                                                        echo '<h6>In-Review: ' . $inReviewCount . '</h6>';
+                                                                                                                                        echo '<h6>Urgent: ' . $urgentCount . '</h6>';
+                                                                                                                                    ?>
+                                                                                                                                </div>
+                                                                                                                                <div class="col-md-4">
+                                                                                                                                    <?php 
+                                                                                                                                        echo '<h6>To-Do: ' . $toDoCount . '</h6>';
+                                                                                                                                        echo '<h6>Revisions: ' . $revisionsCount . '</h6>';
+                                                                                                                                        echo '<h6>Completed: ' . $completedCount . '</h6>';
+                                                                                                                                    ?>
+                                                                                                                                </div>
+
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                            <div class="row">
+                                                                                                                                <div class="col">
+                                                                                                                                    <h6>Skill Tags:</h6>
+                                                                                                                                    <?php
+                                                                                                                                        $vl_id = $vls['id'];
+                                                                                                                                        $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$vl_id'";
+                                                                                                                                        $query_retrieve = mysqli_query($conn, $retrieve_skills);
+                                                                                                                                        while ($rtags = mysqli_fetch_array($query_retrieve)) {
+                                                                                                                                    ?>
+                                                                                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                        role="alert">
+                                                                                                                                        <?php echo $rtags['tag_name']; ?>
+                                                                                                                                    </div>
+                                                                                                                                    <?php 
+                                                                                                                                        }
+                                                                                                                                    ?>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="tab-pane fade p-3" id="tickets<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                                                <div class="row">
+                                                                                                                                    <div class="col-sm-3">
+                                                                                                                                        <h6 class="text-success text-center">Your-tickets</h6>
+                                                                                                                                        <?php 
+                                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
+                                                                                                        
+                                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                        ?>
+                                                                                                                                        <div class="card bg-success text-white mb-4">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                <hr>
+                                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <?php 
+                                                                                                                                            }
+                                                                                                                                        } 
+                                                                                                                                        ?>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                        <h6 class="text-primary text-center">To-Do</h6>
+                                                                                                                                        <?php 
+                                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
+                                                                                                        
+                                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                        ?>
+                                                                                                                                        <div class="card bg-primary text-white mb-4">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                <hr>
+                                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <?php 
+                                                                                                                                            }
+                                                                                                                                        } 
+                                                                                                                                        ?>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                        <h6 class="text-secondary text-center">Revisions</h6>
+                                                                                                                                        <?php 
+                                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
+                                                                                                        
+                                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                        ?>
+                                                                                                                                        <div class="card bg-secondary text-white mb-4">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                <hr>
+                                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <?php 
+                                                                                                                                            }
+                                                                                                                                        } 
+                                                                                                                                        ?>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                        <h6 class="text-warning text-center">In-Review</h6>
+                                                                                                                                        <?php 
+                                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
+                                                                                                        
+                                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                        ?>
+                                                                                                                                        <div class="card bg-warning text-white mb-4">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                <hr>
+                                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <?php 
+                                                                                                                                            }
+                                                                                                                                        } 
+                                                                                                                                        ?>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                        <h6 class="text-danger text-center">Urgent</h6>
+                                                                                                                                        <?php 
+                                                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
+                                                                                                        
+                                                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                        ?>
+                                                                                                                                        <div class="card bg-danger text-white mb-4">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                <hr>
+                                                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <?php 
+                                                                                                                                            }
+                                                                                                                                        } 
+                                                                                                                                        ?>
+                                                                                                                                    </div>
+
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                            
+                                                                                                                        </div>
+                                                                                                                        <div class="tab-pane fade p-3" id="agenda<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>">
+                                                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                                            <button class="btn btn-secondary" onclick="sortCards()">Sort <i class="fa-solid fa-sort"></i></button>
+
+                                                                                                                                <?php 
+                                                                                                                                    $queryTicket = "SELECT * FROM personal_agenda WHERE volunteer_id = '$volunteer_id'";
+                                                                                                                                    $resulTicket = mysqli_query($conn, $queryTicket);
+                                                                                                                                    while ($rows = mysqli_fetch_array($resulTicket)) {
+                                                                                                                                ?>
+                                                                                                                                <div id="cards-container">
+                                                                                                                                <div class="card bg-dark text-white mb-4 mt-3" data-date-created="<?php echo $rows['date_created']; ?>">
+                                                                                                                                    <div class="card-body">
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                                                <h6>Title: <b><?php echo $rows['title'] ?></b></h6>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                                                <h6>Startdate: <?php echo date('h:i:s A', strtotime($rows['startdate'])); ?></h6>
+                                                                                                                                                <h6>Enddate: <?php echo date('h:i:s A', strtotime($rows['enddate'])); ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+
+                                                                                                                                        <hr>
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                                                <h6>Description: <br> <b><?php echo $rows['description'] ?></b></h6>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                                                <h6>Date Created: <?php echo $rows['date_created'] ?></h6>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+
+
+                                                                                                                                <script>
+                                                                                                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                                                                                                        let ascending = true;
+
+                                                                                                                                        function sortCards() {
+                                                                                                                                            const container = document.getElementById('cards-container');
+                                                                                                                                            const cards = Array.from(container.querySelectorAll('.card[data-date-created]'));
+                                                                                                                                            
+                                                                                                                                            cards.sort((a, b) => {
+                                                                                                                                                const dateA = new Date(a.getAttribute('data-date-created'));
+                                                                                                                                                const dateB = new Date(b.getAttribute('data-date-created'));
+                                                                                                                                                return ascending ? dateA - dateB : dateB - dateA;
+                                                                                                                                            });
+
+                                                                                                                                            // Toggle the sorting order for next click
+                                                                                                                                            ascending = !ascending;
+
+                                                                                                                                            // Re-append sorted cards to the container
+                                                                                                                                            cards.forEach(card => container.appendChild(card));
+                                                                                                                                        }
+
+                                                                                                                                        window.sortCards = sortCards; // Expose sortCards to the global scope so the button can access it
+                                                                                                                                    });
+                                                                                                                                </script>
+                                                                                                                                <?php } ?>
+                                                                                                                                </div>
+
+
+                                                                                                                            </div>
+                                                                                                                            
+                                                                                                                        </div>
                                                                                                                     </div>
-                                                                                                                    <div class="modal-body">
-                                                                                                                        <h3>Volunteer Details:</h3>
-                                                                                                                        <ul>
-                                                                                                                            <li>Name: <?php echo $vls['name'] ?></li>
-                                                                                                                            <li>Username: <?php echo $vls['username'] ?></li>
-                                                                                                                            <li>Email: <?php echo $vls['email'] ?></li>
-                                                                                                                            <li>Contact: <?php echo $vls['contact'] ?></li>
-                                                                                                                        </ul>
-                                                                                                                    </div>
+                                                                                                                </div>
+
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -948,22 +1578,341 @@
                                                                         <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerEvent<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                     </tr>
 
-                                                                    <div class="modal modal-lg fade" id="volunteerEvent<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                    <div class="modal modal-xl fade" id="volunteerEvent<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addcategory"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog">
                                                                             <div class="modal-content">
-                                                                                    <div class="modal-header bg-dark text-white">
-                                                                                        <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $row['name'] ?></h5>
-                                                                                       
+                                                                                <div class="modal-header bg-dark">
+                                                                                    <h6 class=" modal-title text-white">Volunteer Details</h6>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="card-body p-3">
+                                                                                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                                        <li class="nav-item" role="report">
+                                                                                            <button class="nav-link active" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports<?php echo $row['id'] ?>" type="button" role="tab" aria-controls="reports" aria-selected="true">Reports</button>
+                                                                                        </li>
+                                                                                        <li class="nav-item" role="report">
+                                                                                            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets<?php echo $row['id'] ?>" type="button" role="tab" aria-controls="tickets" aria-selected="false">Tickets</button>
+                                                                                        </li>
+                                                                                        <li class="nav-item" role="report">
+                                                                                            <button class="nav-link" id="agenda-tab" data-bs-toggle="tab" data-bs-target="#agenda<?php echo $row['id'] ?>" type="button" role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                                                                                        </li>
+                                                                                    
+                                                                                    </ul>
+                                                                                    <div class="tab-content" id="myTabContent">
+                                                                                        <div class="tab-pane fade show active p-3" id="reports<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-4">
+                                                                                                    <h6>Name: <b><?php echo $row['name'] ?></b></h6>
+                                                                                                    <h6 class="mt-3">Username: <b><?php echo $row['username'] ?></b></h6>
+                                                                                                    <h6 class="mt-3">Email: <b><?php echo $row['email'] ?></b></h6>
+                                                                                                </div>
+                                                                                                <div class="col-md-4">
+                                                                                                    <h6 class="">Contact: <b><?php echo $row['contact'] ?></b></h6>
+                                                                                                    <h6 class="mt-3">Date Joined:  <b><?php echo $row['date_joined'] ?></b></h6>
+                                                                                                    <h6 class="mt-3">Status:
+                                                                                                    <?php 
+                                                                                                        if($row['status'] == 'Verified'){
+                                                                                                            ?>
+                                                                                                            <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                role="alert">
+                                                                                                                <?php echo $row['status']; ?>
+                                                                                                            </div>
+                                                                                                        <?php
+                                                                                                        }else{
+                                                                                                            ?>
+                                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                role="alert">
+                                                                                                                <?php echo $row['status']; ?>
+                                                                                                            </div>
+                                                                                                        <?php
+                                                                                                        }
+                                                                                                    ?>
+                                                                                                    </h6>
+                                                                                            
+                                                                                                </div>
+                                                                                                <!-- <div class="col-md-4">
+                                                                                                    <h6 class="text-center">Availability:</h6>
+                                                                                                    <div id="progress-bar-container<?php echo $row['id'] ?>"
+                                                                                                        style="position: relative;">
+                                                                                                    </div>
+                                                                                                </div> -->
+                                                                                                <div class="col-md-4">
+                                                                                                    <h6 class="text-center">Intensity Points:</h6>
+                                                                                                    <div class="progress mt-3">
+                                                                                                        <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <hr>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-4">
+                                                                                                    <?php 
+                                                                                                        $volunteer_id = $row['id'];
+
+                                                                                                        $yourTicketCount = 0;
+                                                                                                        $assignedTaskCount = 0;
+                                                                                                        $inReviewCount = 0;
+                                                                                                        $urgentCount = 0;
+                                                                                                        $toDoCount = 0;
+                                                                                                        $revisionsCount = 0;
+                                                                                                        $completedCount = 0;
+
+                                                                                                        $queryCheck1 = "SELECT * FROM tickets";
+                                                                                                        $resultCheck1 = mysqli_query($conn, $queryCheck1);
+                                                                                                        while ($rowCheck1 = mysqli_fetch_array($resultCheck1)) {
+                                                                                                            $ticket_volunteers_ids1 = explode(',', $rowCheck1['ticket_volunteers_id']);
+                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids1)) {
+                                                                                                                $assignedTaskCount++;
+
+                                                                                                                // Check for each status
+                                                                                                                switch ($rowCheck1['ticket_status']) {
+                                                                                                                    case 'Your-ticket':
+                                                                                                                        $yourTicketCount++;
+                                                                                                                        break;
+                                                                                                                    case 'In-Review':
+                                                                                                                        $inReviewCount++;
+                                                                                                                        break;
+                                                                                                                    case 'Urgent':
+                                                                                                                        $urgentCount++;
+                                                                                                                        break;
+                                                                                                                    case 'To-Do':
+                                                                                                                        $toDoCount++;
+                                                                                                                        break;
+                                                                                                                    case 'Revision':
+                                                                                                                        $revisionsCount++;
+                                                                                                                        break;
+                                                                                                                    case 'Completed':
+                                                                                                                        $completedCount++;
+                                                                                                                        break;
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+
+                                                                                                        echo '<h6>Your-tickets: ' . $yourTicketCount . '</h6>';
+                                                                                                        echo '<h6>In-Review: ' . $inReviewCount . '</h6>';
+                                                                                                        echo '<h6>Urgent: ' . $urgentCount . '</h6>';
+                                                                                                    ?>
+                                                                                                </div>
+                                                                                                <div class="col-md-4">
+                                                                                                    <?php 
+                                                                                                        echo '<h6>To-Do: ' . $toDoCount . '</h6>';
+                                                                                                        echo '<h6>Revisions: ' . $revisionsCount . '</h6>';
+                                                                                                        echo '<h6>Completed: ' . $completedCount . '</h6>';
+                                                                                                    ?>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <hr>
+                                                                                            <div class="row">
+                                                                                                <div class="col">
+                                                                                                    <h6>Skill Tags:</h6>
+                                                                                                    <?php
+                                                                                                        $vl_id = $row['id'];
+                                                                                                        $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$vl_id'";
+                                                                                                        $query_retrieve = mysqli_query($conn, $retrieve_skills);
+                                                                                                        while ($rtags = mysqli_fetch_array($query_retrieve)) {
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                        role="alert">
+                                                                                                        <?php echo $rtags['tag_name']; ?>
+                                                                                                    </div>
+                                                                                                    <?php 
+                                                                                                        }
+                                                                                                    ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade p-3" id="tickets<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-3">
+                                                                                                        <h6 class="text-success text-center">Your-tickets</h6>
+                                                                                                        <?php 
+                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
+                                                                        
+                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                        ?>
+                                                                                                        <div class="card bg-success text-white mb-4">
+                                                                                                            <div class="card-body">
+                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                <hr>
+                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                            }
+                                                                                                        } 
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-2">
+                                                                                                        <h6 class="text-primary text-center">To-Do</h6>
+                                                                                                        <?php 
+                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
+                                                                        
+                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                        ?>
+                                                                                                        <div class="card bg-primary text-white mb-4">
+                                                                                                            <div class="card-body">
+                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                <hr>
+                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                            }
+                                                                                                        } 
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-2">
+                                                                                                        <h6 class="text-secondary text-center">Revisions</h6>
+                                                                                                        <?php 
+                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
+                                                                        
+                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                        ?>
+                                                                                                        <div class="card bg-secondary text-white mb-4">
+                                                                                                            <div class="card-body">
+                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                <hr>
+                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                            }
+                                                                                                        } 
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-2">
+                                                                                                        <h6 class="text-warning text-center">In-Review</h6>
+                                                                                                        <?php 
+                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
+                                                                        
+                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                        ?>
+                                                                                                        <div class="card bg-warning text-white mb-4">
+                                                                                                            <div class="card-body">
+                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                <hr>
+                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                            }
+                                                                                                        } 
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-2">
+                                                                                                        <h6 class="text-danger text-center">Urgent</h6>
+                                                                                                        <?php 
+                                                                                                            $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
+                                                                        
+                                                                                                            $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                            while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                        ?>
+                                                                                                        <div class="card bg-danger text-white mb-4">
+                                                                                                            <div class="card-body">
+                                                                                                                <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                <hr>
+                                                                                                                <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                            }
+                                                                                                        } 
+                                                                                                        ?>
+                                                                                                    </div>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade p-3" id="agenda<?php echo $row['id'] ?>">
+                                                                                            <div style="max-height: 500px; overflow-y: auto;">
+                                                                                            <button class="btn btn-secondary" onclick="sortCards()">Sort <i class="fa-solid fa-sort"></i></button>
+
+                                                                                                <?php 
+                                                                                                    $queryTicket = "SELECT * FROM personal_agenda WHERE volunteer_id = '$volunteer_id'";
+                                                                                                    $resulTicket = mysqli_query($conn, $queryTicket);
+                                                                                                    while ($rows = mysqli_fetch_array($resulTicket)) {
+                                                                                                ?>
+                                                                                                <div id="cards-container">
+                                                                                                <div class="card bg-dark text-white mb-4 mt-3" data-date-created="<?php echo $rows['date_created']; ?>">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                <h6>Title: <b><?php echo $rows['title'] ?></b></h6>
+                                                                                                            </div>
+                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                <h6>Startdate: <?php echo date('h:i:s A', strtotime($rows['startdate'])); ?></h6>
+                                                                                                                <h6>Enddate: <?php echo date('h:i:s A', strtotime($rows['enddate'])); ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                        <hr>
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-8 text-left">
+                                                                                                                <h6>Description: <br> <b><?php echo $rows['description'] ?></b></h6>
+                                                                                                            </div>
+                                                                                                            <div class="col-md-4 text-right">
+                                                                                                                <h6>Date Created: <?php echo $rows['date_created'] ?></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <script>
+                                                                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                                                                        let ascending = true;
+
+                                                                                                        function sortCards() {
+                                                                                                            const container = document.getElementById('cards-container');
+                                                                                                            const cards = Array.from(container.querySelectorAll('.card[data-date-created]'));
+                                                                                                            
+                                                                                                            cards.sort((a, b) => {
+                                                                                                                const dateA = new Date(a.getAttribute('data-date-created'));
+                                                                                                                const dateB = new Date(b.getAttribute('data-date-created'));
+                                                                                                                return ascending ? dateA - dateB : dateB - dateA;
+                                                                                                            });
+
+                                                                                                            // Toggle the sorting order for next click
+                                                                                                            ascending = !ascending;
+
+                                                                                                            // Re-append sorted cards to the container
+                                                                                                            cards.forEach(card => container.appendChild(card));
+                                                                                                        }
+
+                                                                                                        window.sortCards = sortCards; // Expose sortCards to the global scope so the button can access it
+                                                                                                    });
+                                                                                                </script>
+                                                                                                <?php } ?>
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                            
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="modal-body">
-                                                                                        <h3>Volunteer Details:</h3>
-                                                                                        <ul>
-                                                                                            <li>Name: <?php echo $row['name'] ?></li>
-                                                                                            <li>Username: <?php echo $row['username'] ?></li>
-                                                                                            <li>Email: <?php echo $row['email'] ?></li>
-                                                                                            <li>Contact: <?php echo $row['contact'] ?></li>
-                                                                                        </ul>
-                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1025,7 +1974,7 @@
                                         <div class="row">
                                             <?php 
                                                 $main_id = $_GET['id'];
-                                                $query = "SELECT * FROM tickets WHERE event_id = $main_id";
+                                                $query = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket'";
                                                 $result = mysqli_query($conn, $query);
                                                 while ($row = mysqli_fetch_array($result)) {
                                             ?>
@@ -1251,6 +2200,13 @@
                                                                                                     </div>
                                                                                                 <?php
                                                                                                 }
+                                                                                                elseif($row['ticket_status'] == 'Completed'){ 
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>Completed</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                }
                                                                                                 else{
                                                                                                 ?>
                                                                                                     <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
@@ -1275,7 +2231,7 @@
                                                                                                                 <label for="">Select Status:</label>
                                                                                                                 <select class="form-select" name="stat" id="" required>
                                                                                                                     <option value="" selected disabled>--<?php echo $row['ticket_status'] ?>--</option>
-                                                                                                                    <option value="Your-ticket">Your-Ticket</option>
+                                                                                                                    <!-- <option value="Your-ticket">Your-Ticket</option> -->
                                                                                                                     <option value="To-Do">To-Do</option>
                                                                                                                     <option value="In-Review">In-Review</option>
                                                                                                                     <option value="Revision">Revision</option>
@@ -1455,22 +2411,341 @@
                                                                                                                     <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                                                 </tr>
 
-                                                                                                                <div class="modal modal-lg fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="volunteer" aria-hidden="true">
-                                                                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                                                                <div class="modal modal-xl fade" id="addVolunteer<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addcategory"
+                                                                                                                    aria-hidden="true">
+                                                                                                                    <div class="modal-dialog">
                                                                                                                         <div class="modal-content">
-                                                                                                                            <div class="modal-header bg-dark text-white">
-                                                                                                                                <h5 class="modal-title" id="exampleModalLabel">Volunteer: <?php echo $addVolunteer['name'] ?></h5>
-                                                                                                                            
+                                                                                                                            <div class="modal-header bg-dark">
+                                                                                                                                <h6 class=" modal-title text-white">Volunteer Details</h6>
+                                                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                                                                    aria-label="Close"></button>
                                                                                                                             </div>
-                                                                                                                            <div class="modal-body">
-                                                                                                                                <h3>Volunteer Details:</h3>
-                                                                                                                                <ul>
-                                                                                                                                    <li>Name: <?php echo $addVolunteer['name'] ?></li>
-                                                                                                                                    <li>Username: <?php echo $addVolunteer['username'] ?></li>
-                                                                                                                                    <li>Email: <?php echo $addVolunteer['email'] ?></li>
-                                                                                                                                    <li>Contact: <?php echo $addVolunteer['contact'] ?></li>
+                                                                                                                            <div class="card-body p-3">
+                                                                                                                                <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                                                                                    <li class="nav-item" role="report">
+                                                                                                                                        <button class="nav-link active" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="reports" aria-selected="true">Reports</button>
+                                                                                                                                    </li>
+                                                                                                                                    <li class="nav-item" role="report">
+                                                                                                                                        <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="tickets" aria-selected="false">Tickets</button>
+                                                                                                                                    </li>
+                                                                                                                                    <li class="nav-item" role="report">
+                                                                                                                                        <button class="nav-link" id="agenda-tab" data-bs-toggle="tab" data-bs-target="#agenda<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" type="button" role="tab" aria-controls="agenda" aria-selected="false">Agenda</button>
+                                                                                                                                    </li>
+                                                                                                                                
                                                                                                                                 </ul>
+                                                                                                                                <div class="tab-content" id="myTabContent">
+                                                                                                                                    <div class="tab-pane fade show active p-3" id="reports<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-md-4">
+                                                                                                                                                <h6>Name: <b><?php echo $addVolunteer['name'] ?></b></h6>
+                                                                                                                                                <h6 class="mt-3">Username: <b><?php echo $addVolunteer['username'] ?></b></h6>
+                                                                                                                                                <h6 class="mt-3">Email: <b><?php echo $addVolunteer['email'] ?></b></h6>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-md-4">
+                                                                                                                                                <h6 class="">Contact: <b><?php echo $addVolunteer['contact'] ?></b></h6>
+                                                                                                                                                <h6 class="mt-3">Date Joined:  <b><?php echo $addVolunteer['date_joined'] ?></b></h6>
+                                                                                                                                                <h6 class="mt-3">Status:
+                                                                                                                                                <?php 
+                                                                                                                                                    if($addVolunteer['status'] == 'Verified'){
+                                                                                                                                                        ?>
+                                                                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                                            role="alert">
+                                                                                                                                                            <?php echo $addVolunteer['status']; ?>
+                                                                                                                                                        </div>
+                                                                                                                                                    <?php
+                                                                                                                                                    }else{
+                                                                                                                                                        ?>
+                                                                                                                                                        <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                                            role="alert">
+                                                                                                                                                            <?php echo $addVolunteer['status']; ?>
+                                                                                                                                                        </div>
+                                                                                                                                                    <?php
+                                                                                                                                                    }
+                                                                                                                                                ?>
+                                                                                                                                                </h6>
+                                                                                                                                        
+                                                                                                                                            </div>
+                                                                                                                                            <!-- <div class="col-md-4">
+                                                                                                                                                <h6 class="text-center">Availability:</h6>
+                                                                                                                                                <div id="progress-bar-container<?php echo $addVolunteer['id'] ?>"
+                                                                                                                                                    style="position: relative;">
+                                                                                                                                                </div>
+                                                                                                                                            </div> -->
+                                                                                                                                            <div class="col-md-4">
+                                                                                                                                                <h6 class="text-center">Intensity Points:</h6>
+                                                                                                                                                <div class="progress mt-3">
+                                                                                                                                                    <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+
+                                                                                                                                        <hr>
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-md-4">
+                                                                                                                                                <?php 
+                                                                                                                                                    $volunteer_id = $addVolunteer['id'];
+
+                                                                                                                                                    $yourTicketCount = 0;
+                                                                                                                                                    $assignedTaskCount = 0;
+                                                                                                                                                    $inReviewCount = 0;
+                                                                                                                                                    $urgentCount = 0;
+                                                                                                                                                    $toDoCount = 0;
+                                                                                                                                                    $revisionsCount = 0;
+                                                                                                                                                    $completedCount = 0;
+
+                                                                                                                                                    $queryCheck1 = "SELECT * FROM tickets";
+                                                                                                                                                    $resultCheck1 = mysqli_query($conn, $queryCheck1);
+                                                                                                                                                    while ($rowCheck1 = mysqli_fetch_array($resultCheck1)) {
+                                                                                                                                                        $ticket_volunteers_ids1 = explode(',', $rowCheck1['ticket_volunteers_id']);
+                                                                                                                                                        if (in_array($volunteer_id, $ticket_volunteers_ids1)) {
+                                                                                                                                                            $assignedTaskCount++;
+
+                                                                                                                                                            // Check for each status
+                                                                                                                                                            switch ($rowCheck1['ticket_status']) {
+                                                                                                                                                                case 'Your-ticket':
+                                                                                                                                                                    $yourTicketCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                                case 'In-Review':
+                                                                                                                                                                    $inReviewCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                                case 'Urgent':
+                                                                                                                                                                    $urgentCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                                case 'To-Do':
+                                                                                                                                                                    $toDoCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                                case 'Revision':
+                                                                                                                                                                    $revisionsCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                                case 'Completed':
+                                                                                                                                                                    $completedCount++;
+                                                                                                                                                                    break;
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+
+                                                                                                                                                    echo '<h6>Your-tickets: ' . $yourTicketCount . '</h6>';
+                                                                                                                                                    echo '<h6>In-Review: ' . $inReviewCount . '</h6>';
+                                                                                                                                                    echo '<h6>Urgent: ' . $urgentCount . '</h6>';
+                                                                                                                                                ?>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-md-4">
+                                                                                                                                                <?php 
+                                                                                                                                                    echo '<h6>To-Do: ' . $toDoCount . '</h6>';
+                                                                                                                                                    echo '<h6>Revisions: ' . $revisionsCount . '</h6>';
+                                                                                                                                                    echo '<h6>Completed: ' . $completedCount . '</h6>';
+                                                                                                                                                ?>
+                                                                                                                                            </div>
+
+                                                                                                                                        </div>
+                                                                                                                                        <hr>
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col">
+                                                                                                                                                <h6>Skill Tags:</h6>
+                                                                                                                                                <?php
+                                                                                                                                                    $vl_id = $addVolunteer['id'];
+                                                                                                                                                    $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$vl_id'";
+                                                                                                                                                    $query_retrieve = mysqli_query($conn, $retrieve_skills);
+                                                                                                                                                    while ($rtags = mysqli_fetch_array($query_retrieve)) {
+                                                                                                                                                ?>
+                                                                                                                                                <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-0 px-2 text-capitalize"
+                                                                                                                                                    role="alert">
+                                                                                                                                                    <?php echo $rtags['tag_name']; ?>
+                                                                                                                                                </div>
+                                                                                                                                                <?php 
+                                                                                                                                                    }
+                                                                                                                                                ?>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="tab-pane fade p-3" id="tickets<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                                                                        <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                                                            <div class="row">
+                                                                                                                                                <div class="col-sm-3">
+                                                                                                                                                    <h6 class="text-success text-center">Your-tickets</h6>
+                                                                                                                                                    <?php 
+                                                                                                                                                        $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
+                                                                                                                    
+                                                                                                                                                        $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                                        while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                            $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                                    ?>
+                                                                                                                                                    <div class="card bg-success text-white mb-4">
+                                                                                                                                                        <div class="card-body">
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                            <hr>
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <?php 
+                                                                                                                                                        }
+                                                                                                                                                    } 
+                                                                                                                                                    ?>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                    <h6 class="text-primary text-center">To-Do</h6>
+                                                                                                                                                    <?php 
+                                                                                                                                                        $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
+                                                                                                                    
+                                                                                                                                                        $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                                        while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                            $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                                    ?>
+                                                                                                                                                    <div class="card bg-primary text-white mb-4">
+                                                                                                                                                        <div class="card-body">
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                            <hr>
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <?php 
+                                                                                                                                                        }
+                                                                                                                                                    } 
+                                                                                                                                                    ?>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                    <h6 class="text-secondary text-center">Revisions</h6>
+                                                                                                                                                    <?php 
+                                                                                                                                                        $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
+                                                                                                                    
+                                                                                                                                                        $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                                        while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                            $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                                    ?>
+                                                                                                                                                    <div class="card bg-secondary text-white mb-4">
+                                                                                                                                                        <div class="card-body">
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                            <hr>
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <?php 
+                                                                                                                                                        }
+                                                                                                                                                    } 
+                                                                                                                                                    ?>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                    <h6 class="text-warning text-center">In-Review</h6>
+                                                                                                                                                    <?php 
+                                                                                                                                                        $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
+                                                                                                                    
+                                                                                                                                                        $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                                        while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                            $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                                    ?>
+                                                                                                                                                    <div class="card bg-warning text-white mb-4">
+                                                                                                                                                        <div class="card-body">
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                            <hr>
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <?php 
+                                                                                                                                                        }
+                                                                                                                                                    } 
+                                                                                                                                                    ?>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                    <h6 class="text-danger text-center">Urgent</h6>
+                                                                                                                                                    <?php 
+                                                                                                                                                        $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
+                                                                                                                    
+                                                                                                                                                        $rvlReport = mysqli_query($conn, $vlReport);
+                                                                                                                                                        while ($rowVl = mysqli_fetch_array($rvlReport)) {
+                                                                                                                                                            $ticket_volunteers_ids2 = explode(',', $rowVl['ticket_volunteers_id']);
+                                                                                                                                                            if (in_array($volunteer_id, $ticket_volunteers_ids2)) {
+                                                                                                                                                    ?>
+                                                                                                                                                    <div class="card bg-danger text-white mb-4">
+                                                                                                                                                        <div class="card-body">
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_title']; ?></h6>
+                                                                                                                                                            <hr>
+                                                                                                                                                            <h6><?php echo $rowVl['ticket_desc']; ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <?php 
+                                                                                                                                                        }
+                                                                                                                                                    } 
+                                                                                                                                                    ?>
+                                                                                                                                                </div>
+
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        
+                                                                                                                                    </div>
+                                                                                                                                    <div class="tab-pane fade p-3" id="agenda<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>">
+                                                                                                                                        <div style="max-height: 500px; overflow-y: auto;">
+                                                                                                                                        <button class="btn btn-secondary" onclick="sortCards()">Sort <i class="fa-solid fa-sort"></i></button>
+
+                                                                                                                                            <?php 
+                                                                                                                                                $queryTicket = "SELECT * FROM personal_agenda WHERE volunteer_id = '$volunteer_id'";
+                                                                                                                                                $resulTicket = mysqli_query($conn, $queryTicket);
+                                                                                                                                                while ($rows = mysqli_fetch_array($resulTicket)) {
+                                                                                                                                            ?>
+                                                                                                                                            <div id="cards-container">
+                                                                                                                                            <div class="card bg-dark text-white mb-4 mt-3" data-date-created="<?php echo $rows['date_created']; ?>">
+                                                                                                                                                <div class="card-body">
+                                                                                                                                                    <div class="row">
+                                                                                                                                                        <div class="col-md-8 text-left">
+                                                                                                                                                            <h6>Title: <b><?php echo $rows['title'] ?></b></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="col-md-4 text-right">
+                                                                                                                                                            <h6>Startdate: <?php echo date('h:i:s A', strtotime($rows['startdate'])); ?></h6>
+                                                                                                                                                            <h6>Enddate: <?php echo date('h:i:s A', strtotime($rows['enddate'])); ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+
+                                                                                                                                                    <hr>
+                                                                                                                                                    <div class="row">
+                                                                                                                                                        <div class="col-md-8 text-left">
+                                                                                                                                                            <h6>Description: <br> <b><?php echo $rows['description'] ?></b></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="col-md-4 text-right">
+                                                                                                                                                            <h6>Date Created: <?php echo $rows['date_created'] ?></h6>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+
+
+                                                                                                                                            <script>
+                                                                                                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                                                                                                    let ascending = true;
+
+                                                                                                                                                    function sortCards() {
+                                                                                                                                                        const container = document.getElementById('cards-container');
+                                                                                                                                                        const cards = Array.from(container.querySelectorAll('.card[data-date-created]'));
+                                                                                                                                                        
+                                                                                                                                                        cards.sort((a, b) => {
+                                                                                                                                                            const dateA = new Date(a.getAttribute('data-date-created'));
+                                                                                                                                                            const dateB = new Date(b.getAttribute('data-date-created'));
+                                                                                                                                                            return ascending ? dateA - dateB : dateB - dateA;
+                                                                                                                                                        });
+
+                                                                                                                                                        // Toggle the sorting order for next click
+                                                                                                                                                        ascending = !ascending;
+
+                                                                                                                                                        // Re-append sorted cards to the container
+                                                                                                                                                        cards.forEach(card => container.appendChild(card));
+                                                                                                                                                    }
+
+                                                                                                                                                    window.sortCards = sortCards; // Expose sortCards to the global scope so the button can access it
+                                                                                                                                                });
+                                                                                                                                            </script>
+                                                                                                                                            <?php } ?>
+                                                                                                                                            </div>
+
+
+                                                                                                                                        </div>
+                                                                                                                                        
+                                                                                                                                    </div>
+                                                                                                                                </div>
                                                                                                                             </div>
+
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1514,38 +2789,53 @@
                                                                                 <!-- right side of the modal comment display -->
                                                                                 <div class="col-md-12">
                                                                                     <div class="container">
-                                                                                        <div class="chat-container">
-                                                                                            <div class="message received">
-                                                                                                <div class="alert alert-primary" role="alert">
-                                                                                                    Hello! How can I help you?
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="message sent">
-                                                                                                <div class="alert alert-secondary" role="alert">
-                                                                                                    Hi! I have a question about your services.
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="message received">
-                                                                                                <div class="alert alert-primary" role="alert">
-                                                                                                    Sure, feel free to ask.
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="message sent">
-                                                                                                <div class="alert alert-secondary" role="alert">
-                                                                                                    Hi! I have a question about your services.
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="message sent">
-                                                                                                <div class="alert alert-secondary" role="alert">
-                                                                                                    Hi! I have a question about your services.
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="message sent">
-                                                                                                <div class="alert alert-secondary" role="alert">
-                                                                                                    Hi! I have a question about your services.
-                                                                                                </div>
-                                                                                            </div>
+                                                                                        <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                            <?php 
+                                                                                                $comment_id = $row['id'];
+                                                                                                $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                                $resultComment = mysqli_query($conn, $queryComment);
+                                                                                                while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                            ?>
+                                                                                            <?php 
+                                                                                                if($rowComment['account_type'] == 'Admin'){
+                                                                                                    ?>
+                                                                                                     <div class="message sent">
+                                                                                                        <div class="alert alert-secondary" role="alert">
+                                                                                                            <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }else{
+                                                                                                    ?>
+                                                                                                    <div class="message received">
+                                                                                                        <div class="alert alert-primary" role="alert">
+                                                                                                            <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                            ?>
+                                                                                
+                                                                                            <?php } ?>
+                                                                                          
                                                                                         </div>
+                                                                                        <hr>
+                                                                                        <form action="./include/process.php" method="POST">
+                                                                                            <h6>Comment:</h6>
+                                                                                            <input type="hidden" name="ticket_id" value="<?php echo $row['id'] ?>">
+                                                                                            <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                            <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                            <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                            <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                            <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                            <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                            <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+                                                                                                
+                                                                                            <div class="d-flex">
+                                                                                                <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                                <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                            </div>
+                                                                                        </form>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1562,6 +2852,22 @@
 
                                             <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
                                             <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                            <?php
+                                                $queryPercent1 = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket'";
+                                                $resultPercent1 = mysqli_query($conn, $queryPercent1);
+
+                                                $completedCount1 = 0;
+                                                while ($completed1 = mysqli_fetch_array($resultPercent1)) {
+                                                    if ($completed1['ticket_status'] == 'Completed') {
+                                                        $completedCount1++;
+                                                    }
+                                                }
+                                                $count1 = mysqli_num_rows($resultPercent1);
+
+                                                $result1 = ($count1 > 0) ? ($completedCount1 / $count1) * 100 : 0; // Avoid division by zero
+                                                $formattedResult1 = number_format($result1, 2);
+                                            ?>
+
                                             <script>
                                             var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
                                                 strokeWidth: 6,
@@ -1580,7 +2886,7 @@
                                                     top: '50%'
                                                 },
                                                 text: {
-                                                    value: 'Plan Progress: 70%', // Initial value of the progress text
+                                                    value: 'Event Progress: <?php echo $formattedResult1 ?>%', // Initial value of the progress text
                                                     className: 'progressbar-text', // CSS class for the progress text
                                                     autoStyleContainer: false, // Disable automatic styling of the text container
                                                     style: {
@@ -1598,8 +2904,9 @@
                                             });
 
                                             // Set the initial progress value
-                                            progressBar.animate(0.5); // Example: 50% progress
+                                            progressBar.animate(<?php echo $formattedResult1 / 100 ?>);
                                             </script>
+
 
                                             <?php 
                                             }
@@ -1611,9 +2918,23 @@
                                 <div class="col-md-3">
                                     <div class="text-center">
                                         <label for="">Completion Percent:</label>
-                                        <div class="progress mt-2">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress">
+                                            <?php
+                                                $queryPercent = "SELECT * FROM tickets WHERE event_id = $main_id AND ticket_type != 'Ask Ticket' ";
+                                                $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                $completedCount = 0;
+                                                while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                    if ($completed['ticket_status'] == 'Completed') {
+                                                        $completedCount++;
+                                                    }
+                                                }
+                                                $count = mysqli_num_rows($resultPercent);
+
+                                                $result = ( $completedCount / $count) * 100;
+                                                $formattedResult = number_format($result, 2);
+                                            ?>
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $result; ?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><?php echo $formattedResult; ?>%</div>
                                         </div>
                                     </div>
                                     <hr>
@@ -1624,13 +2945,258 @@
                                         </div>  
                                         
                                         <div class="p-3">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
+                                            <div class="card mb-4" style="max-height: 500px; overflow-y: auto;">
+                                                <?php 
+                                                    $queryAsk = "SELECT * FROM tickets WHERE ticket_type = 'Ask Ticket' AND event_id = '$id'";
+                                                    
+                                                    $resultAsk = mysqli_query($conn, $queryAsk);
+                                                    while ($rowAsk = mysqli_fetch_array($resultAsk)) {
+                                                        ?>
+                                                        <div class="p-2">
+                                                            <div class="card bg-secondary text-white mb-4">
+                                                                <div class="card-body">
+                                                                    <h6><?php echo $rowAsk['ticket_title'] ?></h6>
+                                                                </div>
+                                                                <div class="card-footer text-center">
+                                                                    <h6><a class="text-white" style="text-decoration:none" href="" data-bs-toggle="modal" data-bs-target="#detTicket5<?php echo $rowAsk['id'] ?>">View</a></h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                    <h5>Plan Requests</h5>
-                                                    <hr>
-                                                    <p>This is only a sample plan. Details goes here</p>
-                                                </div>
+                                                        <!--Ticket Details-->
+                                                        <div class="modal modal-xl fade" id="detTicket5<?php echo $rowAsk['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-success text-white">
+                                                                        <h6 class="modal-title">Ticket Details</h6>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                        </button>
+                                                                    </div>  
+                                                                    <div class="card-body">
+                                                                        <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main<?php echo $rowAsk['id'] ?>" type="button" role="tab" aria-controls="main" aria-selected="true">Main</button>
+                                                                            </li>
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments<?php echo $rowAsk['id'] ?>" type="button" role="tab" aria-controls="comments" aria-selected="false">Comments</button>
+                                                                            </li>
+                                                                        
+                                                                        </ul>
+                                                                
+                                                                        <div class="tab-content" id="myTabContent">
+                                                                            <div class="tab-pane fade show active p-3" id="main<?php echo $rowAsk['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <div class="row">
+                                                                                            <div class="col">
+                                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                                <h6 class="mt-3"><b><?php echo $rowAsk['ticket_title'] ?></b> </h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                                <h6 class="mt-3"><b><?php echo $rowAsk['ticket_admin'] ?></b></h6>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                                        <h6 class="mt-3"><b><?php echo $rowAsk['ticket_desc'] ?></b></h6>
+                                                                                        <br>
+                                                                                        <hr>
+                                                                                        <div class="row align-items-center">
+                                                                                            <div class="col-auto">
+                                                                                                <h6>Priority Level:</h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <?php 
+                                                                                                if($rowAsk['ticket_priority'] == 'Low'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Low</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'Mid'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-primary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Mid</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'High'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-warning d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>High</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }elseif($rowAsk['ticket_priority'] == 'Urgent'){
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-danger d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>Urgent</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }else{
+                                                                                                    ?>
+                                                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                        role="alert">
+                                                                                                        <strong>N/A</strong>
+                                                                                                    </div>
+                                                                                                <?php
+                                                                                                }
+                                                                                                
+                                                                                                ?>
+                                                                                
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row align-items-center">
+                                                                                            <div class="col-auto">
+                                                                                                <h6>Status:</h6>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <?php 
+                                                                                                    if($rowAsk['ticket_status'] == 'Your-ticket'){
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>Your-ticket</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'To-Do'){
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>To-Do</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'In-Review'){ 
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>In-Review</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    elseif($rowAsk['ticket_status'] == 'Revision'){ 
+                                                                                                        ?>
+                                                                                                            <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                <strong>Revision</strong>
+                                                                                                            </div>
+                                                                                                        <?php
+                                                                                                    }
+                                                                                                    else{
+                                                                                                    ?>
+                                                                                                        <div class="alert alert-secondary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                            <strong>N/A</strong>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                ?>
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                        <div>
+                                                                                            <h6>Ticket Volunteers: </h6>
+
+                                                                                            <div class="col">
+                                                                                            <?php 
+                                                                                                $ids = $rowAsk['ticket_volunteers_id'];
+                                                                                                $idsArray = explode(',', $ids);
+                                                                                            
+                                                                                                $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                                                
+                                                                                                $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                                                $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                                            
+                                                                                                while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+
+                                                                                            ?>
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                    <strong><?php echo $row_volunteer['name'] ?></strong>
+                                                                                                </button>
+                                                                                            <?php
+                                                                                            }
+                                                                                            ?>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4 mt-3">
+                                                                                        <h6>Ticket Type: <b><?php echo $rowAsk['ticket_type'] ?></b> </h6>
+                                                                                        <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $rowAsk['ticket_deadline'] ?></b> </h6>
+                                                                                     
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="tab-pane fade p-3" id="comments<?php echo $rowAsk['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                <div class="row mt-12">
+                                                                                    <!-- right side of the modal comment display -->
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="container">
+                                                                                            <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                                <?php 
+                                                                                                    $comment_id = $rowAsk['id'];
+                                                                                                    $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                                    $resultComment = mysqli_query($conn, $queryComment);
+                                                                                                    while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                                ?>
+                                                                                                <?php 
+                                                                                                    if($rowComment['account_type'] == 'Admin'){
+                                                                                                        ?>
+                                                                                                        <div class="message sent">
+                                                                                                            <div class="alert alert-secondary" role="alert">
+                                                                                                                <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }else{
+                                                                                                        ?>
+                                                                                                        <div class="message received">
+                                                                                                            <div class="alert alert-primary" role="alert">
+                                                                                                                <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                ?>
+                                                                                    
+                                                                                                <?php } ?>
+                                                                                            
+                                                                                            </div>
+                                                                                            <hr>
+                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                <h6>Comment:</h6>
+                                                                                                <input type="hidden" name="ticket_id" value="<?php echo $rowAsk['id'] ?>">
+                                                                                                <input type="hidden" name='main_id' value="<?php echo $_GET['id'] ?>">
+                                                                                                <input type="hidden" name='main_event_id' value="<?php echo $_GET['event_id'] ?>">
+                                                                                                <input type="hidden" name='main_title' value="<?php echo $_GET['title'] ?>">
+                                                                                                <input type="hidden" name='main_start' value="<?php echo $_GET['start'] ?>">
+                                                                                                <input type="hidden" name='main_end' value="<?php echo $_GET['end'] ?>">
+                                                                                                <input type="hidden" name='main_allday' value="<?php echo $_GET['allday'] ?>">
+                                                                                                <input type="hidden" name='main_desc' value="<?php echo $_GET['desc']; ?>">
+
+                                                                                                <div class="d-flex">
+                                                                                                    <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                                    <button type="submit" class="btn btn-success" title="Send" name="add_comment"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php
+                                                    }
+                                                ?>
+                                    
                                             </div>
                                         </div>
                                     </div>

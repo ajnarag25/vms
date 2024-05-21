@@ -199,13 +199,14 @@ if (isset($_POST['remSkills'])) {
 // ASK SUBMISSION
 if (isset($_POST['ask_submit'])) {
     $volunteer_id = $_POST['ask_id'];
+    $ask_event_id = $_POST['ask_event_id'];
     $ticket_title = $_POST['ask_title'];
     $ticket_desc = $_POST['ask_details'];
 
     if (!empty($ticket_title)) {
 
         $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
-        VALUES('' ,'', '', '$ticket_title', '$ticket_desc', 'Ask Ticket', '', 'Volunteer', '', '', '$volunteer_id', '', '', '', '', '')") or die($conn->error);
+        VALUES('$ask_event_id' ,'', '', '$ticket_title', '$ticket_desc', 'Ask Ticket', '', 'Volunteer', '', '', '$volunteer_id', '', '', '', '', '')") or die($conn->error);
 
         $_SESSION['status'] = 'Your ticket successfully sent';
         $_SESSION['status_icon'] = 'success';
@@ -282,3 +283,46 @@ if (isset($_POST['file_submit'])) {
     }   
 
 }
+
+// ADD COMMENT - TEAM DASHBOARD
+if (isset($_POST['add_comment'])) {
+    $ticket_id = $_POST['ticket_id'];
+    $comment = $_POST['comment'];
+
+    if (!empty($ticket_id)) {
+        $conn->query("INSERT INTO comments (ticket_id, comment, account_type) 
+        VALUES('$ticket_id', '$comment', 'Volunteer')") or die($conn->error);
+        $_SESSION['status'] = 'Your Comment Successfully Sent';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../team_dashboard.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../team_dashboard.php');
+        exit();
+    }   
+
+}
+
+// ADD COMMENT - TICKET PANEL
+if (isset($_POST['add_comment_panel'])) {
+    $ticket_id = $_POST['ticket_id'];
+    $comment = $_POST['comment'];
+
+    if (!empty($ticket_id)) {
+        $conn->query("INSERT INTO comments (ticket_id, comment, account_type) 
+        VALUES('$ticket_id', '$comment', 'Volunteer')") or die($conn->error);
+        $_SESSION['status'] = 'Your Comment Successfully Sent';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../ticket_panel.php');
+        exit();
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../ticket_panel.php');
+        exit();
+    }   
+
+}
+

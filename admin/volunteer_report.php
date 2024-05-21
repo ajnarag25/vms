@@ -197,7 +197,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header bg-success">
-                                            <h5 class=" modal-title text-white">Volunteer Report</h5>
+                                            <h6 class=" modal-title text-white">Volunteer Report</h6>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -218,14 +218,14 @@
                                                 <div class="tab-pane fade show active p-3" id="reports<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <h5>Name: <b><?php echo $row['name'] ?></b></h5>
-                                                            <h5 class="mt-3">Username: <b><?php echo $row['username'] ?></b></h5>
-                                                            <h5 class="mt-3">Email: <b><?php echo $row['email'] ?></b></h5>
+                                                            <h6>Name: <b><?php echo $row['name'] ?></b></h6>
+                                                            <h6 class="mt-3">Username: <b><?php echo $row['username'] ?></b></h6>
+                                                            <h6 class="mt-3">Email: <b><?php echo $row['email'] ?></b></h6>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <h5 class="">Contact: <b><?php echo $row['contact'] ?></b></h5>
-                                                            <h5 class="mt-3">Date Joined:  <b><?php echo $row['date_joined'] ?></b></h5>
-                                                            <h5 class="mt-3">Status:
+                                                            <h6 class="">Contact: <b><?php echo $row['contact'] ?></b></h6>
+                                                            <h6 class="mt-3">Date Joined:  <b><?php echo $row['date_joined'] ?></b></h6>
+                                                            <h6 class="mt-3">Status:
                                                             <?php 
                                                                 if($row['status'] == 'Verified'){
                                                                     ?>
@@ -243,56 +243,24 @@
                                                                 <?php
                                                                 }
                                                             ?>
-                                                            </h5>
+                                                            </h6>
                                                     
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            <h5 class="text-center">Availability:</h5>
+                                                        <!-- <div class="col-md-4">
+                                                            <h6 class="text-center">Availability:</h6>
                                                             <div id="progress-bar-container<?php echo $row['id'] ?>"
                                                                 style="position: relative;">
                                                             </div>
+                                                        </div> -->
+                                                        <div class="col-md-4">
+                                                            <h6 class="text-center">Intensity Points:</h6>
+                                                            <div class="progress mt-3">
+                                                                <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
-                                                    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
-                                                    <script>
-                                                    var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $row['id'] ?>', {
-                                                        strokeWidth: 6,
-                                                        easing: 'easeInOut',
-                                                        duration: 1400,
-                                                        color: '#4caf50',
-                                                        trailColor: '#f3f3f3',
-                                                        trailWidth: 6,
-                                                        svgStyle: {
-                                                            // Center align the progress percentage text
-                                                            transform: 'translateX(-50%) translateY(00%)',
-                                                            width: '180px', //size of the circle
-                                                            height: '180px', //size of the circle
-                                                            position: 'relative',
-                                                            left: '50%',
-                                                            top: '50%'
-                                                        },
-                                                        text: {
-                                                            value: 'Plan Progress: 70%', // Initial value of the progress text
-                                                            className: 'progressbar-text', // CSS class for the progress text
-                                                            autoStyleContainer: false, // Disable automatic styling of the text container
-                                                            style: {
-                                                                position: 'absolute',
-                                                                left: '30%',
-                                                                right: '20%',
-                                                                top: '42%',
-                                                                padding: 0,
-                                                                margin: 0,
-                                                                fontSize: '1.0rem',
-                                                                fontWeight: 'bold',
-                                                                color: '#000'
-                                                            }
-                                                        }
-                                                    });
 
-                                                    // Set the initial progress value
-                                                    progressBar.animate(0.5); // Example: 50% progress
-                                                    </script>
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-md-4">
@@ -338,30 +306,24 @@
                                                                     }
                                                                 }
 
-                                                                echo '<h5>Your-tickets: ' . $yourTicketCount . '</h5>';
-                                                                echo '<h5>In-Review: ' . $inReviewCount . '</h5>';
-                                                                echo '<h5>Urgent: ' . $urgentCount . '</h5>';
+                                                                echo '<h6>Your-tickets: ' . $yourTicketCount . '</h6>';
+                                                                echo '<h6>In-Review: ' . $inReviewCount . '</h6>';
+                                                                echo '<h6>Urgent: ' . $urgentCount . '</h6>';
                                                             ?>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <?php 
-                                                                echo '<h5>To-Do: ' . $toDoCount . '</h5>';
-                                                                echo '<h5>Revisions: ' . $revisionsCount . '</h5>';
-                                                                echo '<h5>Completed: ' . $completedCount . '</h5>';
+                                                                echo '<h6>To-Do: ' . $toDoCount . '</h6>';
+                                                                echo '<h6>Revisions: ' . $revisionsCount . '</h6>';
+                                                                echo '<h6>Completed: ' . $completedCount . '</h6>';
                                                             ?>
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            <h5 class="text-center">Intensity Points:</h5>
-                                                            <div class="progress mt-3">
-                                                                <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <h5>Skill Tags:</h5>
+                                                            <h6>Skill Tags:</h6>
                                                             <?php
                                                                 $vl_id = $row['id'];
                                                                 $retrieve_skills = "SELECT * FROM volunteer_skills WHERE volunteer_id = '$vl_id'";

@@ -12,6 +12,7 @@
     src="https://unpkg.com/bs-brain@2.0.3/components/calendars/calendar-1/assets/controller/calendar-1.js"></script>
 <script>
     $('#Announcements').DataTable()
+    $('#TicketPanel').DataTable()
 </script>
 
 <?php
