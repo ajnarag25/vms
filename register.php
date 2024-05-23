@@ -14,31 +14,57 @@
                     <div class="custom_card shadow-2" style="border-radius: 1rem;">
                         <div class="p-2"></div>
                         <div class="card-body p-4">
-                            <div class="card p-5">
+                            <div class="card p-3">
                                 <div class="text-center">
                                     <img src="assets/logo.png" width="100" alt="">
 
                                 </div>
                                 <form action="./functions/process.php" method="POST">
                                     <h4 class="mt-3 text-center"> <b>Register | Volunteer</b></h4>
-                                    <div class="form-outline mb-4 mt-3">
-                                        <input type="text" placeholder="Name" name="name" class="form-control"
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-outline mt-3">
+                                                <input type="text" placeholder="First name" name="firstname"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-outline mt-3">
+                                                <input type="text" placeholder="Middle name" name="middlename"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-3 mt-2">
+                                        <input type="text" placeholder="Last name" name="lastname" class="form-control"
                                             required />
                                     </div>
-                                    <div class="form-outline mb-4 mt-3">
-                                        <input type="text" placeholder="Username" name="username" class="form-control"
-                                            required />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-outline mb-2 mt-3">
+                                                <input type="text" placeholder="Username" name="username"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-outline mb-2 mt-3">
+                                                <input type="text" placeholder="Nickname" name="name"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-outline mb-4">
+
+                                    <div class="form-outline mb-2">
                                         <input type="text" placeholder="Email" name="email" class="form-control"
                                             required />
                                     </div>
-                                    <div class="form-outline mb-4">
+                                    <div class="form-outline mb-2">
                                         <input type="text" placeholder="Contact no." name="contact" class="form-control"
                                             required />
                                     </div>
                                     <hr>
-                                    <div class="form-outline mb-4">
+                                    <div class="form-outline mb-3">
                                         <input type="password" placeholder="Enter Password" name="password"
                                             class="form-control" required />
                                     </div>
