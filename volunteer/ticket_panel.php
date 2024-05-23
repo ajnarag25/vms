@@ -126,6 +126,7 @@
                             <br>
                             <div class="container">
                                 <div class="table-responsive">
+                                    <h4 class="text-center"><b>Your Tickets</b></h4>
                                     <table class="table table-border table-hover p-4" id="TicketPanel">
                                         <thead>
                                             <tr>
@@ -500,6 +501,415 @@
                                                             </tr>
                                                             <?php
                                                         }
+                                                    }
+                                                }
+                                            }
+                                            ?>
+
+                                        </tbody>
+                                    </table>
+                                    <h4 class="text-center mt-3"><b>Other Tickets</b></h4>
+                                    <table class="table table-border table-hover p-4" id="TicketPanelAll">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Event Title</th>
+                                                <th scope="col">Event Tickets</th>
+                                                <th scope="col">Event Description</th>
+                                                <th scope="col">Event Date</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php 
+                                            $volunteer_id = $_SESSION['volunteer']['id'];
+                                            $queryTicket = "SELECT * FROM tickets";
+                                            $resultTicket = mysqli_query($conn, $queryTicket);
+
+                                            $eventTitles = [];
+
+                                            while ($rowTicket = mysqli_fetch_array($resultTicket)) {
+                                                $ticket_volunteers_ids = explode(',', $rowTicket['ticket_volunteers_id']);
+                                                $event_id = $rowTicket['event_id'];
+                                                
+                                                if (!in_array($event_id, array_column($eventTitles, 'id'))) {
+                                                    $queryEvent = "SELECT * FROM events WHERE id = '$event_id'";
+                                                    $resultEvent = mysqli_query($conn, $queryEvent);
+
+                                                    while ($rowEvent = mysqli_fetch_array($resultEvent)) {
+                                                        $eventTitle = $rowEvent['title'];
+                                                        $eventDescription = $rowEvent['description'];
+                                                        $eventDateadded = $rowEvent['date_added'];
+                                                        $eventTitles[] = ['id' => $event_id, 'title' => $eventTitle];
+                                                        ?>
+                                                        <tr>    
+                                                            <th scope="row"><?php echo $eventTitle; ?></th>
+                                                            <td class="p-3">
+                                                                <?php
+                                                                // Fetch all tickets for this event
+                                                                $queryTicketsForEvent = "SELECT * FROM tickets WHERE event_id = '$event_id'";
+                                                                $resultTicketsForEvent = mysqli_query($conn, $queryTicketsForEvent);
+                                                                
+                                                                while ($rowTicketForEvent = mysqli_fetch_array($resultTicketsForEvent)) {
+                                                                    $ticket_volunteers_ids_for_event = explode(',', $rowTicketForEvent['ticket_volunteers_id']);
+                                                                    
+                                                                    if (!in_array($volunteer_id, $ticket_volunteers_ids_for_event)) {
+                                                                        // Tickets not assigned to the volunteer
+                                                                        ?>
+                                                                        <button type="button" class="btn btn-success me-2 mb-2" data-bs-toggle="modal" data-bs-target="#ticket2<?php echo $rowTicketForEvent['id']; ?>">
+                                                                            <?php echo $rowTicketForEvent['ticket_title']; ?>
+                                                                        </button>
+
+                                                                        <!--Ticket Details-->
+                                                                        <div class="modal modal-xl fade" id="ticket2<?php echo $rowTicketForEvent['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="detTicket" aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header bg-success text-white">
+                                                                                        <h6 class="modal-title">Ticket Details</h6>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                            aria-label="Close"></button>
+                                                                                        </button>
+                                                                                    </div>  
+                                                                                    <div class="card-body p-3">
+                                                                                        <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                                                                            <li class="nav-item" role="presentation">
+                                                                                                <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main<?php echo $rowTicketForEvent['id'] ?>" type="button" role="tab" aria-controls="main" aria-selected="true">Main</button>
+                                                                                            </li>
+                                                                                            <li class="nav-item" role="presentation">
+                                                                                                <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments<?php echo $rowTicketForEvent['id'] ?>" type="button" role="tab" aria-controls="comments" aria-selected="false">Comments</button>
+                                                                                            </li>
+                                                                                        
+                                                                                        </ul>
+                                                                                
+                                                                                        <div class="tab-content" id="myTabContent">
+                                                                                            <div class="tab-pane fade show active p-3" id="main<?php echo $rowTicketForEvent['id'] ?>" role="tabpanel" aria-labelledby="main-tab">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-8">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col">
+                                                                                                                <h6 class="mt-3">Ticket Title:</h6>
+                                                                                                                <h6 class="mt-3"><b><?php echo $rowTicketForEvent['ticket_title'] ?></b> </h6>
+                                                                                                            </div>
+                                                                                                            <div class="col">
+                                                                                                                <h6 class="mt-3">Ticket Admin: </h6>
+                                                                                                                <h6 class="mt-3"><b><?php echo $rowTicketForEvent['ticket_admin'] ?></b></h6>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <h6 class="mt-3">Ticket Description: </h6>
+                                                                                                        <h6 class="mt-3"><b><?php echo $rowTicketForEvent['ticket_desc'] ?></b></h6>
+                                                                                                        <br>
+                                                                                                        <hr>
+                                                                                                        <div class="row align-items-center">
+                                                                                                            <div class="col-auto">
+                                                                                                                <h6>Priority Level:</h6>
+                                                                                                            </div>
+                                                                                                            <div class="col">
+                                                                                                                <?php 
+                                                                                                                if($rowTicketForEvent['ticket_priority'] == 'Low'){
+                                                                                                                    ?>
+                                                                                                                    <div class="alert alert-secondary d-inline-flex align-items-center py-1"
+                                                                                                                        role="alert">
+                                                                                                                        <strong>Low</strong>
+                                                                                                                    </div>
+                                                                                                                <?php
+                                                                                                                }elseif($rowTicketForEvent['ticket_priority'] == 'Mid'){
+                                                                                                                    ?>
+                                                                                                                    <div class="alert alert-primary d-inline-flex align-items-center py-1"
+                                                                                                                        role="alert">
+                                                                                                                        <strong>Mid</strong>
+                                                                                                                    </div>
+                                                                                                                <?php
+                                                                                                                }elseif($rowTicketForEvent['ticket_priority'] == 'High'){
+                                                                                                                    ?>
+                                                                                                                    <div class="alert alert-warning d-inline-flex align-items-center py-1"
+                                                                                                                        role="alert">
+                                                                                                                        <strong>High</strong>
+                                                                                                                    </div>
+                                                                                                                <?php
+                                                                                                                }else{
+                                                                                                                    ?>
+                                                                                                                    <div class="alert alert-danger d-inline-flex align-items-center py-1"
+                                                                                                                        role="alert">
+                                                                                                                        <strong>Urgent</strong>
+                                                                                                                    </div>
+                                                                                                                <?php
+                                                                                                                }
+                                                                                                                
+                                                                                                                ?>
+                                                                                                
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="row align-items-center">
+                                                                                                            <div class="col-auto">
+                                                                                                                <h6>Status:</h6>
+                                                                                                            </div>
+                                                                                                            <div class="col">
+                                                                                                                <?php 
+                                                                                                                    if($rowTicketForEvent['ticket_status'] == 'Your-ticket'){
+                                                                                                                    ?>
+                                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                            <strong>Your-ticket</strong>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                    elseif($rowTicketForEvent['ticket_status'] == 'To-Do'){
+                                                                                                                    ?>
+                                                                                                                        <div class="alert alert-primary rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                            <strong>To-Do</strong>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                    elseif($rowTicketForEvent['ticket_status'] == 'In-Review'){ 
+                                                                                                                    ?>
+                                                                                                                        <div class="alert alert-warning rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                            <strong>In-Review</strong>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                    elseif($rowTicketForEvent['ticket_status'] == 'Completed'){ 
+                                                                                                                    ?>
+                                                                                                                        <div class="alert alert-success rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                            <strong>Completed</strong>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                    else{
+                                                                                                                    ?>
+                                                                                                                        <div class="alert alert-danger rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                            <strong>Revision</strong>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                ?>
+                                                                                                                
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                        <div style="max-height: 200px; overflow-y: auto;">
+                                                                                                        <h6><b>Additional Instructions:</b></h6>
+                                                                                                        <?php 
+                                                                                                            $ticket_id = $rowTicketForEvent['id'];
+                                                                                                            $queryInstruction = "SELECT ticket_instructions FROM tickets WHERE id = $ticket_id";
+                                                                                                            $resultInstruction = mysqli_query($conn, $queryInstruction);
+
+                                                                                                            while ($instructionRow = mysqli_fetch_assoc($resultInstruction)) {
+                                                                                                                // Get the instructions from the row
+                                                                                                                $instructionStr = $instructionRow['ticket_instructions'];
+                                                                                                                
+                                                                                                                // Explode the instructions into an array
+                                                                                                                $instructionsArray = explode(', ', $instructionStr);
+
+                                                                                                                // Output each instruction in a list item
+                                                                                                                echo '<ul>';
+                                                                                                                foreach ($instructionsArray as $instruction) {
+                                                                                                                    echo '<li>' . $instruction . '</li>';
+                                                                                                                }
+                                                                                                                echo '</ul>';
+                                                                                                            }
+                                                                                                        ?>
+
+                                                                                                        </div>
+                                                                                                        
+                                                                                                        <hr>
+                                                                                                        <div>
+                                                                                                            <h6>Ticket Volunteers: </h6>
+
+                                                                                                            <div class="col">
+                                                                                                            <?php 
+                                                                                                                $ids = $rowTicketForEvent['ticket_volunteers_id'];
+                                                                                                                $idsArray = explode(',', $ids);
+                                                                                                            
+                                                                                                                $idsString = "'" . implode("', '", $idsArray) . "'";
+                                                                                                                
+                                                                                                                $query_volunteer = "SELECT * FROM accounts WHERE id IN ($idsString)";
+                                                                                                                $result_volunteer = mysqli_query($conn, $query_volunteer);
+                                                                                                            
+                                                                                                                while ($row_volunteer = mysqli_fetch_array($result_volunteer)) {
+
+                                                                                                            ?>
+                                                                                                                <button type="button"
+                                                                                                                    class="btn btn-dark rounded-pill d-inline-flex align-items-center py-1">
+                                                                                                                    <strong><?php echo $row_volunteer['name'] ?></strong>
+                                                                                                                </button>
+                                                                                                            <?php
+                                                                                                            }
+                                                                                                            ?>
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-4">
+                                                                                                        <div id="progress-bar-container<?php echo $rowTicketForEvent['id'] ?>"
+                                                                                                            style="position: relative;">
+                                                                                                        </div>
+                                                                                                
+                                                                                                        <hr>
+                                                                                                        <h6>Ticket Type: <b><?php echo $rowTicketForEvent['ticket_type'] ?></b> </h6>
+                                                                                                        <h6 class="mt-3">Ticket Deadline: <b class="text-danger"><?php echo $rowTicketForEvent['ticket_deadline'] ?></b> </h6>
+                                                                                                        <div class="text-center mt-3">
+                                                                                                        <button class="btn btn-secondary w-25 mt-2" data-bs-toggle="modal" data-bs-target="#ask<?php echo $rowTicketForEvent['id'] ?>">Ask</button>
+
+                                                                                                        <!--Ask-->
+                                                                                                        <div class="modal fade" id="ask<?php echo $rowTicketForEvent['id'] ?>" tabindex="-1"  aria-hidden="true">
+                                                                                                            <div class="modal-dialog">
+                                                                                                                <div class="modal-content">
+                                                                                                                    <div class="modal-header bg-dark text-white">
+                                                                                                                        <h5 class="modal-title" id="">Ask about the ticket</h5>
+                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                                    </div>
+                                                                                                                    <form action="./include/process.php" method="POST">
+                                                                                                                        <div class="modal-body">
+                                                                                                                            <label for=""><b>Title:</b> </label>
+                                                                                                                            <input type="text" class="form-control" id="contact" name="ask_title" required>
+                                                                                                                            <label for=""><b>Details:</b> </label>
+                                                                                                                            <textarea class="form-control" name="ask_details" id="" cols="3" rows="3"></textarea>
+                                                                                                                        </div>
+                                                                                                                        <div class="modal-footer">
+                                                                                                                            <input type="hidden" name="ask_id" value="<?php echo $volunteer_id ?>">
+                                                                                                                            <input type="hidden" name="ask_event_id" value="<?php echo $rowTicketForEvent['event_id'] ?>">
+                                                                                                                            <button type="submit" name="ask_submit_panel" class="btn btn-primary w-100">Submit</button>
+                                                                                                                        </div>
+                                                                                                                    </form>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <?php 
+                                                                                                                $file_path = $rowTicketForEvent['file_uploaded'];
+                                                                                                                
+                                                                                                                if($file_path == ''){
+                                                                                                                    $display_file_path = 'ticket_panel.php';
+                                                                                                                }else{
+                                                                                                                    // Remove any leading '../' from the file path
+                                                                                                                    $file_path = preg_replace('#^(\.\./)+#', '', $file_path);
+                                                                                                                                                                    
+                                                                                                                    $display_file_path = "../volunteer/" . $file_path;
+                                                                                                                }
+
+                                                                                                            ?>
+                                                                                                            <a href="<?php echo $display_file_path ?>" class="btn btn-secondary mt-2" target="_blank">View Submitted File</a>
+                                                                                                        </div>
+                                                                                                        
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="tab-pane fade p-3" id="comments<?php echo $rowTicketForEvent['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
+                                                                                                <div class="row mt-12">
+                                                                                                    <!-- right side of the modal comment display -->
+                                                                                                    <div class="col-md-12">
+                                                                                                        <div class="container">
+                                                                                                            <div class="chat-container" style="max-height: 300px; overflow-y: auto;">
+                                                                                                                <?php 
+                                                                                                                    $comment_id = $rowTicketForEvent['id'];
+                                                                                                                    $queryComment = "SELECT * FROM comments WHERE ticket_id = '$comment_id'";
+                                                                                                                    $resultComment = mysqli_query($conn, $queryComment);
+                                                                                                                    while ($rowComment = mysqli_fetch_array($resultComment)) {
+                                                                                                                ?>
+                                                                                                                <?php 
+                                                                                                                    if($rowComment['account_type'] == 'Admin'){
+                                                                                                                        ?>
+                                                                                                                        <div class="">
+                                                                                                                            <div class="alert alert-secondary" role="alert">
+                                                                                                                                <b>Admin:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }else{
+                                                                                                                        ?>
+                                                                                                                        <div class="">
+                                                                                                                            <div class="alert alert-primary" role="alert">
+                                                                                                                                <b>Volunteer:</b> <?php echo $rowComment['comment'] ?>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    <?php
+                                                                                                                    }
+                                                                                                                ?>
+                                                                                                                <?php } ?>
+                                                                                                            
+                                                                                                            </div>
+                                                                                                            <hr>
+                                                                                                            <form action="./include/process.php" method="POST">
+                                                                                                                <h6>Comment:</h6>
+                                                                                                                <input type="hidden" name="ticket_id" value="<?php echo $rowTicketForEvent['id'] ?>">
+                                                                                                                <div class="d-flex">
+                                                                                                                    <textarea class="form-control me-2" name="comment" id="comment" required></textarea>
+                                                                                                                    <button type="submit" class="btn btn-success" title="Send" name="add_comment_panel"><i class="fa-solid fa-paper-plane"></i></button>
+                                                                                                                </div>
+                                                                                                            </form>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
+                                                                        <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+                                                                        <?php
+                                                                            $ticket_event_id = $rowTicketForEvent['event_id'];
+                                                                            $queryPercent = "SELECT * FROM tickets WHERE event_id = '$ticket_event_id' AND ticket_type != 'Ask Ticket'";
+                                                                            $resultPercent = mysqli_query($conn, $queryPercent);
+
+                                                                            $completedCount = 0;
+                                                                            while ($completed = mysqli_fetch_array($resultPercent)) {
+                                                                                if ($completed['ticket_status'] == 'Completed') {
+                                                                                    $completedCount++;
+                                                                                }
+                                                                            }
+                                                                            $count = mysqli_num_rows($resultPercent);
+
+                                                                            $results = ($count > 0) ? ($completedCount / $count) * 100 : 0; 
+                                                                            $formattedResult = number_format($results, 2);
+                                                                        ?>
+                                                                        <script>
+                                                                        var progressBar = new ProgressBar.Circle('#progress-bar-container<?php echo $rowTicketForEvent['id'] ?>', {
+                                                                            strokeWidth: 6,
+                                                                            easing: 'easeInOut',
+                                                                            duration: 1400,
+                                                                            color: '#4caf50',
+                                                                            trailColor: '#f3f3f3',
+                                                                            trailWidth: 6,
+                                                                            svgStyle: {
+                                                                                // Center align the progress percentage text
+                                                                                transform: 'translateX(-50%) translateY(00%)',
+                                                                                width: '200px', //size of the circle
+                                                                                height: '200px', //size of the circle
+                                                                                position: 'relative',
+                                                                                left: '50%',
+                                                                                top: '50%'
+                                                                            },
+                                                                            text: {
+                                                                                value: 'Event Progress: <?php echo $formattedResult ?>%', // Initial value of the progress text
+                                                                                className: 'progressbar-text', // CSS class for the progress text
+                                                                                autoStyleContainer: false, // Disable automatic styling of the text container
+                                                                                style: {
+                                                                                    position: 'absolute',
+                                                                                    left: '30%',
+                                                                                    right: '20%',
+                                                                                    top: '42%',
+                                                                                    padding: 0,
+                                                                                    margin: 0,
+                                                                                    fontSize: '1.0rem',
+                                                                                    fontWeight: 'bold',
+                                                                                    color: '#000'
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                                        // Set the initial progress value
+                                                                        progressBar.animate(<?php echo $formattedResult / 100 ?>);
+                                                                        </script>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <td><?php echo $eventDescription; ?></td> 
+                                                            <td><?php echo $eventDateadded; ?></td>
+                                                        </tr>
+                                                        <?php
                                                     }
                                                 }
                                             }

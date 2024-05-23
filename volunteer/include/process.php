@@ -326,3 +326,26 @@ if (isset($_POST['add_comment_panel'])) {
 
 }
 
+// ASK SUBMISSION - TICKET PANEL
+if (isset($_POST['ask_submit_panel'])) {
+    $volunteer_id = $_POST['ask_id'];
+    $ask_event_id = $_POST['ask_event_id'];
+    $ticket_title = $_POST['ask_title'];
+    $ticket_desc = $_POST['ask_details'];
+
+    if (!empty($ticket_title)) {
+
+        $conn->query("INSERT INTO tickets (event_id, start, end, ticket_title, ticket_desc, ticket_type, ticket_event, ticket_admin, ticket_deadline, ticket_priority, ticket_volunteers_id, ticket_status, ticket_comments, ticket_instructions, target_time, file_uploaded) 
+        VALUES('$ask_event_id' ,'', '', '$ticket_title', '$ticket_desc', 'Ask Ticket', '', 'Volunteer', '', '', '$volunteer_id', '', '', '', '', '')") or die($conn->error);
+
+        $_SESSION['status'] = 'Your ticket successfully sent';
+        $_SESSION['status_icon'] = 'success';
+        header('Location: ../ticket_panel.php');
+    } else {
+        $_SESSION['status'] = 'An Error Occurred!';
+        $_SESSION['status_icon'] = 'error';
+        header('Location: ../ticket_panel.php');
+        exit();
+    }
+}
+

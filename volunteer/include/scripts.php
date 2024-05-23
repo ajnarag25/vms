@@ -14,6 +14,7 @@
     $('#Announcements').DataTable()
     $('#TicketPanel').DataTable()
     $('#Timelog').DataTable()
+    $('#TicketPanelAll').DataTable()
 </script>
 
 <?php
