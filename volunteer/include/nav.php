@@ -35,66 +35,50 @@
         /* Enable vertical scrolling */
     }
     </style>
-    <a class="navbar-brand ps-3" href="#"> <img src="../assets/logo.png" width="40" alt=""> VMS </a>
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-            class="fas fa-bars"></i></button>
-    <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
-
-    <!-- Navbar-->
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-
-        <!-- ================================================================================================= -->
-        <!-- for suggestion function and display -->
-        <div class="dropdown">
-            <a class="btn text-white notification-icon" id="navbarDropdown" href="#" role="button"
-                data-bs-toggle="dropdown" title="Suggestions">
-                <i class="bi bi-robot fs-5"></i>
-                <span class="notification-badge" id="notificationBadge">2</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end p-3 dropdown-menu-scrollable" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#"><span class="badge-new">New</span>
-                        Celebrate small wins, this boost motivation and helps maintain positive mindset.
-                    </a></li>
-                <li><a class="dropdown-item" href="#"><span class="badge-new">New</span>
-                        Learn to adapt to changing circumstances.
-                    </a></li>
-                <li><a class="dropdown-item" href="#">
-                        "(volunteer name)" set an unavailability within this event's planning duration so it is
-                        important to add a volunteer for this ticket to maintain completion intensity.
-                    </a></li>
-                <li><a class="dropdown-item" href="#">
-                        Multitasking can lead to errors and increased stress.
-                    </a></li>
-                <li><a class="dropdown-item" href="#">
-                        Multitasking can lead to errors and increased stress.
-                    </a></li>
-                <li><a class="dropdown-item" href="#">
-                        Multitasking can lead to errors and increased stress.
-                    </a></li>
-                <li><a class="dropdown-item" href="#">
-                        Multitasking can lead to errors and increased stress.
-                    </a></li>
-            </ul>
-        </div>
-        <!-- end of suggestion function div -->
-        <!-- ================================================================================================== -->
-
-        <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-        <!-- <a class="btn text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-            title="Notification" href="#!"><i class="fa fa-bell"></i></a> -->
-        <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="navbarDropdown">
-            <p>No Available Notification</p>
+        <a class="navbar-brand ps-3" href="#"> <img src="../assets/logo.png" width="40" alt=""> VMS </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <div class="dropdown">
+                <a class="btn text-white notification-icon" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" title="Suggestions">
+                    <i class="bi bi-robot fs-5"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3 dropdown-menu-scrollable" aria-labelledby="navbarDropdown" id="suggestionsDropdown">
+                    <!-- <li><a class="dropdown-item" href="#"><span class="badge-new">New</span> You have been working for 2 hours, consider taking a short break.</a></li> -->
+                </ul>
+            </div>
+            <a href="personal_page.php" class="btn text-white" title="Personal Page"><i class="fa fa-user"></i></a>
+            <a class="btn text-white" title="My Account" href="my_account.php"><i class="fa-regular fa-id-card"></i></a>
+            <a href="include/process.php?logout" class="btn text-white" title="Log out"><i class="fa fa-power-off"></i></a>
         </ul>
-        <a href="personal_page.php" class="btn text-white" title="Personal Page" href="#!"><i class="fa fa-user"></i></a>
-        <a class="btn text-white" title="My Account" href="my_account.php"><i class="fa-regular fa-id-card"></i></a>
-        <a href="include/process.php?logout" class="btn text-white" title="Log out"><i class="fa fa-power-off"></i></a>
         <script src="../js/jquery.js"></script>
         <script>
-        $(document).ready(function() {
-            $('#navbarDropdown').on('click', function() {
-                $('#notificationBadge').hide();
+            $(document).ready(function() {
+                $('#navbarDropdown').on('click', function() {
+                    $('#notificationBadge').hide();
+                });
+
+                function getRandomSuggestion() {
+                    const suggestions = [
+                        "You've been working for 2 hours, take a short break.",
+                        "You must avoid multitasking to maintain task working quality and efficiency.",
+                        "Multitasking can lead to errors and increased stress.",
+                        "Learn to adapt to changing circumstances.",
+                        "Celebrate small wins, this boost motivation and helps maintain positive mindset."
+                    ];
+                    return suggestions[Math.floor(Math.random() * suggestions.length)];
+                }
+
+                function updateSuggestions() {
+                    const newSuggestion = getRandomSuggestion();
+                    $('#suggestionsDropdown').append(`<li><a class="dropdown-item" href="#"><span class="badge-new">New</span> ${newSuggestion}</a></li>`);
+                    $('#notificationBadge').text(parseInt($('#notificationBadge').text()) + 1).show();
+                }
+
+                // Simulate receiving a new suggestion every 10 seconds
+                setInterval(updateSuggestions, 10000);
             });
-        });
         </script>
     </ul>
 </nav>
