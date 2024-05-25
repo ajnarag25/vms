@@ -929,26 +929,30 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Volunteer</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Ticket Name</th>
-                                            <th scope="col">Information Report</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Login Time</th>
+                                            <th scope="col">Logout Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php 
-                                        $query = "SELECT * FROM timelogs";
-                                        $result = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                        <tr>
-                                            <th><?php echo $row['volunteer'] ?></th>
-                                            <td><?php echo $row['time'] ?></td>
-                                            <td><?php echo $row['ticket_name'] ?></td>
-                                            <td><?php echo $row['information_report'] ?></td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
+                                        $queryLog = "SELECT * FROM volunteer_logtime AS vl 
+                                                    LEFT JOIN accounts AS acc ON vl.volunteer_id = acc.id 
+                                                    ORDER BY volunteer_id DESC";
+                                        $resultLog = mysqli_query($conn, $queryLog);
+                                        if ($resultLog) {
+                                            while ($rowLog = mysqli_fetch_array($resultLog)) {
+                                        ?>
+                                            <tr>
+                                                <th><?php echo $rowLog['name']; ?></th>
+                                                <th><?php echo date('m/d/Y', strtotime($rowLog['login_time'])) ?> </th>
+                                                <td><?php echo date('h:i:s A', strtotime($rowLog['login_time'])) ?> </td>
+                                                <td><?php echo date('h:i:s A', strtotime($rowLog['logout_time'])) ?></td>
+                                            </tr>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
