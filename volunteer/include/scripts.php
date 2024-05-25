@@ -18,8 +18,8 @@
     $('#TicketPanelAll').DataTable()
 </script>
 
-<!--RANDOM SUGGESTIONS--->
-<script>
+ <!-- RANDOM SUGGESTIONS -->
+ <script>
     $(document).ready(function() {
         function getRandomSuggestion() {
             const suggestions = [
@@ -52,8 +52,107 @@
 
         updateSuggestions();
     });
-
 </script>
+
+<!---CONDITIONS---->
+<?php
+
+// Count how many To-Do tasks does the volunteer have
+$volunteer_id = $_SESSION['volunteer']['id'];
+$volunteer_count = 0;
+$queryTodo = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
+$resultTodo = mysqli_query($conn, $queryTodo);
+
+while ($rowTodo = mysqli_fetch_array($resultTodo)) {
+    $ticket_volunteers_ids_todo = explode(',', $rowTodo['ticket_volunteers_id']);
+    if (in_array($volunteer_id, $ticket_volunteers_ids_todo)) {
+        $volunteer_count++;
+    }
+}
+
+// Check if the volunteer has an event tomorrow
+$queryEvent = "SELECT * FROM tickets";
+$resultEvent = mysqli_query($conn, $queryEvent);
+$tomorrow = (new DateTime('tomorrow'))->format('Y-m-d');
+$hasEventTomorrow = false;
+$dateOnlyDebug = [];
+
+while ($rowEvent = mysqli_fetch_array($resultEvent)) {
+    $ticket_volunteers_ids_event = explode(',', $rowEvent['ticket_volunteers_id']);
+    if (in_array($volunteer_id, $ticket_volunteers_ids_event)) {
+        $dateTime = new DateTime($rowEvent['end']);
+        $dateOnly = $dateTime->format('Y-m-d');
+        
+        $dateOnlyDebug[] = $dateOnly;
+        if ($dateOnly === $tomorrow) {
+            $hasEventTomorrow = true;
+            break;
+        }
+    }
+}
+
+// Check the status if ticket if completed then count the total
+$queryCompleted = "SELECT * FROM tickets WHERE ticket_status = 'Completed'";
+$resultCompleted = mysqli_query($conn, $queryCompleted);
+$volunteer_count_completed = 0;
+while ($rowCompleted = mysqli_fetch_array($resultCompleted)) {
+    $ticket_volunteers_ids_completed = explode(',', $rowCompleted['ticket_volunteers_id']);
+    if (in_array($volunteer_id, $ticket_volunteers_ids_completed)) {
+        $volunteer_count_completed++;
+    }
+}
+
+?>
+
+<!-- REMINDERS -->
+<script>
+    $(document).ready(function() {
+        function getReminders() {
+            const volunteerCount = <?php echo $volunteer_count; ?>;
+            const volunteerCountCompleted = <?php echo $volunteer_count_completed; ?>;
+            const reminders = [];
+
+            if (volunteerCount > 0) {
+                reminders.push('You have a total of ' + volunteerCount + ' To-Do Task/s.');
+            }
+
+            <?php if ($hasEventTomorrow): ?>
+                reminders.push('You have to rest well for the upcoming event tommorrow.');
+            <?php endif; ?>
+
+            if (volunteerCountCompleted > 0) {
+                reminders.push('You have completed a total ' + volunteerCountCompleted + ' tickets. If convenient you can always send tickets to get or join other task. This will always increase your intensity points and you will be always be suggested to other tickets.');
+            }
+            
+            return reminders[Math.floor(Math.random() * reminders.length)];
+        }
+
+        function updateReminders() {
+            const newReminder = getReminders();
+
+            // Check if newReminder is not empty before updating the toast
+            if (newReminder) {
+                $('#liveToast2 .toast-body2').text(newReminder);
+                var toastEl = document.getElementById('liveToast2');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+
+            const minInterval = 50000; // minimum interval in milliseconds
+            const maxInterval = 100000; // maximum interval in milliseconds
+            const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
+
+            setTimeout(updateReminders, randomInterval);
+        }
+
+        function viewTickets() {
+            window.location.href = './team_dashboard.php';
+        }
+
+        updateReminders();
+    });
+</script>
+
 
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {

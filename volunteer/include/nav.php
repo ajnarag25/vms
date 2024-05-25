@@ -22,3 +22,16 @@
         </div>
     </div>
 </div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-warning text-white">
+            <i class="fa-solid fa-bell" style="margin-right:5px"></i>
+            <strong class="me-auto">Reminder</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body2 p-3">
+            <!-- REMINDER GOES HERE -->
+        </div>
+    </div>
+</div>
