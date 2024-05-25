@@ -24,6 +24,45 @@
     $('#Taskbacklog').DataTable()
     $('#Announcements').DataTable()
 </script>
+
+<!--RANDOM SUGGESTIONS--->
+<script>
+    $(document).ready(function() {
+
+        function getRandomSuggestion() {
+            const suggestions = [
+                "You must avoid multitasking to maintain task working quality and efficiency.",
+                "Multitasking can lead to errors and increased stress.",
+                "Learn to adapt to changing circumstances.",
+                "Celebrate small wins, this boost motivation and helps maintain positive mindset.",
+                "Always review your to-do list.",
+                "You can send tickets to the admins about the task to improve proficiency.",
+                "Please make sure to update your personal plans.",
+                "You can always focus on high priority task.",
+                "You can always set a target submission goal on every tickets to improve intensity."
+            ];
+            return suggestions[Math.floor(Math.random() * suggestions.length)];
+        }
+
+        function updateSuggestions() {
+            const newSuggestion = getRandomSuggestion();
+            $('#liveToast .toast-body').text(newSuggestion);
+            var toastEl = document.getElementById('liveToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+
+            const minInterval = 10000; // minimum interval in milliseconds
+            const maxInterval = 30000; // maximum interval in milliseconds
+            const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
+
+            setTimeout(updateSuggestions, randomInterval);
+        }
+
+        updateSuggestions();
+    });
+
+</script>
+
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
 ?>
