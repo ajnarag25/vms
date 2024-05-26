@@ -31,15 +31,10 @@
 
         function getRandomSuggestion() {
             const suggestions = [
-                "You must avoid multitasking to maintain task working quality and efficiency.",
-                "Multitasking can lead to errors and increased stress.",
                 "Learn to adapt to changing circumstances.",
                 "Celebrate small wins, this boost motivation and helps maintain positive mindset.",
-                "Always review your to-do list.",
-                "You can send tickets to the admins about the task to improve proficiency.",
-                "Please make sure to update your personal plans.",
-                "You can always focus on high priority task.",
-                "You can always set a target submission goal on every tickets to improve intensity."
+                "You can always add more volunteers to work on the same task/ticket if needed.",
+                "Multitasking can lead to errors and increased stress."
             ];
             return suggestions[Math.floor(Math.random() * suggestions.length)];
         }

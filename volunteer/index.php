@@ -199,9 +199,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
-                                <div class="bg-success text-white card-header text-center">
+                                <div class="bg-warning text-white card-header text-center">
                                     <i class="fa-solid fa-comments"></i>
-                                    Suggestion
+                                    Reminders
                                 </div>
                                 <br>
                                 <ul>

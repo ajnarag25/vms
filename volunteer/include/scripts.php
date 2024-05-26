@@ -102,6 +102,38 @@ while ($rowCompleted = mysqli_fetch_array($resultCompleted)) {
     }
 }
 
+// Check if the volunteer have a ticket deadline that is within the week or has passed
+$queryDeadline = "SELECT * FROM tickets";
+$resultDeadline = mysqli_query($conn, $queryDeadline);
+
+$currentDate = new DateTime(); // Current date
+$startOfWeek = (clone $currentDate)->modify('monday this week'); // Start of the week
+$endOfWeek = (clone $startOfWeek)->modify('sunday this week'); // End of the week
+
+$reminder_deadline = '';
+
+while ($rowDeadline = mysqli_fetch_array($resultDeadline)) {
+    $ticket_volunteers_ids_deadline = explode(',', $rowDeadline['ticket_volunteers_id']);
+    if (in_array($volunteer_id, $ticket_volunteers_ids_deadline)) {
+        $ticketDeadline = new DateTime($rowDeadline['ticket_deadline']);
+        $ticketTitle = $rowDeadline['ticket_title'];
+
+        // Check if the deadline is within this week
+        if ($ticketDeadline >= $startOfWeek && $ticketDeadline <= $endOfWeek) {
+            // Calculate days left until the deadline
+            $daysLeft = $currentDate->diff($ticketDeadline)->days;
+
+            // If needed, check if the deadline is in the past or future
+            if ($ticketDeadline > $currentDate) {
+                $reminder_deadline .= "The ticket '$ticketTitle' has $daysLeft days left until the deadline. ";
+            } else {
+                $reminder_deadline .= "The deadline for the ticket '$ticketTitle' is today or has passed. ";
+            }
+        }
+    }
+}
+
+
 ?>
 
 <!-- REMINDERS -->
@@ -118,12 +150,17 @@ while ($rowCompleted = mysqli_fetch_array($resultCompleted)) {
 
             <?php if ($hasEventTomorrow): ?>
                 reminders.push('You have to rest well for the upcoming event tommorrow.');
+                reminders.push('You are the assigned volunteer for the event tommorrow.');
             <?php endif; ?>
 
             if (volunteerCountCompleted > 0) {
                 reminders.push('You have completed a total ' + volunteerCountCompleted + ' tickets. If convenient you can always send tickets to get or join other task. This will always increase your intensity points and you will be always be suggested to other tickets.');
             }
             
+            <?php if (!empty($reminder_deadline)): ?>
+                reminders.push('<?php echo addslashes($reminder_deadline); ?>');
+            <?php endif; ?>
+
             return reminders[Math.floor(Math.random() * reminders.length)];
         }
 
