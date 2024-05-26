@@ -103,7 +103,7 @@ while ($rowCompleted = mysqli_fetch_array($resultCompleted)) {
 }
 
 // Check if the volunteer have a ticket deadline that is within the week or has passed
-$queryDeadline = "SELECT * FROM tickets";
+$queryDeadline = "SELECT * FROM tickets WHERE ticket_status != 'Completed'";
 $resultDeadline = mysqli_query($conn, $queryDeadline);
 
 $currentDate = new DateTime(); // Current date
