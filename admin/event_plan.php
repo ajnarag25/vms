@@ -724,7 +724,7 @@
                                                                                                         <div class="tab-pane fade p-3" id="tickets<?php echo $vl['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
                                                                                                             <div style="max-height: 500px; overflow-y: auto;">
                                                                                                                 <div class="row">
-                                                                                                                    <div class="col-sm-3">
+                                                                                                                    <!-- <div class="col-sm-3">
                                                                                                                         <h6 class="text-success text-center">Your-tickets</h6>
                                                                                                                         <?php 
                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
@@ -745,8 +745,8 @@
                                                                                                                             }
                                                                                                                         } 
                                                                                                                         ?>
-                                                                                                                    </div>
-                                                                                                                    <div class="col-sm-2">
+                                                                                                                    </div> -->
+                                                                                                                    <div class="col-sm-3">
                                                                                                                         <h6 class="text-primary text-center">To-Do</h6>
                                                                                                                         <?php 
                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
@@ -768,7 +768,7 @@
                                                                                                                         } 
                                                                                                                         ?>
                                                                                                                     </div>
-                                                                                                                    <div class="col-sm-2">
+                                                                                                                    <div class="col-sm-3">
                                                                                                                         <h6 class="text-secondary text-center">Revisions</h6>
                                                                                                                         <?php 
                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
@@ -790,7 +790,7 @@
                                                                                                                         } 
                                                                                                                         ?>
                                                                                                                     </div>
-                                                                                                                    <div class="col-sm-2">
+                                                                                                                    <div class="col-sm-3">
                                                                                                                         <h6 class="text-warning text-center">In-Review</h6>
                                                                                                                         <?php 
                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
@@ -812,7 +812,7 @@
                                                                                                                         } 
                                                                                                                         ?>
                                                                                                                     </div>
-                                                                                                                    <div class="col-sm-2">
+                                                                                                                    <div class="col-sm-3">
                                                                                                                         <h6 class="text-danger text-center">Urgent</h6>
                                                                                                                         <?php 
                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
@@ -1265,7 +1265,7 @@
                                                                                                                         <div class="tab-pane fade p-3" id="tickets<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
                                                                                                                             <div style="max-height: 500px; overflow-y: auto;">
                                                                                                                                 <div class="row">
-                                                                                                                                    <div class="col-sm-3">
+                                                                                                                                    <!-- <div class="col-sm-3">
                                                                                                                                         <h6 class="text-success text-center">Your-tickets</h6>
                                                                                                                                         <?php 
                                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
@@ -1286,8 +1286,8 @@
                                                                                                                                             }
                                                                                                                                         } 
                                                                                                                                         ?>
-                                                                                                                                    </div>
-                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                    </div> -->
+                                                                                                                                    <div class="col-sm-3">
                                                                                                                                         <h6 class="text-primary text-center">To-Do</h6>
                                                                                                                                         <?php 
                                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
@@ -1309,7 +1309,7 @@
                                                                                                                                         } 
                                                                                                                                         ?>
                                                                                                                                     </div>
-                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                    <div class="col-sm-3">
                                                                                                                                         <h6 class="text-secondary text-center">Revisions</h6>
                                                                                                                                         <?php 
                                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
@@ -1331,7 +1331,7 @@
                                                                                                                                         } 
                                                                                                                                         ?>
                                                                                                                                     </div>
-                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                    <div class="col-sm-3">
                                                                                                                                         <h6 class="text-warning text-center">In-Review</h6>
                                                                                                                                         <?php 
                                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
@@ -1353,7 +1353,7 @@
                                                                                                                                         } 
                                                                                                                                         ?>
                                                                                                                                     </div>
-                                                                                                                                    <div class="col-sm-2">
+                                                                                                                                    <div class="col-sm-3">
                                                                                                                                         <h6 class="text-danger text-center">Urgent</h6>
                                                                                                                                         <?php 
                                                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
@@ -1729,7 +1729,7 @@
                                                                                         <div class="tab-pane fade p-3" id="tickets<?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
                                                                                             <div style="max-height: 500px; overflow-y: auto;">
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-3">
+                                                                                                    <!-- <div class="col-sm-3">
                                                                                                         <h6 class="text-success text-center">Your-tickets</h6>
                                                                                                         <?php 
                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
@@ -1750,8 +1750,8 @@
                                                                                                             }
                                                                                                         } 
                                                                                                         ?>
-                                                                                                    </div>
-                                                                                                    <div class="col-sm-2">
+                                                                                                    </div> -->
+                                                                                                    <div class="col-sm-3">
                                                                                                         <h6 class="text-primary text-center">To-Do</h6>
                                                                                                         <?php 
                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
@@ -1773,7 +1773,7 @@
                                                                                                         } 
                                                                                                         ?>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-2">
+                                                                                                    <div class="col-sm-3">
                                                                                                         <h6 class="text-secondary text-center">Revisions</h6>
                                                                                                         <?php 
                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
@@ -1795,7 +1795,7 @@
                                                                                                         } 
                                                                                                         ?>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-2">
+                                                                                                    <div class="col-sm-3">
                                                                                                         <h6 class="text-warning text-center">In-Review</h6>
                                                                                                         <?php 
                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
@@ -1817,7 +1817,7 @@
                                                                                                         } 
                                                                                                         ?>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-2">
+                                                                                                    <div class="col-sm-3">
                                                                                                         <h6 class="text-danger text-center">Urgent</h6>
                                                                                                         <?php 
                                                                                                             $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
@@ -2562,7 +2562,7 @@
                                                                                                                                     <div class="tab-pane fade p-3" id="tickets<?php echo $addVolunteer['id'] ?><?php echo $row['id'] ?>" role="tabpanel" aria-labelledby="comments-tab">
                                                                                                                                         <div style="max-height: 500px; overflow-y: auto;">
                                                                                                                                             <div class="row">
-                                                                                                                                                <div class="col-sm-3">
+                                                                                                                                                <!-- <div class="col-sm-3">
                                                                                                                                                     <h6 class="text-success text-center">Your-tickets</h6>
                                                                                                                                                     <?php 
                                                                                                                                                         $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Your-ticket'";
@@ -2583,8 +2583,8 @@
                                                                                                                                                         }
                                                                                                                                                     } 
                                                                                                                                                     ?>
-                                                                                                                                                </div>
-                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                </div> -->
+                                                                                                                                                <div class="col-sm-3">
                                                                                                                                                     <h6 class="text-primary text-center">To-Do</h6>
                                                                                                                                                     <?php 
                                                                                                                                                         $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'To-Do'";
@@ -2606,7 +2606,7 @@
                                                                                                                                                     } 
                                                                                                                                                     ?>
                                                                                                                                                 </div>
-                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                <div class="col-sm-3">
                                                                                                                                                     <h6 class="text-secondary text-center">Revisions</h6>
                                                                                                                                                     <?php 
                                                                                                                                                         $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Revision'";
@@ -2628,7 +2628,7 @@
                                                                                                                                                     } 
                                                                                                                                                     ?>
                                                                                                                                                 </div>
-                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                <div class="col-sm-3">
                                                                                                                                                     <h6 class="text-warning text-center">In-Review</h6>
                                                                                                                                                     <?php 
                                                                                                                                                         $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'In-Review'";
@@ -2650,7 +2650,7 @@
                                                                                                                                                     } 
                                                                                                                                                     ?>
                                                                                                                                                 </div>
-                                                                                                                                                <div class="col-sm-2">
+                                                                                                                                                <div class="col-sm-3">
                                                                                                                                                     <h6 class="text-danger text-center">Urgent</h6>
                                                                                                                                                     <?php 
                                                                                                                                                         $vlReport = "SELECT * FROM tickets WHERE ticket_status = 'Urgent'";
