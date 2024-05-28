@@ -16,8 +16,67 @@
     $end = isset($_GET['end']) ? $_GET['end'] : '';
     $allday = isset($_GET['allday']) ? $_GET['allday'] : '';
     $desc = isset($_GET['desc']) ? $_GET['desc'] : '';
-?>
 
+    // Get all volunteers
+    $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
+    $resultVolunteers = mysqli_query($conn, $queryVolunteers);
+
+    if ($resultVolunteers) {
+        $volunteerTickets = [];
+
+        while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
+        $volunteerId = $rowVolunteer['id'];
+
+        // Check the number of to-do tickets for each volunteer
+        $queryTodoCount = "
+            SELECT COUNT(*) AS todo_count 
+            FROM tickets 
+            WHERE ticket_status = 'To-Do' AND FIND_IN_SET('$volunteerId', ticket_volunteers_id)";
+        $resultTodoCount = mysqli_query($conn, $queryTodoCount);
+
+        if ($resultTodoCount) {
+            $todoCountRow = mysqli_fetch_assoc($resultTodoCount);
+            $todoCount = $todoCountRow['todo_count'];
+
+            // Add volunteer and their to-do count to the array
+            $volunteerTickets[] = [
+                'id' => $volunteerId,
+                'name' => $rowVolunteer['name'],
+                'todo_count' => $todoCount
+            ];
+
+            mysqli_free_result($resultTodoCount);
+        }
+    }
+
+    mysqli_free_result($resultVolunteers);
+
+    // Sort volunteers by the number of to-do tickets in descending order
+    usort($volunteerTickets, function($a, $b) {
+        return $b['todo_count'] - $a['todo_count'];
+    });
+
+    // Determine the volunteer with the most to-do tickets
+    $topVolunteer = $volunteerTickets[0];
+    $volTodo = "This Volunteer: " . $topVolunteer['name'] . " - To-Do Tickets: " . $topVolunteer['todo_count'] . " (Has the most to-do tickets)";
+
+    // Determine the minimum to-do ticket count
+    $minTodoCount = min(array_column($volunteerTickets, 'todo_count'));
+
+        // Prepare the suggestion message
+        $suggestedVolunteers = [];
+        foreach ($volunteerTickets as $volunteer) {
+            if ($volunteer['todo_count'] == $minTodoCount) {
+                $suggestedVolunteers[] = "<b>". $volunteer['name'] . "</b>". " have a large availability value for this month. You can assign him/her on this ticket.";
+            }
+            else{
+                $suggestedVolunteers = '';
+            }
+        }
+        $suggestionMessage = implode("<br>", $suggestedVolunteers);
+
+    }
+?>
 <body class="sb-nav-fixed">
 
     <?php include('./include/nav.php') ?>
@@ -552,6 +611,9 @@
                                                                                 </div>
                                                                                 <hr>
                                                                                 <table class="table" id="VolunteersPart">
+                                                                                    <div class="text-center">
+                                                                                        <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer1">View Suggested Volunteer/s</button>
+                                                                                    </div>
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th scope="col"></th>
@@ -1093,6 +1155,9 @@
                                                                                                 </div>
                                                                                                 <hr>
                                                                                                 <table class="table" id="VolunteersSponsor">
+                                                                                                    <div class="text-center">
+                                                                                                        <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer2">View Suggested Volunteer/s</button>
+                                                                                                    </div>
                                                                                                     <thead>
                                                                                                         <tr>
                                                                                                             <th scope="col"></th>
@@ -1557,6 +1622,9 @@
                                                                 </div>
                                                                 <hr>
                                                                 <table class="table" id="VolunteersEvent">
+                                                                    <div class="text-center">
+                                                                        <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer3">View Suggested Volunteer/s</button>
+                                                                    </div>
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col"></th>
@@ -3235,7 +3303,7 @@
 
     <?php include('./include/scripts.php') ?> 
     <script src="./include/plugins/tinymce/tinymce.min.js"></script>
-    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>                                  
+    <script src="./include/plugins/tinymce/init-tinymce.min.js"></script>            
     <script>
         $(document).ready(function() {
             $("#select2insidemodal").select2({

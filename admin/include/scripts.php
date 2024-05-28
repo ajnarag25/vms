@@ -126,12 +126,12 @@
     }
 
     // Get all volunteers
-    $queryVolunteers = "SELECT id, name FROM accounts";
+    $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
     $resultVolunteers = mysqli_query($conn, $queryVolunteers);
-
+    
     if ($resultVolunteers) {
         $volunteerTickets = [];
-
+    
         while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
             $volunteerId = $rowVolunteer['id'];
             
@@ -152,24 +152,32 @@
                     'name' => $rowVolunteer['name'],
                     'todo_count' => $todoCount
                 ];
-
-                echo $resultTodoCount;
+    
+                mysqli_free_result($resultTodoCount);
             }
         }
-
-        echo $resultVolunteers;
-
+    
+        mysqli_free_result($resultVolunteers);
+    
         // Sort volunteers by the number of to-do tickets in descending order
         usort($volunteerTickets, function($a, $b) {
             return $b['todo_count'] - $a['todo_count'];
         });
-
-        // Display the ranked volunteers
-        foreach ($volunteerTickets as $volunteer) {
-            echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
-        }
-    } 
-
+    
+        // Determine the volunteer with the most to-do tickets
+        $topVolunteer = $volunteerTickets[0];
+        $volTodo = "This Volunteer: " . $topVolunteer['name'] . " - To-Do Tickets: " . $topVolunteer['todo_count'] . " (Has the most to-do tickets)";
+    
+        // Determine the minimum to-do ticket count
+        $minTodoCount = min(array_column($volunteerTickets, 'todo_count'));
+    
+        // Display volunteers with the minimum to-do ticket count
+        // foreach ($volunteerTickets as $volunteer) {
+        //     if ($volunteer['todo_count'] == $minTodoCount) {
+        //         echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+        //     }
+        // }
+    }
 
 ?>
 
@@ -190,6 +198,10 @@
 
             <?php if (!empty($reminder_deadline)): ?>
                 reminders.push('<?php echo addslashes($reminder_deadline); ?>');
+            <?php endif; ?>
+
+            <?php if (!empty($volTodo)): ?>
+                reminders.push('<?php echo addslashes($volTodo); ?>');
             <?php endif; ?>
 
             return reminders[Math.floor(Math.random() * reminders.length)];
@@ -218,6 +230,32 @@
         }
 
         updateReminders();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#view-suggested-volunteer1').on('click', function() {
+            var suggestionMessage = `<?php echo $suggestionMessage; ?>`;
+            $('#suggestion-body').html(suggestionMessage);
+            var toastElement = $('#suggestedVol')[0];
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
+        $('#view-suggested-volunteer2').on('click', function() {
+            var suggestionMessage = `<?php echo $suggestionMessage; ?>`;
+            $('#suggestion-body').html(suggestionMessage);
+            var toastElement = $('#suggestedVol')[0];
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
+        $('#view-suggested-volunteer3').on('click', function() {
+            var suggestionMessage = `<?php echo $suggestionMessage; ?>`;
+            $('#suggestion-body').html(suggestionMessage);
+            var toastElement = $('#suggestedVol')[0];
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
     });
 </script>
 

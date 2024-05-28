@@ -34,3 +34,16 @@
         </div>
     </div>
 </div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="suggestedVol" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <i class="fa-solid fa-robot" style="margin-right: 5px"></i>
+            <strong class="me-auto">Suggested Volunteer/s</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="suggestion-body">
+            <!-- SUGGESTION GOES HERE -->
+        </div>
+    </div>
+</div>
