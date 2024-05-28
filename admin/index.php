@@ -98,7 +98,7 @@
                     <div class="row">
                         <?php 
                         // Get all volunteers
-                        $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
+                        $queryVolunteers = "SELECT id, name FROM accounts";
                         $resultVolunteers = mysqli_query($conn, $queryVolunteers);
 
                         if ($resultVolunteers) {
@@ -125,23 +125,49 @@
                                         'todo_count' => $todoCount
                                     ];
 
-                                    // var_dump ($resultTodoCount);
+                                    mysqli_free_result($resultTodoCount);
+                                } else {
+                                    // Handle queryTodoCount error
+                                    echo "Error: " . mysqli_error($conn);
                                 }
                             }
 
-                            // var_dump ($resultVolunteers);
+                            mysqli_free_result($resultVolunteers);
 
                             // Sort volunteers by the number of to-do tickets in descending order
                             usort($volunteerTickets, function($a, $b) {
                                 return $b['todo_count'] - $a['todo_count'];
                             });
 
+                            // Determine the minimum to-do ticket count
+                            $minTodoCount = min(array_column($volunteerTickets, 'todo_count'));
+
                             // Display the ranked volunteers
-                            foreach ($volunteerTickets as $volunteer) {
-                                echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+                            foreach ($volunteerTickets as $index => $volunteer) {
+                                $label = '';
+                                if ($index == 0) {
+                                    $label = ' (Has the most to-do tickets)';
+                                }
+                                
+                                echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . $label . "<br>";
                             }
-                        } 
-                        
+
+                            echo "<br>Recommended volunteer(s) with the least to-do tickets:<br>";
+                            foreach ($volunteerTickets as $volunteer) {
+                                if ($volunteer['todo_count'] == $minTodoCount) {
+                                    echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+                                }
+                            }
+                        } else {
+                            // Handle queryVolunteers error
+                            echo "Error: " . mysqli_error($conn);
+                        }
+
+                        // Close the database connection if it is not needed anymore
+                        // mysqli_close($conn);
+
+
+                                                
                         ?>
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
