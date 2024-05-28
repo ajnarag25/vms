@@ -96,7 +96,53 @@
                     </div>
                     
                     <div class="row">
+                        <?php 
+                        // Get all volunteers
+                        $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
+                        $resultVolunteers = mysqli_query($conn, $queryVolunteers);
+
+                        if ($resultVolunteers) {
+                            $volunteerTickets = [];
+
+                            while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
+                                $volunteerId = $rowVolunteer['id'];
+                                
+                                // Check the number of to-do tickets for each volunteer
+                                $queryTodoCount = "
+                                    SELECT COUNT(*) AS todo_count 
+                                    FROM tickets 
+                                    WHERE ticket_status = 'To-Do' AND FIND_IN_SET('$volunteerId', ticket_volunteers_id)";
+                                $resultTodoCount = mysqli_query($conn, $queryTodoCount);
+                                
+                                if ($resultTodoCount) {
+                                    $todoCountRow = mysqli_fetch_assoc($resultTodoCount);
+                                    $todoCount = $todoCountRow['todo_count'];
+                                    
+                                    // Add volunteer and their to-do count to the array
+                                    $volunteerTickets[] = [
+                                        'id' => $volunteerId,
+                                        'name' => $rowVolunteer['name'],
+                                        'todo_count' => $todoCount
+                                    ];
+
+                                    // var_dump ($resultTodoCount);
+                                }
+                            }
+
+                            // var_dump ($resultVolunteers);
+
+                            // Sort volunteers by the number of to-do tickets in descending order
+                            usort($volunteerTickets, function($a, $b) {
+                                return $b['todo_count'] - $a['todo_count'];
+                            });
+
+                            // Display the ranked volunteers
+                            foreach ($volunteerTickets as $volunteer) {
+                                echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+                            }
+                        } 
                         
+                        ?>
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
                                 <div class="bg-success text-white card-header text-center">

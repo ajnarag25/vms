@@ -125,7 +125,7 @@ while ($rowDeadline = mysqli_fetch_array($resultDeadline)) {
 
             // If needed, check if the deadline is in the past or future
             if ($ticketDeadline > $currentDate) {
-                $reminder_deadline .= "The ticket '$ticketTitle' has $daysLeft days left until the deadline. ";
+                $reminder_deadline .= "The ticket '$ticketTitle' has $daysLeft day/s left until the deadline. ";
             } else {
                 $reminder_deadline .= "The deadline for the ticket '$ticketTitle' is today or has passed. ";
             }

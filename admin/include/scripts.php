@@ -97,7 +97,7 @@
 
             // If needed, check if the deadline is in the past or future
             if ($ticketDeadline > $currentDate) {
-                $reminder_deadline .= "A ticket for this event '" . $event_title . "' that is nearly on its deadline is not completed and it has " . $daysLeft . " days left until the deadline. You can add more volunteers to work on completing the same ticket.";
+                $reminder_deadline .= "A ticket for this event '" . $event_title . "' that is nearly on its deadline is not completed and it has " . $daysLeft . " day/s left until the deadline. You can add more volunteers to work on completing the same ticket.";
 
             } else {
                 $reminder_deadline .= "The deadline for the ticket '$ticketTitle' is today or has passed. ";
@@ -124,6 +124,53 @@
         }
         
     }
+
+    // Get all volunteers
+    $queryVolunteers = "SELECT id, name FROM accounts";
+    $resultVolunteers = mysqli_query($conn, $queryVolunteers);
+
+    if ($resultVolunteers) {
+        $volunteerTickets = [];
+
+        while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
+            $volunteerId = $rowVolunteer['id'];
+            
+            // Check the number of to-do tickets for each volunteer
+            $queryTodoCount = "
+                SELECT COUNT(*) AS todo_count 
+                FROM tickets 
+                WHERE ticket_status = 'To-Do' AND FIND_IN_SET('$volunteerId', ticket_volunteers_id)";
+            $resultTodoCount = mysqli_query($conn, $queryTodoCount);
+            
+            if ($resultTodoCount) {
+                $todoCountRow = mysqli_fetch_assoc($resultTodoCount);
+                $todoCount = $todoCountRow['todo_count'];
+                
+                // Add volunteer and their to-do count to the array
+                $volunteerTickets[] = [
+                    'id' => $volunteerId,
+                    'name' => $rowVolunteer['name'],
+                    'todo_count' => $todoCount
+                ];
+
+                echo $resultTodoCount;
+            }
+        }
+
+        echo $resultVolunteers;
+
+        // Sort volunteers by the number of to-do tickets in descending order
+        usort($volunteerTickets, function($a, $b) {
+            return $b['todo_count'] - $a['todo_count'];
+        });
+
+        // Display the ranked volunteers
+        foreach ($volunteerTickets as $volunteer) {
+            echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+        }
+    } 
+
+
 ?>
 
 <!-- REMINDERS -->
