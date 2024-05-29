@@ -111,7 +111,7 @@
                             '&end=' . urlencode($row['enddate']) .
                             '&desc=' . urlencode($row['description']);
                         ?>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-3">
                             <div class="card text-center h-100">
 
                                 <div class="card-header bg-dark text-white">

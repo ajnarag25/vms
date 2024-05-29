@@ -178,6 +178,55 @@
         //     }
         // }
     }
+    
+    date_default_timezone_set('Asia/Manila');
+
+    $fixedHolidays = [
+        '01-01' => 'New Year\'s Day',
+        '04-09' => 'Araw ng Kagitingan',
+        '05-01' => 'Labor Day',
+        '06-12' => 'Independence Day',
+        '08-21' => 'Ninoy Aquino Day',
+        '08-28' => 'National Heroes Day',
+        '11-01' => 'All Saints\' Day',
+        '11-30' => 'Bonifacio Day',
+        '12-25' => 'Christmas Day',
+        '12-30' => 'Rizal Day',
+        '12-31' => 'New Year\'s Eve',
+    ];
+    
+    // Define a function to calculate movable holidays (e.g., Easter Sunday, which is used to calculate other holidays like Holy Week)
+    function getMovableHolidays($year) {
+        // Calculate Easter Sunday
+        $easter = new DateTime();
+        $easter->setTimestamp(easter_date($year));
+    
+        // Calculate Good Friday (2 days before Easter Sunday)
+        $goodFriday = clone $easter;
+        $goodFriday->modify('-2 days');
+    
+        // Calculate Maundy Thursday (3 days before Easter Sunday)
+        $maundyThursday = clone $easter;
+        $maundyThursday->modify('-3 days');
+    
+        return [
+            $goodFriday->format('m-d') => 'Good Friday',
+            $maundyThursday->format('m-d') => 'Maundy Thursday',
+        ];
+    }
+    
+    // Get today's date
+    $today = date('m-d');
+    $year = date('Y');
+    
+    $movableHolidays = getMovableHolidays($year);
+    $holidays = array_merge($fixedHolidays, $movableHolidays);
+    
+    // Check if today is a holiday
+    $holidayReminder = '';
+    if (isset($holidays[$today])) {
+        $holidayReminder = "Today is a holiday: " . $holidays[$today]. " so the intensity of the task completion will be affected";
+    }
 
 ?>
 
@@ -202,6 +251,10 @@
 
             <?php if (!empty($volTodo)): ?>
                 reminders.push('<?php echo addslashes($volTodo); ?>');
+            <?php endif; ?>
+            
+            <?php if (!empty($holidayReminder)): ?>
+                reminders.push('<?php echo addslashes($holidayReminder); ?>');
             <?php endif; ?>
 
             return reminders[Math.floor(Math.random() * reminders.length)];
