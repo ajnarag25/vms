@@ -252,15 +252,170 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card mb-4 h-100">
-                                <div class="bg-success text-white card-header text-center">
+                                <div class="bg-warning text-white card-header text-center">
                                     <i class="fa-solid fa-comments"></i>
-                                    Suggestion
+                                    Reminders
                                 </div>
                                 <br>
-                                <ul>
-                                    <li>Sample suggestion only.</li>
-                                </ul>
-                                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas>
+                                <!-- CONDITIONS -->
+                                <?php 
+                                    // Check all volunteer ask tickets
+                                    $queryAsk = "SELECT * FROM tickets WHERE ticket_type = 'Ask Ticket' AND ticket_status = ''";
+                                    $resultAsk = mysqli_query($conn, $queryAsk);
+                                    $volunteer_count_ask = 0;
+                                    while ($rowAsk = mysqli_fetch_array($resultAsk)) {
+                                        $volunteer_count_ask++;
+                                    }
+
+                                    // Check if the volunteer have a ticket deadline that is within the week or has passed
+                                    $queryDeadline = "SELECT * FROM tickets WHERE ticket_status != 'Completed'";
+                                    $resultDeadline = mysqli_query($conn, $queryDeadline);
+
+                                    $currentDate = new DateTime(); // Current date
+                                    $startOfWeek = (clone $currentDate)->modify('monday this week'); // Start of the week
+                                    $endOfWeek = (clone $startOfWeek)->modify('sunday this week'); // End of the week
+
+                                    $reminder_deadline = '';
+
+                                    while ($rowDeadline = mysqli_fetch_array($resultDeadline)) {
+
+                                        $ticketDeadline = new DateTime($rowDeadline['ticket_deadline']);
+                                        $ticketTitle = $rowDeadline['ticket_title'];
+                                        $ticket_event = $rowDeadline['event_id'];
+
+                                        $queryEventDl = "SELECT * FROM events WHERE id = '$ticket_event'";
+                                        $resultEventDl = mysqli_query($conn, $queryEventDl);
+
+                                        while ($rowEventDl = mysqli_fetch_array($resultEventDl)) {
+                                            $event_title = $rowEventDl['title'];
+                                        }
+                                        // Check if the deadline is within this week
+                                        if ($ticketDeadline >= $startOfWeek && $ticketDeadline <= $endOfWeek) {
+                                            // Calculate days left until the deadline
+                                            $daysLeft = $currentDate->diff($ticketDeadline)->days;
+
+                                            // If needed, check if the deadline is in the past or future
+                                            if ($ticketDeadline > $currentDate) {
+                                                $reminder_deadline .= "A ticket for this event '" . $event_title . "' that is nearly on its deadline is not completed and it has " . $daysLeft . " day/s left until the deadline. You can add more volunteers to work on completing the same ticket.";
+
+                                            } else {
+                                                $reminder_deadline .= "The deadline for the ticket '$ticketTitle' is today or has passed. ";
+                                            }
+                                        }
+                                        
+                                    }
+
+                                    // Check if there's an event tommorrow
+                                    $queryEvent = "SELECT * FROM events";
+                                    $resultEvent = mysqli_query($conn, $queryEvent);
+                                    $tomorrow = (new DateTime('tomorrow'))->format('Y-m-d');
+                                    $hasEventTomorrow = false;
+                                    $dateOnlyDebug = [];
+
+                                    while ($rowEvent = mysqli_fetch_array($resultEvent)) {
+                                        $dateTime = new DateTime($rowEvent['enddate']);
+                                        $dateOnly = $dateTime->format('Y-m-d');
+                                        
+                                        $dateOnlyDebug[] = $dateOnly;
+                                        if ($dateOnly === $tomorrow) {
+                                            $hasEventTomorrow = true;
+                                            break;
+                                        }
+                                        
+                                    }
+
+                                    // Get all volunteers
+                                    $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
+                                    $resultVolunteers = mysqli_query($conn, $queryVolunteers);
+                                    
+                                    if ($resultVolunteers) {
+                                        $volunteerTickets = [];
+                                    
+                                        while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
+                                            $volunteerId = $rowVolunteer['id'];
+                                            
+                                            // Check the number of to-do tickets for each volunteer
+                                            $queryTodoCount = "
+                                                SELECT COUNT(*) AS todo_count 
+                                                FROM tickets 
+                                                WHERE ticket_status = 'To-Do' AND FIND_IN_SET('$volunteerId', ticket_volunteers_id)";
+                                            $resultTodoCount = mysqli_query($conn, $queryTodoCount);
+                                            
+                                            if ($resultTodoCount) {
+                                                $todoCountRow = mysqli_fetch_assoc($resultTodoCount);
+                                                $todoCount = $todoCountRow['todo_count'];
+                                                
+                                                // Add volunteer and their to-do count to the array
+                                                $volunteerTickets[] = [
+                                                    'id' => $volunteerId,
+                                                    'name' => $rowVolunteer['name'],
+                                                    'todo_count' => $todoCount
+                                                ];
+                                    
+                                                mysqli_free_result($resultTodoCount);
+                                            }
+                                        }
+                                    
+                                        mysqli_free_result($resultVolunteers);
+                                    
+                                        // Sort volunteers by the number of to-do tickets in descending order
+                                        usort($volunteerTickets, function($a, $b) {
+                                            return $b['todo_count'] - $a['todo_count'];
+                                        });
+                                    
+                                        // Determine the volunteer with the most to-do tickets
+                                        $topVolunteer = $volunteerTickets[0];
+                                        $volTodo =  "<a class='text-danger' style='text-decoration:none'>This Volunteer: " . $topVolunteer['name'] . " - To-Do Tickets: " . $topVolunteer['todo_count'] . " (Has the most to-do tickets)</a>";
+                                    
+                                        // Determine the minimum to-do ticket count
+                                        $minTodoCount = min(array_column($volunteerTickets, 'todo_count'));
+                                    
+                                        // Display volunteers with the minimum to-do ticket count
+                                        // foreach ($volunteerTickets as $volunteer) {
+                                        //     if ($volunteer['todo_count'] == $minTodoCount) {
+                                        //         echo "Volunteer Name: " . $volunteer['name'] . " - To-Do Tickets: " . $volunteer['todo_count'] . "<br>";
+                                        //     }
+                                        // }
+                                    }
+                                    
+
+                                ?>
+                                <div style="max-height: 200px; overflow-y: auto;">
+                                    <ul>
+                                    <?php 
+
+                                    $prompts = [];
+
+                                    if ($volunteer_count_ask > 0) {
+                                        $prompt1 = '<a href="team_dashboard.php" class="text-success" style="text-decoration:none">There are ' . $volunteer_count_ask . ' tickets that are sent by the volunteers.';
+                                        $prompts[] = $prompt1;
+                                    }
+
+                                    if ($hasEventTomorrow) {
+                                        $prompt2 = 'You have to rest well for the upcoming event tomorrow.';
+                                        $prompts[] = $prompt2;
+                                    }
+
+                                    if (!empty($reminder_deadline)) {
+                                        $prompt3 = $reminder_deadline;
+                                        $prompts[] = $prompt3;
+                                    }
+
+                                    if (!empty($volTodo)) {
+                                        $prompt4 = $volTodo;
+                                        $prompts[] = $prompt4;
+                                    }
+
+                                    if (!empty($prompts)) {
+                                        echo '<ul>';
+                                        foreach ($prompts as $prompt) {
+                                            echo '<li>' . $prompt . '</li>';
+                                        }
+                                        echo '</ul>';
+                                    }
+                                    ?>
+
+                                    </ul>
                                 </div>
                             </div>
 
