@@ -347,7 +347,7 @@
                                                                             </div>
                                                                             <br>
                                                                             <label class="" for="">Set Deadline:</label>
-                                                                            <input type="date" name="ticket_deadline" class="form-control" required>
+                                                                            <input type="date" name="ticket_deadline4" class="form-control" required>
                                                                             <label class="mt-3" for="">Ticket Title:</label>
                                                                             <input class="form-control" name="ticket_title" type="text" required>
                                                                             <label class="mt-3" for="">Ticket Description:</label>

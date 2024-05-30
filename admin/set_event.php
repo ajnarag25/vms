@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
+                    <!-- <h5>Recommendation -> <span class="text-success">Sample</span> </h5> -->
               
                     <!-- Modal -->
                     <div class="modal fade" id="setevent" tabindex="-1" aria-labelledby="setevent" aria-hidden="true">

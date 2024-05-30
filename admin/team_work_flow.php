@@ -91,7 +91,7 @@
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
                         </div>
                     </div>
-                    <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
+                    <!-- <h5>Recommendation -> <span class="text-success">Sample</span> </h5> -->
                     <div class="card mb-4">
                         <div class="text-success card-header text-center">
                             Event Lists

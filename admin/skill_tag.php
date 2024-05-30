@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-md-6 text-end">
                             <h4 class="mt-4"> <span id="LiveTime"></span> </h4>
-                            <h5>Recommendation -> <span class="text-success">Sample</span> </h5>
+                            <!-- <h5>Recommendation -> <span class="text-success">Sample</span> </h5> -->
                         </div>
                     </div>
                     <!-- Modal Add Category-->
