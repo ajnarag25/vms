@@ -247,6 +247,9 @@
             },
             initialView: 'dayGridMonth',
             events: <?php echo json_encode($events); ?>,
+            validRange: {
+                start: new Date().toISOString().split('T')[0]  // Prevent selection of past dates
+            },
             navLinks: true,
             selectable: true,
             editable: true,

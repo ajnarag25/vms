@@ -217,6 +217,9 @@
             },
             initialView: 'dayGridMonth',
             events: <?php echo json_encode($events); ?>,
+            validRange: {
+                start: new Date().toISOString().split('T')[0]  // Prevent selection of past dates
+            },
             navLinks: false,
             selectable: true,
             editable: true,
@@ -275,7 +278,7 @@
         });
 
         calendar.render();
-
+        
         function saveEventToDatabase(saveData) {
             // Send event data to server for saving
             $.ajax({

@@ -312,6 +312,14 @@
     });
 </script>
 
+
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('ticket_deadline1').setAttribute('min', today);
+    document.getElementById('ticket_deadline2').setAttribute('min', today);
+    document.getElementById('ticket_deadline3').setAttribute('min', today);
+</script>
+
 <?php
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
 ?>
