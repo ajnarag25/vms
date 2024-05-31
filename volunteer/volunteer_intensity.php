@@ -78,7 +78,7 @@
                                     </thead>
                                     <tbody>
                                     <?php
-                                         $sql = "SELECT * FROM accounts";
+                                         $sql = "SELECT * FROM accounts WHERE type ='Volunteer'";
                                          $result = $conn->query($sql);                              
                                          while ($row = $result->fetch_assoc()) {
                                     ?>

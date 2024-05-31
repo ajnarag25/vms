@@ -325,7 +325,7 @@
     </script>
 
     <!--INCLUDED SCRIPT FOR PROGRESS CHART--->
-    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
     <script>
     var progressBar = new ProgressBar.Circle('#progress-bar-container', {
         strokeWidth: 6,
@@ -362,7 +362,7 @@
     });
     // Set the initial progress value
     progressBar.animate(0.7); // Example: 70% progress
-    </script>
+    </script> -->
 
     <script>
         window.onload = function() {
