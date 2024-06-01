@@ -295,7 +295,7 @@
                                             </div>
                                             <hr>
                                     
-                                            <h5 class="text-center">Acquisition Speed</h5>
+                                            <!-- <h5 class="text-center">Acquisition Speed</h5>
                                             <div class="text-center mb-4">
                                                 <div class="progress mt-2">
                                                     <div class="progress-bar bg-success w-50" role="progressbar"
@@ -304,16 +304,137 @@
                                                     </div>
                                                 </div>
                                                 <label for="">Normal</label>
-                                            </div>
+                                            </div> -->
                                         
-                                            <h6>Prediction Date:</h6>
-                                            <div class="card mb-4">
+                                            <h5><b>Prediction Date:</b> </h5>
+                                            <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#Prediction" style="text-decoration:none">View Detailed Results</a>
+
+                                            <!-- PREDICTION DETAILS -->
+                                            <div class="modal modal-md fade" id="Prediction" tabindex="-1" aria-labelledby="Prediction" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class=" modal-title text-white">Prediction Details</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        
+                                                       
+                                                        <div class="modal-body" style="max-height: 400px; overflow-y: auto;"> 
+                                                        <?php
+                                                            $total_prediction_days = 0; // Initialize total prediction days
+
+                                                            $queryPredict = "SELECT * FROM accounts WHERE type!='superadmin' AND type!='admin'";
+                                                            $resultPredict = mysqli_query($conn, $queryPredict);
+
+                                                            while ($rowPredict = mysqli_fetch_array($resultPredict)) {
+                                                                $vl_predict_id = $rowPredict['id'];
+
+                                                                $querySVol = "SELECT * FROM tickets WHERE (ticket_volunteers_id LIKE '%, $vl_predict_id, %' 
+                                                                                OR ticket_volunteers_id LIKE '$vl_predict_id, %' 
+                                                                                OR ticket_volunteers_id LIKE '%, $vl_predict_id' 
+                                                                                OR ticket_volunteers_id = '$vl_predict_id') AND event_id = $id";
+
+                                                                $resultSVol = mysqli_query($conn, $querySVol);
+
+                                                                $ticket_titles = [];
+                                                                $total_intensity = 0;
+                                                                $total_tickets = 0;
+                                                                $earliest_deadline = null;
+
+                                                                $priority_mapping = [
+                                                                    'urgent' => 4,
+                                                                    'high' => 3,
+                                                                    'mid' => 2,
+                                                                    'low' => 1
+                                                                ];
+
+                                                                if ($resultSVol) {
+                                                                    while ($ticket = mysqli_fetch_assoc($resultSVol)) {
+                                                                        // Process ticket data
+                                                                        $ticket_title = $ticket['ticket_title'];
+                                                                        $ticket_titles[] = $ticket_title;
+                                                                        $ticket_id = $ticket['id'];
+                                                                        $ticket_priority = strtolower($ticket['ticket_priority']);
+                                                                        $ticket_ask = strtolower($ticket['ticket_type']);
+                                                                        $ticket_instruction = $ticket['ticket_instructions'];
+                                                                        $ticket_date = $ticket['date_added']; 
+                                                                        $ticket_deadline = $ticket['ticket_deadline'];
+
+                                                                        // Calculate intensity
+                                                                        if (is_null($earliest_deadline) || strtotime($ticket_deadline) < strtotime($earliest_deadline)) {
+                                                                            $earliest_deadline = $ticket_deadline;
+                                                                        }
+
+                                                                        $priority_value = isset($priority_mapping[$ticket_priority]) ? $priority_mapping[$ticket_priority] : 0;
+
+                                                                        if (!empty($ticket_instruction)) {
+                                                                            $instructions_array = array_filter(explode(',', $ticket_instruction));
+                                                                            $instructions_count = count($instructions_array);
+                                                                        } else {
+                                                                            $instructions_count = 0;
+                                                                        }
+
+                                                                        $q = "SELECT COUNT(*) as comment_count FROM comments WHERE ticket_id = '$ticket_id'";
+                                                                        $r = mysqli_query($conn, $q);
+
+                                                                        if ($r) {
+                                                                            $comment_data = mysqli_fetch_assoc($r);
+                                                                            $comment_count = $comment_data['comment_count'];
+                                                                        } else {
+                                                                            $comment_count = 0;
+                                                                        }
+
+                                                                        $comment_value = $comment_count * 0.2;
+
+                                                                        $intensity = $priority_value + $comment_value + $instructions_count;
+                                                                        if ($ticket_ask == 'ask') {
+                                                                            $intensity += 1;
+                                                                        }
+
+                                                                        $total_intensity += $intensity;
+                                                                        $total_tickets++;
+                                                                    }
+
+                                                                    if ($total_tickets > 0) {
+                                                                        $base_days = 7; // Base days for prediction
+                                                                        $additional_days = ceil($total_intensity / ($total_tickets * 5)); // Additional days based on intensity
+                                                                        $prediction_days = $base_days + $additional_days;
+
+                                                                        // Use the earliest deadline if available, otherwise use the current date as base
+                                                                        $base_date = is_null($earliest_deadline) ? date('Y-m-d') : $earliest_deadline;
+                                                                        $overall_prediction_date = date('Y-m-d', strtotime($base_date. " + $prediction_days days"));
+
+                                                                        // Add the prediction days to the total
+                                                                        $total_prediction_days += $prediction_days;
+
+                                                                        // Output additional details
+                                                                        echo "<b> Ticket Titles: </b> <b class='text-danger'>" . implode(', ', $ticket_titles) . "</b><br>";
+                                                                        echo "<b> Intensity Points: </b> <b class='text-danger'>$total_intensity</b> <br>";
+                                                                        echo "<b> Overall Prediction Date: </b> <b class='text-danger'>$overall_prediction_date </b><br>";
+                                                                        echo "<hr>";
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            $predicted_date = date('Y-m-d', strtotime("+ $total_prediction_days days"));
+                                                            echo "<b>Total Prediction Days: </b> $total_prediction_days <br>";
+                                                            echo "<b>Predicted Date: $predicted_date</b>"
+                                                            ?>
+
+                                                        </div>
+                                                 
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4 mt-3">
                                                 <div class="bg-dark text-white card-header text-center">
                                                     <i class="fa-solid fa-calendar-days"></i>
                                                     Calendar
                                                 </div>
                                                 <div class="card-body p-4">
-                                                    <div id="bsb-calendar-1"
+                                                    <div id="predictionDate"
                                                         class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap5 bsb-calendar-theme">
                                                     </div>
                                                 </div>
@@ -3326,6 +3447,29 @@
         calendar.render();
 
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var predictedDate = "<?php echo $predicted_date; ?>";
+        var calendarEl = document.getElementById('predictionDate');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: '',
+                center: 'title',
+                right: ''
+            },
+            timeZone: 'local',
+            initialView: 'dayGridMonth',
+            events: [
+            {
+                title: 'DEADLINE',
+                start: predictedDate+'T00:00:00',
+                end: predictedDate+'T24:00:00'
+            },]
+        });
+
+        calendar.render();
+    });
+
 
     </script>
 
