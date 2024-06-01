@@ -16,6 +16,8 @@
     $('#TicketPanel').DataTable()
     $('#Timelog').DataTable()
     $('#TicketPanelAll').DataTable()
+    $('#TicketPanelAll').DataTable()
+    $('#Intensity').DataTable()
 </script>
 
  <!-- RANDOM SUGGESTIONS -->
