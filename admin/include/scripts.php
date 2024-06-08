@@ -28,32 +28,48 @@
 <!--RANDOM SUGGESTIONS--->
 <script>
     $(document).ready(function() {
+        let notificationCount = 0;
 
-        function getRandomSuggestion() {
+        function updateNotificationBadge() {
+            $('#notificationBadge').text(notificationCount);
+        }
+
+        function getRandomSuggestions(num) {
             const suggestions = [
                 "Learn to adapt to changing circumstances.",
-                "Celebrate small wins, this boost motivation and helps maintain positive mindset.",
+                "Celebrate small wins, this boosts motivation and helps maintain a positive mindset.",
                 "You can always add more volunteers to work on the same task/ticket if needed.",
                 "Multitasking can lead to errors and increased stress."
             ];
-            return suggestions[Math.floor(Math.random() * suggestions.length)];
+            const shuffled = suggestions.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, num);
         }
 
-        function updateSuggestions() {
-            const newSuggestion = getRandomSuggestion();
-            $('#liveToast .toast-body').text(newSuggestion);
-            var toastEl = document.getElementById('liveToast');
-            var toast = new bootstrap.Toast(toastEl);
-            toast.show();
+        function displaySuggestions() {
+            const storedDate = localStorage.getItem('suggestionsDate');
+            const today = new Date().toISOString().split('T')[0];
 
-            const minInterval = 10000; // minimum interval in milliseconds
-            const maxInterval = 30000; // maximum interval in milliseconds
-            const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
+            // Check if suggestions have already been displayed today
+            if (storedDate === today) {
+                return;
+            }
 
-            setTimeout(updateSuggestions, randomInterval);
+            // Generate and display suggestions
+            const numSuggestions = Math.floor(Math.random() * 3) + 1; // 1 to 3 suggestions
+            const newSuggestions = getRandomSuggestions(numSuggestions);
+            
+            newSuggestions.forEach(suggestion => {
+                $('#notificationList').append('<li class="dropdown-item"><span class="badge-new">New</span> ' + suggestion + '</li>');
+                notificationCount++;
+            });
+
+            updateNotificationBadge();
+            
+            // Store today's date to prevent further updates today
+            localStorage.setItem('suggestionsDate', today);
         }
 
-        updateSuggestions();
+        displaySuggestions();
     });
 
 </script>
@@ -232,17 +248,23 @@
 
 <!-- REMINDERS -->
 <script>
-    $(document).ready(function() {
+   $(document).ready(function() {
+        let notificationCount = 0;
+
+        function updateNotificationBadge() {
+            $('#notificationBadge').text(notificationCount);
+        }
+
         function getReminders() {
-            const volunteerAsk = <?php echo $volunteer_count_ask; ?>;
+            const volunteerAsk = <?php echo json_encode($volunteer_count_ask); ?>;
             const reminders = [];
 
             if (volunteerAsk > 0) {
-                reminders.push('There are ' + volunteerAsk + ' tickets that are send by the volunteers.');
+                reminders.push('There are ' + volunteerAsk + ' tickets that are sent by the volunteers.');
             }
 
             <?php if ($hasEventTomorrow): ?>
-                reminders.push('You have to rest well for the upcoming event tommorrow.');
+                reminders.push('You have to rest well for the upcoming event tomorrow.');
             <?php endif; ?>
 
             <?php if (!empty($reminder_deadline)): ?>
@@ -257,36 +279,26 @@
                 reminders.push('<?php echo addslashes($holidayReminder); ?>');
             <?php endif; ?>
 
-            return reminders[Math.floor(Math.random() * reminders.length)];
+            return reminders;
         }
 
         function updateReminders() {
-            const newReminder = getReminders();
-
-            // Check if newReminder is not empty before updating the toast
-            if (newReminder) {
-                $('#liveToast2 .toast-body2').text(newReminder);
-                var toastEl = document.getElementById('liveToast2');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
+            const reminders = getReminders();
+            if (reminders.length > 0) {
+                reminders.forEach(function(reminder) {
+                    $('#notificationList').append('<li class="dropdown-item"><span class="text-danger">></span> ' + reminder + '</li>');
+                    notificationCount++;
+                });
+                updateNotificationBadge();
             }
-
-            const minInterval = 50000; // minimum interval in milliseconds
-            const maxInterval = 100000; // maximum interval in milliseconds
-            const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
-
-            setTimeout(updateReminders, randomInterval);
-        }
-
-        function viewTickets() {
-            window.location.href = './team_dashboard.php';
         }
 
         updateReminders();
     });
+
 </script>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#view-suggested-volunteer1').on('click', function() {
             var suggestionMessage = `<?php echo $suggestionMessage; ?>`;
@@ -310,7 +322,7 @@
             toast.show();
         });
     });
-</script>
+</script> -->
 
 
 <script>

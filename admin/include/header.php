@@ -17,6 +17,7 @@ if (isset($_SESSION['admin'])) {
 <link href="../css/datatable.css" rel="stylesheet" />
 <!-- <link rel="stylesheet" href="../css/custom_style.css"> -->
 <link rel="stylesheet" type="text/css" href="../css/datatable.css">
+<link rel="stylesheet" type="text/css" href="../css/nav.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sofia+Sans:wght@400&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
