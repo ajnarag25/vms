@@ -21,7 +21,7 @@
 </script>
 
  <!-- RANDOM SUGGESTIONS -->
- <script>
+ <!-- <script>
     $(document).ready(function() {
         function getRandomSuggestion() {
             const suggestions = [
@@ -54,7 +54,7 @@
 
         updateSuggestions();
     });
-</script>
+</script> -->
 
 <!---CONDITIONS---->
 <?php
@@ -140,7 +140,39 @@ while ($rowDeadline = mysqli_fetch_array($resultDeadline)) {
 
 <!-- REMINDERS -->
 <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
+        let notificationCount = 0;
+
+        function updateNotificationBadge() {
+            console.log("Updating notification badge with count:", notificationCount); // Debugging line
+            $('#notificationBadge').text(notificationCount);
+        }
+
+        function getRandomSuggestions(num) {
+            const suggestions = [
+                "You must avoid multitasking to maintain task working quality and efficiency.",
+                "Multitasking can lead to errors and increased stress.",
+                "Learn to adapt to changing circumstances.",
+                "Celebrate small wins, this boost motivation and helps maintain positive mindset.",
+                "Always review your to-do list.",
+                "You can send tickets to the admins about the task to improve proficiency.",
+                "Please make sure to update your personal plans.",
+                "You can always focus on high priority task.",
+                "You can always set a target submission goal on every tickets to improve intensity."
+            ];
+            const shuffled = suggestions.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, num);
+        }
+
+        function updateSuggestions() {
+            const newSuggestions = getRandomSuggestions(2); // Get one random suggestion
+            newSuggestions.forEach(function(newSuggestion) {
+                $('#notificationList').append('<li class="dropdown-item"><span class="badge-new">Suggestion</span> ' + newSuggestion + '</li>');
+                notificationCount++;
+            });
+            updateNotificationBadge(); // Update the badge count
+        }
+
         function getReminders() {
             const volunteerCount = <?php echo $volunteer_count; ?>;
             const volunteerCountCompleted = <?php echo $volunteer_count_completed; ?>;
@@ -163,33 +195,25 @@ while ($rowDeadline = mysqli_fetch_array($resultDeadline)) {
                 reminders.push('<?php echo addslashes($reminder_deadline); ?>');
             <?php endif; ?>
 
-            return reminders[Math.floor(Math.random() * reminders.length)];
+
+            return reminders;
         }
 
         function updateReminders() {
-            const newReminder = getReminders();
-
-            // Check if newReminder is not empty before updating the toast
-            if (newReminder) {
-                $('#liveToast2 .toast-body2').text(newReminder);
-                var toastEl = document.getElementById('liveToast2');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
+            const reminders = getReminders();
+            if (reminders.length > 0) {
+                reminders.forEach(function(reminder) {
+                    $('#notificationList').append('<li class="dropdown-item"><span class="badge-warning">Reminders</span> ' + reminder + '</li>');
+                    notificationCount++;
+                });
+                updateNotificationBadge();
             }
-
-            const minInterval = 50000; // minimum interval in milliseconds
-            const maxInterval = 100000; // maximum interval in milliseconds
-            const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
-
-            setTimeout(updateReminders, randomInterval);
         }
 
-        function viewTickets() {
-            window.location.href = './team_dashboard.php';
-        }
-
-        updateReminders();
+        updateSuggestions(); // Initial call to update suggestions
+        updateReminders(); // Initial call to update reminders
     });
+
 </script>
 
 

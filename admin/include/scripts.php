@@ -26,11 +26,12 @@
 </script>
 
 <!--RANDOM SUGGESTIONS--->
-<script>
+<!-- <script>
     $(document).ready(function() {
         let notificationCount = 0;
 
         function updateNotificationBadge() {
+            console.log("Updating notification badge with count:", notificationCount); // Debugging line
             $('#notificationBadge').text(notificationCount);
         }
 
@@ -45,34 +46,20 @@
             return shuffled.slice(0, num);
         }
 
-        function displaySuggestions() {
-            const storedDate = localStorage.getItem('suggestionsDate');
-            const today = new Date().toISOString().split('T')[0];
-
-            // Check if suggestions have already been displayed today
-            if (storedDate === today) {
-                return;
-            }
-
-            // Generate and display suggestions
-            const numSuggestions = Math.floor(Math.random() * 3) + 1; // 1 to 3 suggestions
-            const newSuggestions = getRandomSuggestions(numSuggestions);
-            
-            newSuggestions.forEach(suggestion => {
-                $('#notificationList').append('<li class="dropdown-item"><span class="badge-new">New</span> ' + suggestion + '</li>');
+        function updateSuggestions() {
+            const newSuggestions = getRandomSuggestions(1); // Get one random suggestion
+            newSuggestions.forEach(function(newSuggestion) {
+                console.log("Adding new suggestion:", newSuggestion); // Debugging line
+                $('#notificationList').append('<li class="dropdown-item"><span class="text-danger">></span> ' + newSuggestion + '</li>');
                 notificationCount++;
             });
-
-            updateNotificationBadge();
-            
-            // Store today's date to prevent further updates today
-            localStorage.setItem('suggestionsDate', today);
+            updateNotificationBadge(); // Update the badge count
         }
 
-        displaySuggestions();
+        updateSuggestions(); // Initial call to update suggestions
     });
 
-</script>
+</script> -->
 
 <!-- CONDITIONS -->
 <?php 
@@ -246,13 +233,34 @@
 
 ?>
 
-<!-- REMINDERS -->
+<!-- SUGGESTIONS & REMINDERS -->
 <script>
-   $(document).ready(function() {
+    $(document).ready(function() {
         let notificationCount = 0;
 
         function updateNotificationBadge() {
+            console.log("Updating notification badge with count:", notificationCount); // Debugging line
             $('#notificationBadge').text(notificationCount);
+        }
+
+        function getRandomSuggestions(num) {
+            const suggestions = [
+                "Learn to adapt to changing circumstances.",
+                "Celebrate small wins, this boosts motivation and helps maintain a positive mindset.",
+                "You can always add more volunteers to work on the same task/ticket if needed.",
+                "Multitasking can lead to errors and increased stress."
+            ];
+            const shuffled = suggestions.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, num);
+        }
+
+        function updateSuggestions() {
+            const newSuggestions = getRandomSuggestions(1); // Get one random suggestion
+            newSuggestions.forEach(function(newSuggestion) {
+                $('#notificationList').append('<li class="dropdown-item"><span class="badge-new">Suggestion</span> ' + newSuggestion + '</li>');
+                notificationCount++;
+            });
+            updateNotificationBadge(); // Update the badge count
         }
 
         function getReminders() {
@@ -274,7 +282,7 @@
             <?php if (!empty($volTodo)): ?>
                 reminders.push('<?php echo addslashes($volTodo); ?>');
             <?php endif; ?>
-            
+
             <?php if (!empty($holidayReminder)): ?>
                 reminders.push('<?php echo addslashes($holidayReminder); ?>');
             <?php endif; ?>
@@ -286,14 +294,15 @@
             const reminders = getReminders();
             if (reminders.length > 0) {
                 reminders.forEach(function(reminder) {
-                    $('#notificationList').append('<li class="dropdown-item"><span class="text-danger">></span> ' + reminder + '</li>');
+                    $('#notificationList').append('<li class="dropdown-item"><span class="badge-warning">Reminders</span> ' + reminder + '</li>');
                     notificationCount++;
                 });
                 updateNotificationBadge();
             }
         }
 
-        updateReminders();
+        updateSuggestions(); // Initial call to update suggestions
+        updateReminders(); // Initial call to update reminders
     });
 
 </script>
