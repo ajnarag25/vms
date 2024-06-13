@@ -20,58 +20,56 @@
     // Get all volunteers
     $queryVolunteers = "SELECT id, name FROM accounts WHERE type = 'volunteer'";
     $resultVolunteers = mysqli_query($conn, $queryVolunteers);
-    
+
     if ($resultVolunteers) {
         $volunteerTickets = [];
-    
+
         while ($rowVolunteer = mysqli_fetch_assoc($resultVolunteers)) {
             $volunteerId = $rowVolunteer['id'];
-    
+
             // Check the number of to-do tickets for each volunteer
             $queryTodoCount = "
                 SELECT COUNT(*) AS todo_count 
                 FROM tickets 
                 WHERE ticket_status = 'To-Do' AND FIND_IN_SET('$volunteerId', ticket_volunteers_id)";
             $resultTodoCount = mysqli_query($conn, $queryTodoCount);
-    
+
             if ($resultTodoCount) {
                 $todoCountRow = mysqli_fetch_assoc($resultTodoCount);
                 $todoCount = $todoCountRow['todo_count'];
-    
+
                 // Add volunteer and their to-do count to the array
                 $volunteerTickets[] = [
                     'id' => $volunteerId,
                     'name' => $rowVolunteer['name'],
                     'todo_count' => $todoCount
                 ];
-    
+
                 mysqli_free_result($resultTodoCount);
             }
         }
-    
+
         mysqli_free_result($resultVolunteers);
-    
+
         // Sort volunteers by the number of to-do tickets in descending order
         usort($volunteerTickets, function($a, $b) {
             return $b['todo_count'] - $a['todo_count'];
         });
-    
+
         // Determine the volunteer with the most to-do tickets
         $topVolunteer = $volunteerTickets[0];
         $volTodo = "This Volunteer: " . $topVolunteer['name'] . " - To-Do Tickets: " . $topVolunteer['todo_count'] . " (Has the most to-do tickets)";
-    
+
         // Determine the minimum to-do ticket count
         $minTodoCount = min(array_column($volunteerTickets, 'todo_count'));
-    
+
         // Prepare the suggestion message
         $suggestedVolunteers = [];
         foreach ($volunteerTickets as $volunteer) {
             if ($volunteer['todo_count'] == $minTodoCount) {
-                $suggestedVolunteers[] = "<b>". $volunteer['name'] . "</b>". " have a large availability value for this month. You can assign him/her on this ticket.";
+                $suggestedVolunteers[] = $volunteer['id'];
             }
         }
-        $suggestionMessage = implode("<br>", $suggestedVolunteers);
-
     }
 ?>
 <body class="sb-nav-fixed">
@@ -729,12 +727,12 @@
                                                                                 </div>
                                                                                 <hr>
                                                                                 <table class="table" id="VolunteersPart">
-                                                                                    <div class="text-center">
+                                                                                    <!-- <div class="text-center">
                                                                                         <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer1">View Suggested Volunteer/s</button>
-                                                                                    </div>
+                                                                                    </div> -->
                                                                                     <thead>
                                                                                         <tr>
-                                                                                            <th scope="col"></th>
+                                                                                            <th scope="col">#</th>
                                                                                             <th scope="col">Volunteers Name</th>
                                                                                             <th scope="col">Email</th>
                                                                                             <th scope="col">View</th>
@@ -742,15 +740,29 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                     <?php 
-                                                                                        $queryVl = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                                        $queryVl = "SELECT * FROM accounts WHERE type = 'volunteer' AND status = 'Verified'";
                                                                                         $resultVl = mysqli_query($conn, $queryVl);
                                                                                         while ($vl = mysqli_fetch_array($resultVl)) {
+                                                                                        $isSuggested = in_array($vl['id'], $suggestedVolunteers);
                                                                                     ?>
                                                                                     <tr>
                                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $vl['id'] ?>"></td>
-                                                                                        <td><?php echo $vl['name'] ?></td>
+                                                                                        <td>
+                                                                                        <?php 
+                                                                                        if ($isSuggested) { 
+                                                                                            echo '<span class="badge bg-success">Suggested</span> - ' . $vl['name'];
+                                                                                        } else {
+                                                                                            echo $vl['name'];
+                                                                                        }
+                                                                                        ?>
+
+                                                                                        </td>
                                                                                         <td><?php echo $vl['email'] ?></td>
-                                                                                        <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                                                                                        <td>
+                                                                                            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>">
+                                                                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                                                                            </button>
+                                                                                        </td>
                                                                                     </tr>
 
                                                                                     <div class="modal modal-xl fade" id="volunteerPart<?php echo $vl['id'] ?><?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="addcategory"
@@ -815,10 +827,119 @@
                                                                                                                 </div> -->
                                                                                                                 <div class="col-md-4">
                                                                                                                     <h6 class="text-center">Intensity Points:</h6>
-                                                                                                                    <div class="progress mt-3">
+                                                                                                                    <?php 
+                                                                                                                        // VOLUNTEER INTENSITY LOGIC
+                                                                                                                        $volunteer_id = $vl['id'];
+
+                                                                                                                        $querySVol = "SELECT * FROM tickets WHERE ticket_volunteers_id LIKE '%, $volunteer_id, %' 
+                                                                                                                                    OR ticket_volunteers_id LIKE '$volunteer_id, %' 
+                                                                                                                                    OR ticket_volunteers_id LIKE '%, $volunteer_id' 
+                                                                                                                                    OR ticket_volunteers_id = '$volunteer_id' AND ticket_status != 'Completed' ";
+
+                                                                                                                        $resultSVol = mysqli_query($conn, $querySVol);
+
+                                                                                                                        $ask_tickets_count = 0; // Initialize the counter for "ask" tickets
+                                                                                                                        $total_comment_value = 0; // Initialize the total comment value
+                                                                                                                        $monthly_intensity = []; // Initialize an array to store monthly intensity
+                                                                                                                        $monthly_ticket_count = []; // Initialize an array to store the count of tickets processed in each month
+
+                                                                                                                        // Define the priority mapping
+                                                                                                                        $priority_mapping = [
+                                                                                                                            'urgent' => 4,
+                                                                                                                            'high' => 3,
+                                                                                                                            'mid' => 2,
+                                                                                                                            'low' => 1
+                                                                                                                        ];
+
+                                                                                                                        if ($resultSVol) {
+                                                                                                                            while ($ticket = mysqli_fetch_assoc($resultSVol)) {
+                                                                                                                                $ticket_id = $ticket['id'];
+                                                                                                                                $ticket_priority = strtolower($ticket['ticket_priority']); // Make sure to handle case-insensitivity
+                                                                                                                                $ticket_ask = strtolower($ticket['ticket_type']);
+                                                                                                                                $ticket_instruction = $ticket['ticket_instructions'];
+                                                                                                                                $ticket_date = $ticket['date_added']; // Assuming the date field is 'date_added'
+
+                                                                                                                                // Get the month of the ticket
+                                                                                                                                $ticket_month = date('Y-m', strtotime($ticket_date));
+
+                                                                                                                                // Get the numeric priority value
+                                                                                                                                $priority_value = isset($priority_mapping[$ticket_priority]) ? $priority_mapping[$ticket_priority] : 0;
+
+                                                                                                                                // Output the ticket details
+                                                                                                                                // echo "Priority: $ticket_priority ($priority_value)<br>";
+                                                                                                                                // echo "Type: $ticket_ask<br>";
+                                                                                                                                // echo "Instructions: $ticket_instruction<br>";
+
+                                                                                                                                // Count the number of instructions
+                                                                                                                                if (!empty($ticket_instruction)) {
+                                                                                                                                    $instructions_array = array_filter(explode(',', $ticket_instruction));
+                                                                                                                                    $instructions_count = count($instructions_array);
+                                                                                                                                } else {
+                                                                                                                                    $instructions_count = 0;
+                                                                                                                                }
+
+                                                                                                                                // echo "Number of instructions: $instructions_count<br>";
+
+                                                                                                                                // Increment the ask tickets counter if the type is "ask"
+                                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                                    $ask_tickets_count++;
+                                                                                                                                }
+
+                                                                                                                                // Query to count the comments for the current ticket
+                                                                                                                                $q = "SELECT COUNT(*) as comment_count FROM comments WHERE ticket_id = '$ticket_id'";
+                                                                                                                                $r = mysqli_query($conn, $q);
+
+                                                                                                                                if ($r) {
+                                                                                                                                    $comment_data = mysqli_fetch_assoc($r);
+                                                                                                                                    $comment_count = $comment_data['comment_count'];
+                                                                                                                                } else {
+                                                                                                                                    $comment_count = 0; // Default to 0 if the query fails
+                                                                                                                                }
+
+                                                                                                                                // Calculate the comment value for the current ticket
+                                                                                                                                $comment_value = $comment_count * 0.2;
+
+                                                                                                                                // Calculate the intensity for the current ticket
+                                                                                                                                $intensity = $priority_value + $comment_value + $instructions_count;
+                                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                                    $intensity += 1; // Add 1 for each "ask" ticket
+                                                                                                                                }
+
+                                                                                                                                // Add the intensity to the corresponding month
+                                                                                                                                if (!isset($monthly_intensity[$ticket_month])) {
+                                                                                                                                    $monthly_intensity[$ticket_month] = 0;
+                                                                                                                                    $monthly_ticket_count[$ticket_month] = 0;
+                                                                                                                                }
+                                                                                                                                $monthly_intensity[$ticket_month] += $intensity;
+                                                                                                                                $monthly_ticket_count[$ticket_month]++;
+
+                                                                                                                                // Output the ticket title with the number of comments and the comment value
+                                                                                                                                // echo "<ul><li>{$ticket['ticket_title']} (Comments: $comment_count, Comment Value: $comment_value, Intensity: $intensity)</li></ul>";
+                                                                                                                            }
+
+                                                                                                                            // Output the total count of "ask" tickets
+                                                                                                                            // echo "Total number of 'ask' tickets: $ask_tickets_count<br>";
+                                                                                                                            // Output the total comment value
+                                                                                                                            // echo "Total comment value: $total_comment_value<br>";
+
+                                                                                                                            // Output the monthly intensity and calculate average intensity
+                                                                                                                            foreach ($monthly_intensity as $month => $intensity) {
+                                                                                                                                $average_intensity = $monthly_ticket_count[$month] > 0 ? $intensity / $monthly_ticket_count[$month] : 0;
+                                                                                                                                // echo "Month: $month, Total Intensity: $intensity, Average Intensity: $average_intensity<br>";
+                                                                                                                                ?>
+                                                                                                                                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                                                                                    <div class="progress-bar bg-success" style="width: <?php echo $intensity; ?>%"><?php echo $intensity; ?>%</div>
+                                                                                                                                </div>
+                                                                                                                                <?php
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo "Error: " . mysqli_error($conn);
+                                                                                                                        }
+                                                                                                                    ?>
+                                                                                                                    <!-- <div class="progress mt-3">
                                                                                                                         <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
                                                                                                                         </div>
-                                                                                                                    </div>
+                                                                                                                    </div> -->
                                                                                                                 </div>
                                                                                                             </div>
 
@@ -1273,9 +1394,9 @@
                                                                                                 </div>
                                                                                                 <hr>
                                                                                                 <table class="table" id="VolunteersSponsor">
-                                                                                                    <div class="text-center">
+                                                                                                    <!-- <div class="text-center">
                                                                                                         <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer2">View Suggested Volunteer/s</button>
-                                                                                                    </div>
+                                                                                                    </div> -->
                                                                                                     <thead>
                                                                                                         <tr>
                                                                                                             <th scope="col"></th>
@@ -1286,13 +1407,23 @@
                                                                                                     </thead>
                                                                                                     <tbody>
                                                                                                     <?php 
-                                                                                                        $queryVls = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                                                        $queryVls = "SELECT * FROM accounts WHERE type = 'volunteer' AND status = 'Verified'";
                                                                                                         $resultVls = mysqli_query($conn, $queryVls);
                                                                                                         while ($vls = mysqli_fetch_array($resultVls)) {
+                                                                                                            $isSuggested_vl = in_array($vls['id'], $suggestedVolunteers);
                                                                                                     ?>
                                                                                                     <tr>
                                                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $vls['id'] ?>"></td>
-                                                                                                        <td><?php echo $vls['name'] ?></td>
+                                                                                                        <td>
+                                                                                                        <?php 
+                                                                                                        if ($isSuggested_vl) { 
+                                                                                                            echo '<span class="badge bg-success">Suggested</span> - ' . $vls['name'];
+                                                                                                        } else {
+                                                                                                            echo $vls['name'];
+                                                                                                        }
+                                                                                                        ?>
+
+                                                                                                        </td>
                                                                                                         <td><?php echo $vls['email'] ?></td>
                                                                                                         <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerSponsor<?php echo $vls['id'] ?><?php echo $sponsors['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                                                     </tr>
@@ -1359,10 +1490,119 @@
                                                                                                                                 </div> -->
                                                                                                                                 <div class="col-md-4">
                                                                                                                                     <h6 class="text-center">Intensity Points:</h6>
-                                                                                                                                    <div class="progress mt-3">
+                                                                                                                                    <?php 
+                                                                                                                                        // VOLUNTEER INTENSITY LOGIC
+                                                                                                                                        $volunteer_id = $vls['id'];
+
+                                                                                                                                        $querySVol = "SELECT * FROM tickets WHERE ticket_volunteers_id LIKE '%, $volunteer_id, %' 
+                                                                                                                                                    OR ticket_volunteers_id LIKE '$volunteer_id, %' 
+                                                                                                                                                    OR ticket_volunteers_id LIKE '%, $volunteer_id' 
+                                                                                                                                                    OR ticket_volunteers_id = '$volunteer_id' AND ticket_status != 'Completed' ";
+
+                                                                                                                                        $resultSVol = mysqli_query($conn, $querySVol);
+
+                                                                                                                                        $ask_tickets_count = 0; // Initialize the counter for "ask" tickets
+                                                                                                                                        $total_comment_value = 0; // Initialize the total comment value
+                                                                                                                                        $monthly_intensity = []; // Initialize an array to store monthly intensity
+                                                                                                                                        $monthly_ticket_count = []; // Initialize an array to store the count of tickets processed in each month
+
+                                                                                                                                        // Define the priority mapping
+                                                                                                                                        $priority_mapping = [
+                                                                                                                                            'urgent' => 4,
+                                                                                                                                            'high' => 3,
+                                                                                                                                            'mid' => 2,
+                                                                                                                                            'low' => 1
+                                                                                                                                        ];
+
+                                                                                                                                        if ($resultSVol) {
+                                                                                                                                            while ($ticket = mysqli_fetch_assoc($resultSVol)) {
+                                                                                                                                                $ticket_id = $ticket['id'];
+                                                                                                                                                $ticket_priority = strtolower($ticket['ticket_priority']); // Make sure to handle case-insensitivity
+                                                                                                                                                $ticket_ask = strtolower($ticket['ticket_type']);
+                                                                                                                                                $ticket_instruction = $ticket['ticket_instructions'];
+                                                                                                                                                $ticket_date = $ticket['date_added']; // Assuming the date field is 'date_added'
+
+                                                                                                                                                // Get the month of the ticket
+                                                                                                                                                $ticket_month = date('Y-m', strtotime($ticket_date));
+
+                                                                                                                                                // Get the numeric priority value
+                                                                                                                                                $priority_value = isset($priority_mapping[$ticket_priority]) ? $priority_mapping[$ticket_priority] : 0;
+
+                                                                                                                                                // Output the ticket details
+                                                                                                                                                // echo "Priority: $ticket_priority ($priority_value)<br>";
+                                                                                                                                                // echo "Type: $ticket_ask<br>";
+                                                                                                                                                // echo "Instructions: $ticket_instruction<br>";
+
+                                                                                                                                                // Count the number of instructions
+                                                                                                                                                if (!empty($ticket_instruction)) {
+                                                                                                                                                    $instructions_array = array_filter(explode(',', $ticket_instruction));
+                                                                                                                                                    $instructions_count = count($instructions_array);
+                                                                                                                                                } else {
+                                                                                                                                                    $instructions_count = 0;
+                                                                                                                                                }
+
+                                                                                                                                                // echo "Number of instructions: $instructions_count<br>";
+
+                                                                                                                                                // Increment the ask tickets counter if the type is "ask"
+                                                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                                                    $ask_tickets_count++;
+                                                                                                                                                }
+
+                                                                                                                                                // Query to count the comments for the current ticket
+                                                                                                                                                $q = "SELECT COUNT(*) as comment_count FROM comments WHERE ticket_id = '$ticket_id'";
+                                                                                                                                                $r = mysqli_query($conn, $q);
+
+                                                                                                                                                if ($r) {
+                                                                                                                                                    $comment_data = mysqli_fetch_assoc($r);
+                                                                                                                                                    $comment_count = $comment_data['comment_count'];
+                                                                                                                                                } else {
+                                                                                                                                                    $comment_count = 0; // Default to 0 if the query fails
+                                                                                                                                                }
+
+                                                                                                                                                // Calculate the comment value for the current ticket
+                                                                                                                                                $comment_value = $comment_count * 0.2;
+
+                                                                                                                                                // Calculate the intensity for the current ticket
+                                                                                                                                                $intensity = $priority_value + $comment_value + $instructions_count;
+                                                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                                                    $intensity += 1; // Add 1 for each "ask" ticket
+                                                                                                                                                }
+
+                                                                                                                                                // Add the intensity to the corresponding month
+                                                                                                                                                if (!isset($monthly_intensity[$ticket_month])) {
+                                                                                                                                                    $monthly_intensity[$ticket_month] = 0;
+                                                                                                                                                    $monthly_ticket_count[$ticket_month] = 0;
+                                                                                                                                                }
+                                                                                                                                                $monthly_intensity[$ticket_month] += $intensity;
+                                                                                                                                                $monthly_ticket_count[$ticket_month]++;
+
+                                                                                                                                                // Output the ticket title with the number of comments and the comment value
+                                                                                                                                                // echo "<ul><li>{$ticket['ticket_title']} (Comments: $comment_count, Comment Value: $comment_value, Intensity: $intensity)</li></ul>";
+                                                                                                                                            }
+
+                                                                                                                                            // Output the total count of "ask" tickets
+                                                                                                                                            // echo "Total number of 'ask' tickets: $ask_tickets_count<br>";
+                                                                                                                                            // Output the total comment value
+                                                                                                                                            // echo "Total comment value: $total_comment_value<br>";
+
+                                                                                                                                            // Output the monthly intensity and calculate average intensity
+                                                                                                                                            foreach ($monthly_intensity as $month => $intensity) {
+                                                                                                                                                $average_intensity = $monthly_ticket_count[$month] > 0 ? $intensity / $monthly_ticket_count[$month] : 0;
+                                                                                                                                                // echo "Month: $month, Total Intensity: $intensity, Average Intensity: $average_intensity<br>";
+                                                                                                                                                ?>
+                                                                                                                                                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                                                                                                    <div class="progress-bar bg-success" style="width: <?php echo $intensity; ?>%"><?php echo $intensity; ?>%</div>
+                                                                                                                                                </div>
+                                                                                                                                                <?php
+                                                                                                                                            }
+                                                                                                                                        } else {
+                                                                                                                                            echo "Error: " . mysqli_error($conn);
+                                                                                                                                        }
+                                                                                                                                    ?>
+                                                                                                                                    <!-- <div class="progress mt-3">
                                                                                                                                         <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
                                                                                                                                         </div>
-                                                                                                                                    </div>
+                                                                                                                                    </div> -->
                                                                                                                                 </div>
                                                                                                                             </div>
 
@@ -1740,9 +1980,9 @@
                                                                 </div>
                                                                 <hr>
                                                                 <table class="table" id="VolunteersEvent">
-                                                                    <div class="text-center">
+                                                                    <!-- <div class="text-center">
                                                                         <button type="button" class="btn btn-success btn-sm mb-3" id="view-suggested-volunteer3">View Suggested Volunteer/s</button>
-                                                                    </div>
+                                                                    </div> -->
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col"></th>
@@ -1753,13 +1993,22 @@
                                                                     </thead>
                                                                     <tbody>
                                                                     <?php 
-                                                                        $query = "SELECT * FROM accounts WHERE type = 'volunteer'";
+                                                                        $query = "SELECT * FROM accounts WHERE type = 'volunteer' AND status = 'Verified' ";
                                                                         $result = mysqli_query($conn, $query);
                                                                         while ($row = mysqli_fetch_array($result)) {
+                                                                            $isSuggested_vls = in_array($row['id'], $suggestedVolunteers);
                                                                     ?>
                                                                     <tr>
                                                                         <td><input type="checkbox" name="volunteer_id[]" value="<?php echo $row['id'] ?>"></td>
-                                                                        <td><?php echo $row['name'] ?></td>
+                                                                        <td>
+                                                                        <?php 
+                                                                        if ($isSuggested_vls) { 
+                                                                            echo '<span class="badge bg-success">Suggested</span> - ' . $row['name'];
+                                                                        } else {
+                                                                            echo $row['name'];
+                                                                        }
+                                                                        ?>
+                                                                        </td>
                                                                         <td><?php echo $row['email'] ?></td>
                                                                         <td><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#volunteerEvent<?php echo $row['id'] ?>"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                                                                     </tr>
@@ -1826,10 +2075,119 @@
                                                                                                 </div> -->
                                                                                                 <div class="col-md-4">
                                                                                                     <h6 class="text-center">Intensity Points:</h6>
-                                                                                                    <div class="progress mt-3">
+                                                                                                    <?php 
+                                                                                                        // VOLUNTEER INTENSITY LOGIC
+                                                                                                        $volunteer_id = $row['id'];
+
+                                                                                                        $querySVol = "SELECT * FROM tickets WHERE ticket_volunteers_id LIKE '%, $volunteer_id, %' 
+                                                                                                                    OR ticket_volunteers_id LIKE '$volunteer_id, %' 
+                                                                                                                    OR ticket_volunteers_id LIKE '%, $volunteer_id' 
+                                                                                                                    OR ticket_volunteers_id = '$volunteer_id' AND ticket_status != 'Completed' ";
+
+                                                                                                        $resultSVol = mysqli_query($conn, $querySVol);
+
+                                                                                                        $ask_tickets_count = 0; // Initialize the counter for "ask" tickets
+                                                                                                        $total_comment_value = 0; // Initialize the total comment value
+                                                                                                        $monthly_intensity = []; // Initialize an array to store monthly intensity
+                                                                                                        $monthly_ticket_count = []; // Initialize an array to store the count of tickets processed in each month
+
+                                                                                                        // Define the priority mapping
+                                                                                                        $priority_mapping = [
+                                                                                                            'urgent' => 4,
+                                                                                                            'high' => 3,
+                                                                                                            'mid' => 2,
+                                                                                                            'low' => 1
+                                                                                                        ];
+
+                                                                                                        if ($resultSVol) {
+                                                                                                            while ($ticket = mysqli_fetch_assoc($resultSVol)) {
+                                                                                                                $ticket_id = $ticket['id'];
+                                                                                                                $ticket_priority = strtolower($ticket['ticket_priority']); // Make sure to handle case-insensitivity
+                                                                                                                $ticket_ask = strtolower($ticket['ticket_type']);
+                                                                                                                $ticket_instruction = $ticket['ticket_instructions'];
+                                                                                                                $ticket_date = $ticket['date_added']; // Assuming the date field is 'date_added'
+
+                                                                                                                // Get the month of the ticket
+                                                                                                                $ticket_month = date('Y-m', strtotime($ticket_date));
+
+                                                                                                                // Get the numeric priority value
+                                                                                                                $priority_value = isset($priority_mapping[$ticket_priority]) ? $priority_mapping[$ticket_priority] : 0;
+
+                                                                                                                // Output the ticket details
+                                                                                                                // echo "Priority: $ticket_priority ($priority_value)<br>";
+                                                                                                                // echo "Type: $ticket_ask<br>";
+                                                                                                                // echo "Instructions: $ticket_instruction<br>";
+
+                                                                                                                // Count the number of instructions
+                                                                                                                if (!empty($ticket_instruction)) {
+                                                                                                                    $instructions_array = array_filter(explode(',', $ticket_instruction));
+                                                                                                                    $instructions_count = count($instructions_array);
+                                                                                                                } else {
+                                                                                                                    $instructions_count = 0;
+                                                                                                                }
+
+                                                                                                                // echo "Number of instructions: $instructions_count<br>";
+
+                                                                                                                // Increment the ask tickets counter if the type is "ask"
+                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                    $ask_tickets_count++;
+                                                                                                                }
+
+                                                                                                                // Query to count the comments for the current ticket
+                                                                                                                $q = "SELECT COUNT(*) as comment_count FROM comments WHERE ticket_id = '$ticket_id'";
+                                                                                                                $r = mysqli_query($conn, $q);
+
+                                                                                                                if ($r) {
+                                                                                                                    $comment_data = mysqli_fetch_assoc($r);
+                                                                                                                    $comment_count = $comment_data['comment_count'];
+                                                                                                                } else {
+                                                                                                                    $comment_count = 0; // Default to 0 if the query fails
+                                                                                                                }
+
+                                                                                                                // Calculate the comment value for the current ticket
+                                                                                                                $comment_value = $comment_count * 0.2;
+
+                                                                                                                // Calculate the intensity for the current ticket
+                                                                                                                $intensity = $priority_value + $comment_value + $instructions_count;
+                                                                                                                if ($ticket_ask == 'ask') {
+                                                                                                                    $intensity += 1; // Add 1 for each "ask" ticket
+                                                                                                                }
+
+                                                                                                                // Add the intensity to the corresponding month
+                                                                                                                if (!isset($monthly_intensity[$ticket_month])) {
+                                                                                                                    $monthly_intensity[$ticket_month] = 0;
+                                                                                                                    $monthly_ticket_count[$ticket_month] = 0;
+                                                                                                                }
+                                                                                                                $monthly_intensity[$ticket_month] += $intensity;
+                                                                                                                $monthly_ticket_count[$ticket_month]++;
+
+                                                                                                                // Output the ticket title with the number of comments and the comment value
+                                                                                                                // echo "<ul><li>{$ticket['ticket_title']} (Comments: $comment_count, Comment Value: $comment_value, Intensity: $intensity)</li></ul>";
+                                                                                                            }
+
+                                                                                                            // Output the total count of "ask" tickets
+                                                                                                            // echo "Total number of 'ask' tickets: $ask_tickets_count<br>";
+                                                                                                            // Output the total comment value
+                                                                                                            // echo "Total comment value: $total_comment_value<br>";
+
+                                                                                                            // Output the monthly intensity and calculate average intensity
+                                                                                                            foreach ($monthly_intensity as $month => $intensity) {
+                                                                                                                $average_intensity = $monthly_ticket_count[$month] > 0 ? $intensity / $monthly_ticket_count[$month] : 0;
+                                                                                                                // echo "Month: $month, Total Intensity: $intensity, Average Intensity: $average_intensity<br>";
+                                                                                                                ?>
+                                                                                                                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                                                                    <div class="progress-bar bg-success" style="width: <?php echo $intensity; ?>%"><?php echo $intensity; ?>%</div>
+                                                                                                                </div>
+                                                                                                                <?php
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo "Error: " . mysqli_error($conn);
+                                                                                                        }
+                                                                                                    ?>
+                                                                                                    <!-- <div class="progress mt-3">
                                                                                                         <div class="progress-bar bg-success w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%
                                                                                                         </div>
-                                                                                                    </div>
+                                                                                                    </div> -->
                                                                                                 </div>
                                                                                             </div>
 
